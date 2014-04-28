@@ -24,6 +24,7 @@ public class WorldManager extends Thread {
 
     private Bitmap powerPicture;
     private int height;
+    private int width;
 
     final Random myRandom = new Random();
 
@@ -111,18 +112,26 @@ public class WorldManager extends Thread {
 
     private void powerDraw(Canvas c){
         c.drawBitmap(powerPicture, 0, this.height - powerPicture.getHeight(), null);
-//
-
     }
 
     private  void healthDraw(Canvas c){
-        int portionCount = vampire.getHealth()/10;
-        float portionWith = 30;
+        float blockWith = 30;
+
+        int vHealthCount = vampire.getHealth()/10;
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        for (int i =0; i < portionCount; i++){
-            c.drawRect(i*portionWith, 0, (i+1)*portionWith-1, 30, paint);
+        paint.setColor(Color.YELLOW);
+        for (int i =0; i < vHealthCount; i++){
+            c.drawRect(i*blockWith, 0, (i+1)*blockWith-1, 30, paint);
         }
+
+
+        int wHealthCount = werewolf.getHealth()/10;
+        paint.setColor(Color.RED);
+        for (int i =0; i < wHealthCount; i++){
+            c.drawRect(width - i*blockWith, 0, width - (i+1)*blockWith+1, 30, paint);
+        }
+
+
     }
 
 
@@ -135,13 +144,9 @@ public class WorldManager extends Thread {
                 werewolf.usePower(true);
             if (vampire.getPower() < werewolf.getPower())
                 vampire.makeWeaken();
-                //vampire.setRight(0);
-            else {
+            else
                 werewolf.makeWeaken();
-//                werewolf.continued();
-//                vampire.continued();
-//                madWorld.continued();
-            }
+
 
             if (werewolf.getHealth() <= 0 && vampire.getHealth() >= 0){
                 werewolf.refresh();
@@ -162,13 +167,12 @@ public class WorldManager extends Thread {
 
     public void initPositions(int height, int width) {
         this.height = height;
+        this.width = width;
 
         vampire.setCenterX(width / 2);
         vampire.setCenterY(height/2);
         vampire.setMaxRight(width);
         vampire.setMaxBottom(height);
-
-
 
         werewolf.setRight(width);
         werewolf.setCenterY(height/2);
