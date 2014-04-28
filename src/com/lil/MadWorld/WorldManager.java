@@ -10,6 +10,7 @@ import com.lil.MadWorld.Models.Werewolf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WorldManager extends Thread {
     private final SurfaceHolder surfaceHolder;
@@ -22,8 +23,11 @@ public class WorldManager extends Thread {
     private Werewolf werewolf;
 
     private Bitmap powerPicture;
-    private int width;
     private int height;
+
+    final Random myRandom = new Random();
+
+
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
     {
@@ -101,30 +105,56 @@ public class WorldManager extends Thread {
         werewolf.draw(c);
 
         powerDraw(c);
+        healthDraw(c);
     }
 
 
     private void powerDraw(Canvas c){
         c.drawBitmap(powerPicture, 0, this.height - powerPicture.getHeight(), null);
+//
 
-        int maxPortion = vampire.getMaxPower()/10;
-        int portionCount = vampire.getNumOfPower()/10;
+    }
+
+    private  void healthDraw(Canvas c){
+        int portionCount = vampire.getHealth()/10;
         float portionWith = 30;
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        for (int i =0; i < Math.min(portionCount, maxPortion/2); i++){
+        for (int i =0; i < portionCount; i++){
             c.drawRect(i*portionWith, 0, (i+1)*portionWith-1, 30, paint);
-        }
-
-        paint.setColor(Color.BLUE);
-        for (int i = maxPortion / 2; i < portionCount; i++) {
-            c.drawRect(i * portionWith, 0, (i + 1) * portionWith - 1, 30, paint);
         }
     }
 
 
     private void updateObjects() {
-        isCollision();
+        if (isCollision()) {
+            vampire.paused();
+            madWorld.paused();
+            werewolf.paused();
+            if (myRandom.nextInt(100) % 30 ==0)
+                werewolf.usePower(true);
+            if (vampire.getPower() < werewolf.getPower())
+                vampire.makeWeaken();
+                //vampire.setRight(0);
+            else {
+                werewolf.makeWeaken();
+//                werewolf.continued();
+//                vampire.continued();
+//                madWorld.continued();
+            }
+
+            if (werewolf.getHealth() <= 0 && vampire.getHealth() >= 0){
+                werewolf.refresh();
+                vampire.continued();
+                madWorld.continued();
+            } else if (vampire.getHealth() <= 0) {
+                vampire.setRight(0);
+            }
+        } else {
+            werewolf.usePower(false);
+        }
+
+
         madWorld.update();
         vampire.update();
         werewolf.update();
@@ -132,7 +162,6 @@ public class WorldManager extends Thread {
 
     public void initPositions(int height, int width) {
         this.height = height;
-        this.width = width;
 
         vampire.setCenterX(width / 2);
         vampire.setCenterY(height/2);
@@ -150,12 +179,11 @@ public class WorldManager extends Thread {
         madWorld.setMWidth(width);
     }
 
-    void isCollision(){
+    private boolean isCollision(){
         if ((vampire.getRightX() >= werewolf.getLeftX()) && (vampire.getLeftX() <= werewolf.getCenterX()) && !vampire.isUsingPower()) {
-            vampire.paused();
-            madWorld.paused();
-            werewolf.paused();
+            return true;
         }
+        return false;
     }
 
     public void onPowerClick() {

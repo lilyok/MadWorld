@@ -3,7 +3,7 @@ package com.lil.MadWorld.Models;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
-public class MadWorld  extends SubjectOfTheWorld {
+public class MadWorld extends SubjectOfTheWorld {
 
     public MadWorld(Drawable image, int speed)
     {
@@ -16,6 +16,11 @@ public class MadWorld  extends SubjectOfTheWorld {
          mPoint.x += mSpeed;
          if (mPoint.x + mWidth <= 0)
              mPoint.x = 0;
+    }
+
+    @Override
+    protected void updateAnimate() {
+
     }
 
     @Override
@@ -35,5 +40,9 @@ public class MadWorld  extends SubjectOfTheWorld {
     {
         mWidth = value;
     }
+
+
+
+
 
 }

@@ -31,11 +31,14 @@ public abstract class SubjectOfTheWorld {
     }
 
     protected abstract void updatePoint();
+    protected abstract void updateAnimate();
 
     public void update()
     {
         if (isMoving)
             updatePoint();
+        else
+            updateAnimate();
         mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
     }
 
@@ -104,4 +107,6 @@ public abstract class SubjectOfTheWorld {
     public int getRightX() {
         return mPoint.x + mWidth;
     }
+
+
 }
