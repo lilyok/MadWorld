@@ -86,11 +86,36 @@ public class WorldManager extends Thread {
     private List<Drawable> loadFrames(Context context, String type) {
         List<Drawable> characterImages = new ArrayList<Drawable>();
         if ("vampire".equals(type)) {
-            characterImages.add(context.getResources().getDrawable(R.drawable.vampire1));
-            characterImages.add(context.getResources().getDrawable(R.drawable.vampire2));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp04));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp02));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp05));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp06));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp08));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp06));
+
+
         } else if ("werewolf".equals(type)) {
-            characterImages.add(context.getResources().getDrawable(R.drawable.werewolf1));
-            characterImages.add(context.getResources().getDrawable(R.drawable.werewolf2));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were04));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were02));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.were05));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were06));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were06a));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were08));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were08a));
+
 
         } else if ("hunter".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.man1));
