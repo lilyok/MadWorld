@@ -102,9 +102,28 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.were10));
 
         } else if ("hunter".equals(type)) {
-            characterImages.add(context.getResources().getDrawable(R.drawable.man1));
-            characterImages.add(context.getResources().getDrawable(R.drawable.man2));
-            characterImages.add(context.getResources().getDrawable(R.drawable.man1));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt04));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt02));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt05));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt06));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt08));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt06));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt04));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.hunt02));
+
+
         }
 
         return characterImages;
