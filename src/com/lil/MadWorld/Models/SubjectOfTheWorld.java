@@ -22,19 +22,18 @@ public abstract class SubjectOfTheWorld {
 
     protected boolean isMoving = true;
 
-    public SubjectOfTheWorld(Drawable image)
-    {
+    public SubjectOfTheWorld(Drawable image) {
         mImage = image;
-        mPoint = new Point(0, 0);
         mWidth = image.getIntrinsicWidth();
         mHeight = image.getIntrinsicHeight();
+        mPoint = new Point(-mWidth, 0);
     }
 
     protected abstract void updatePoint();
+
     protected abstract void updateAnimate();
 
-    public void update()
-    {
+    public void update() {
         if (isMoving)
             updatePoint();
         else
@@ -42,39 +41,34 @@ public abstract class SubjectOfTheWorld {
         mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
     }
 
-    public void draw(Canvas canvas)
-    {
+    public void draw(Canvas canvas) {
         mImage.draw(canvas);
     }
 
-    /** Задает левую границу объекта */
-    public void setLeft(int value)
-    {
+    /**
+     * Задает левую границу объекта
+     */
+    public void setLeft(int value) {
         mPoint.x = value;
     }
 
-    public void setRight(int value)
-    {
+    public void setRight(int value) {
         mPoint.x = value - mWidth;
     }
 
-    public void setTop(int value)
-    {
+    public void setTop(int value) {
         mPoint.y = value;
     }
 
-    public void setBottom(int value)
-    {
+    public void setBottom(int value) {
         mPoint.y = value - mHeight;
     }
 
-    public void setCenterX(int value)
-    {
+    public void setCenterX(int value) {
         mPoint.x = value - mWidth / 2;
     }
 
-    public void setCenterY(int value)
-    {
+    public void setCenterY(int value) {
         mPoint.y = value - mHeight / 2;
     }
 
@@ -88,11 +82,11 @@ public abstract class SubjectOfTheWorld {
     }
 
 
-    public void paused(){
+    public void paused() {
         isMoving = false;
     }
 
-    public void continued(){
+    public void continued() {
         isMoving = true;
     }
 
@@ -100,11 +94,11 @@ public abstract class SubjectOfTheWorld {
         return (mPoint.x + mWidth / 2);
     }
 
-    public int getLeftX() {
+    public int getLeft() {
         return mPoint.x;
     }
 
-    public int getRightX() {
+    public int getRight() {
         return mPoint.x + mWidth;
     }
 

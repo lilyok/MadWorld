@@ -18,6 +18,8 @@ public abstract class Character extends SubjectOfTheWorld {
 
     public static final int DEFAULT_HEALTH = 80;
 
+    protected static int speedOfWorld = 0;
+    protected static int speedFactor = 0;
 
     List<Drawable> defaultImages;
 
@@ -27,19 +29,23 @@ public abstract class Character extends SubjectOfTheWorld {
 
     protected int health = 80;
 
+    protected int chance = 3;
 
     public Character(List<Drawable> defaultImages, int speedOfWorld, int speedFactor) {
         super(defaultImages.get(0));
-        numOfFrame = defaultImages.size()/DEFAULT_COUNT_OF_FACE;
+        numOfFrame = defaultImages.size() / DEFAULT_COUNT_OF_FACE;
         this.defaultImages = new ArrayList<Drawable>(defaultImages);
-        mSpeed = speedOfWorld + speedFactor*DEFAULT_SPEED;
+
+        this.speedOfWorld = speedOfWorld;
+        this.speedFactor = speedFactor;
+        mSpeed = speedOfWorld + speedFactor * DEFAULT_SPEED;
     }
 
     @Override
     protected void updatePoint() {
         mPoint.x += mSpeed;
 
-        if (mPoint.x < -mWidth){
+        if (mPoint.x < -mWidth) {
             setRight(maxRight);
         }
 
@@ -49,11 +55,11 @@ public abstract class Character extends SubjectOfTheWorld {
 
     @Override
     protected void updateAnimate() {
-        if(!isMoving && baseIndexOfFrame == 0)
-            baseIndexOfFrame = numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE;
-        else if (baseIndexOfFrame == numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE)
+        if (!isMoving && baseIndexOfFrame == 0)
+            baseIndexOfFrame = numOfFrame * DEFAULT_INDEX_NO_POWER_ATTACK_FACE;
+        else if (baseIndexOfFrame == numOfFrame * DEFAULT_INDEX_NO_POWER_ATTACK_FACE)
             baseIndexOfFrame = 0;
-        indexOfFrame = (indexOfFrame+1)%numOfFrame+baseIndexOfFrame;
+        indexOfFrame = (indexOfFrame + 1) % numOfFrame + baseIndexOfFrame;
         mImage = defaultImages.get(indexOfFrame);
 
     }
@@ -65,10 +71,10 @@ public abstract class Character extends SubjectOfTheWorld {
             baseIndexOfFrame = 0;
     }
 
-    public void usePower(boolean isUsePower){
-        if (isUsePower){
+    public void usePower(boolean isUsePower) {
+        if (isUsePower) {
             baseIndexOfFrame = numOfFrame;
-        }  else {
+        } else {
             baseIndexOfFrame = 0;
         }
     }
@@ -80,19 +86,29 @@ public abstract class Character extends SubjectOfTheWorld {
             return false;
     }
 
-    public int makeWeaken(){
+    public int makeWeaken() {
         health--;
         return health;
     }
 
-    public int getHealth(){
+    public int getHealth() {
         return health;
     }
-    protected abstract int getPower();
+
 
     public void refresh() {
         setLeft(maxRight);
         health = DEFAULT_HEALTH;
         continued();
     }
+
+    public  int getChance(){
+        return chance;
+    }
+
+    public abstract int getPower();
+
+    public abstract int getBulletLeftX();
+
+    public abstract int getBulletCenterX();
 }

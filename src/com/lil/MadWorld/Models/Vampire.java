@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Vampire extends Character {
 
-
     public Vampire(List<Drawable> defaultImages, int speedOfWorld, int speedFactor) {
         super(defaultImages, speedOfWorld, speedFactor);
     }
@@ -20,9 +19,21 @@ public class Vampire extends Character {
     }
 
 
-    public int getLastFourth(){
-        return (2*getRightX() + getLeftX())/3;
+    @Override
+    public int getBulletLeftX() {
+        return 0;
     }
+
+    @Override
+    public int getBulletCenterX() {
+        return 0;
+    }
+
+
+    public int getLastThird() {
+        return (2 * getRight() + getLeft()) / 3;
+    }
+
     public void takeLife() {
         health = DEFAULT_HEALTH;
     }

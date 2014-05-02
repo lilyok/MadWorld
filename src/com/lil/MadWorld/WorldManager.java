@@ -4,9 +4,8 @@ import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
-import com.lil.MadWorld.Models.MadWorld;
-import com.lil.MadWorld.Models.Vampire;
-import com.lil.MadWorld.Models.Werewolf;
+import com.lil.MadWorld.Models.*;
+import com.lil.MadWorld.Models.Character;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,9 @@ public class WorldManager extends Thread {
     private MadWorld madWorld;
     private Vampire vampire;
     private Werewolf werewolf;
-
+    private Hunter hunter;
+    private ArrayList<Character> enemies;
+    private int indexOfEnemy = 0;
 
     private Bitmap powerPicture;
     private int height;
@@ -37,53 +38,20 @@ public class WorldManager extends Thread {
 
         vampire = new Vampire(loadFrames(context, "vampire"), 0, 0);
 
+        enemies = new ArrayList<Character>();
         werewolf = new Werewolf(loadFrames(context, "werewolf"), -Vampire.DEFAULT_SPEED, -1);
+        hunter = new Hunter(loadFrames(context, "hunter"), context.getResources().getDrawable(R.drawable.bullet01),
+                                                                                        -Vampire.DEFAULT_SPEED, -1);
+
+        enemies.add(werewolf);
+        enemies.add(hunter);
+
+
         madWorld = new MadWorld(context.getResources().getDrawable(R.drawable.bckg), -Vampire.DEFAULT_SPEED);
+
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
     }
-
-    public void setRunning(boolean run)
-    {
-        running = run;
-    }
-
-    public void run()
-    {
-        long ticksPS = 1000 / FPS;
-        long startTime;
-        long sleepTime;
-
-
-        while (running){
-            Canvas c = null;
-            startTime = System.currentTimeMillis();
-
-            try {
-                c = surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder){
-                    boolean isVampCover  = updateObjects();
-                    refreshCanvas(c, isVampCover);
-                }
-            }
-            catch (Exception e) {
-            }
-            finally {
-                if(c != null){
-                    surfaceHolder.unlockCanvasAndPost(c);
-                }
-            }
-            sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
-            try{
-                if (sleepTime > 0)
-                    sleep(sleepTime);
-                else
-                    sleep(10);
-            } catch (Exception e) {}
-
-        }
-    }
-
 
     private List<Drawable> loadFrames(Context context, String type) {
         List<Drawable> characterImages = new ArrayList<Drawable>();
@@ -136,21 +104,63 @@ public class WorldManager extends Thread {
         } else if ("hunter".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.man1));
             characterImages.add(context.getResources().getDrawable(R.drawable.man2));
-            characterImages.add(context.getResources().getDrawable(R.drawable.man2));
+            characterImages.add(context.getResources().getDrawable(R.drawable.man1));
         }
 
         return characterImages;
+    }
+
+    public void setRunning(boolean run)
+    {
+        running = run;
+    }
+
+
+    public void run()
+    {
+        long ticksPS = 1000 / FPS;
+        long startTime;
+        long sleepTime;
+
+
+        while (running){
+            Canvas c = null;
+            startTime = System.currentTimeMillis();
+
+            try {
+                c = surfaceHolder.lockCanvas();
+                synchronized (surfaceHolder){
+                    boolean isVampCover  = updateObjects();
+                    refreshCanvas(c, isVampCover);
+                }
+            }
+            catch (Exception e) {
+            }
+            finally {
+                if(c != null){
+                    surfaceHolder.unlockCanvasAndPost(c);
+                }
+            }
+            sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
+            try{
+                if (sleepTime > 0)
+                    sleep(sleepTime);
+                else
+                    sleep(10);
+            } catch (Exception e) {}
+
+        }
     }
 
     private void refreshCanvas(Canvas c, boolean isVampCover) {
         madWorld.draw(c);
 
         if(isVampCover){
-            werewolf.draw(c);
+            enemies.get(indexOfEnemy).draw(c);
             vampire.draw(c);
         } else {
             vampire.draw(c);
-            werewolf.draw(c);
+            enemies.get(indexOfEnemy).draw(c);
         }
 
 
@@ -174,7 +184,7 @@ public class WorldManager extends Thread {
         }
 
 
-        int wHealthCount = werewolf.getHealth()/10;
+        int wHealthCount = enemies.get(indexOfEnemy).getHealth()/10;
         paint.setColor(Color.RED);
         for (int i =0; i < wHealthCount; i++){
             c.drawRect(width - i*blockWith, 0, width - (i+1)*blockWith+1, 30, paint);
@@ -193,27 +203,31 @@ public class WorldManager extends Thread {
             isHungry = FPS/2;
         }
 
-        if (!vampire.isUsingPower() && myRandom.nextInt(100) % 30 ==0)
-            werewolf.usePower(true);
+        final Character enemy = enemies.get(indexOfEnemy);
+        if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance())
+            enemy.usePower(true);
 
         if (vampire.isUsingPower())
-            werewolf.usePower(false);
+            enemy.usePower(false);
 
+        int isCollision;
+        if ((isCollision = isCollision()) > 0) {
+           if (isCollision == 1) {
+                vampire.paused();
+                madWorld.paused();
+                enemy.paused();
+            }
 
-        if (isCollision()) {
-            vampire.paused();
-            madWorld.paused();
-            werewolf.paused();
-
-            if (vampire.getPower() < werewolf.getPower()) {
+            if (vampire.getPower() < enemy.getPower()) {
                 vampire.makeWeaken();
                 isVampCover = false;
-            } else
-                werewolf.makeWeaken();
+            }
+            if (isCollision == 1)
+                enemy.makeWeaken();
 
 
-            if (werewolf.getHealth() <= 0 && vampire.getHealth() >= 0) {
-                werewolf.refresh();
+            if (enemy.getHealth() <= 0 && vampire.getHealth() >= 0) {
+                refreshEnemy(enemy);
 
                 vampire.takeLife();
                 vampire.continued();
@@ -223,15 +237,18 @@ public class WorldManager extends Thread {
                 vampire.setRight(0);
             }
         }
-//        } else {
-//            werewolf.usePower(false);
-//        }
 
 
         madWorld.update();
-        werewolf.update();
+        enemy.update();
         vampire.update();
         return isVampCover;
+    }
+
+
+    private void refreshEnemy(Character enemy){
+        enemy.refresh();
+        indexOfEnemy = myRandom.nextInt(2);
     }
 
     public void initPositions(int height, int width) {
@@ -243,21 +260,28 @@ public class WorldManager extends Thread {
         vampire.setMaxRight(width);
         vampire.setMaxBottom(height);
 
-        werewolf.setRight(width);
-        werewolf.setCenterY(height/2);
-        werewolf.setMaxRight(width);
-        werewolf.setMaxBottom(height);
+        for (Character enemy:enemies){
+            enemy.setRight(width);
+            enemy.setCenterY(height / 2);
+            enemy.setMaxRight(width);
+            enemy.setMaxBottom(height);
+        }
 
         madWorld.setMHeight(height);
         madWorld.setMWidth(width);
     }
 
-    private boolean isCollision(){
-        if ((vampire.getRightX() >= werewolf.getLeftX()) && (vampire.getLeftX() <= werewolf.getCenterX()) && !vampire.isUsingPower()) {
-            werewolf.setLeft(vampire.getLastFourth());
-            return true;
+    private int isCollision(){
+        final Character enemy = enemies.get(indexOfEnemy);
+        if ((vampire.getRight() >= enemy.getLeft()) &&
+                (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
+            enemy.setLeft(vampire.getLastThird());
+            return 1;
+        } else if ((vampire.getRight() >= enemy.getBulletLeftX())&&
+                (vampire.getLeft() <= enemy.getBulletCenterX()) && !vampire.isUsingPower()) {
+            return 2;
         }
-        return false;
+        return 0;
     }
 
     public void onPowerClick() {
