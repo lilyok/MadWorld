@@ -19,4 +19,11 @@ public class Vampire extends Character {
             return VAMPIRE_POWER;
     }
 
+
+    public int getLastFourth(){
+        return (2*getRightX() + getLeftX())/3;
+    }
+    public void takeLife() {
+        health = DEFAULT_HEALTH;
+    }
 }

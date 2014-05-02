@@ -16,11 +16,12 @@ public class WorldManager extends Thread {
     private final SurfaceHolder surfaceHolder;
 
     private boolean running = false;
-    static final long FPS = 25;
+    static final long FPS = 10;
 
     private MadWorld madWorld;
     private Vampire vampire;
     private Werewolf werewolf;
+
 
     private Bitmap powerPicture;
     private int height;
@@ -28,7 +29,7 @@ public class WorldManager extends Thread {
 
     final Random myRandom = new Random();
 
-
+    private long isHungry = FPS/2;
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
     {
@@ -57,11 +58,12 @@ public class WorldManager extends Thread {
         while (running){
             Canvas c = null;
             startTime = System.currentTimeMillis();
+
             try {
                 c = surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
-                    updateObjects();
-                    refreshCanvas(c);
+                    boolean isVampCover  = updateObjects();
+                    refreshCanvas(c, isVampCover);
                 }
             }
             catch (Exception e) {
@@ -100,6 +102,14 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp07));
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp06));
 
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp09));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp10));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp11));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp12));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp11));
+            characterImages.add(context.getResources().getDrawable(R.drawable.vamp10));
+
+
 
         } else if ("werewolf".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.were01));
@@ -116,19 +126,33 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.were08));
             characterImages.add(context.getResources().getDrawable(R.drawable.were08a));
 
+            characterImages.add(context.getResources().getDrawable(R.drawable.were09));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were10));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were11));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were12));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were11));
+            characterImages.add(context.getResources().getDrawable(R.drawable.were10));
 
         } else if ("hunter".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.man1));
+            characterImages.add(context.getResources().getDrawable(R.drawable.man2));
             characterImages.add(context.getResources().getDrawable(R.drawable.man2));
         }
 
         return characterImages;
     }
 
-    private void refreshCanvas(Canvas c) {
+    private void refreshCanvas(Canvas c, boolean isVampCover) {
         madWorld.draw(c);
-        vampire.draw(c);
-        werewolf.draw(c);
+
+        if(isVampCover){
+            werewolf.draw(c);
+            vampire.draw(c);
+        } else {
+            vampire.draw(c);
+            werewolf.draw(c);
+        }
+
 
         powerDraw(c);
         healthDraw(c);
@@ -160,34 +184,54 @@ public class WorldManager extends Thread {
     }
 
 
-    private void updateObjects() {
+    private boolean updateObjects() {
+        boolean isVampCover = true;
+
+        isHungry--;
+        if (isHungry <= 0) {
+            vampire.makeWeaken();
+            isHungry = FPS/2;
+        }
+
+        if (!vampire.isUsingPower() && myRandom.nextInt(100) % 30 ==0)
+            werewolf.usePower(true);
+
+        if (vampire.isUsingPower())
+            werewolf.usePower(false);
+
+
         if (isCollision()) {
             vampire.paused();
             madWorld.paused();
             werewolf.paused();
-            if (myRandom.nextInt(100) % 30 ==0)
-                werewolf.usePower(true);
-            if (vampire.getPower() < werewolf.getPower())
+
+            if (vampire.getPower() < werewolf.getPower()) {
                 vampire.makeWeaken();
-            else
+                isVampCover = false;
+            } else
                 werewolf.makeWeaken();
 
 
-            if (werewolf.getHealth() <= 0 && vampire.getHealth() >= 0){
+            if (werewolf.getHealth() <= 0 && vampire.getHealth() >= 0) {
                 werewolf.refresh();
+
+                vampire.takeLife();
                 vampire.continued();
+
                 madWorld.continued();
             } else if (vampire.getHealth() <= 0) {
                 vampire.setRight(0);
             }
-        } else {
-            werewolf.usePower(false);
         }
+//        } else {
+//            werewolf.usePower(false);
+//        }
 
 
         madWorld.update();
-        vampire.update();
         werewolf.update();
+        vampire.update();
+        return isVampCover;
     }
 
     public void initPositions(int height, int width) {
@@ -210,6 +254,7 @@ public class WorldManager extends Thread {
 
     private boolean isCollision(){
         if ((vampire.getRightX() >= werewolf.getLeftX()) && (vampire.getLeftX() <= werewolf.getCenterX()) && !vampire.isUsingPower()) {
+            werewolf.setLeft(vampire.getLastFourth());
             return true;
         }
         return false;

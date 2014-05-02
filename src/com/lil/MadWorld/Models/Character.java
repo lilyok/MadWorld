@@ -10,11 +10,14 @@ public abstract class Character extends SubjectOfTheWorld {
     public static final int HUMAN_POWER = 1;
     public static final int VAMPIRE_POWER = 2;
     public static final int WEREWOLF_POWER = 3;
-
+    public static final int BULLET_POWER = 4;
 
     public static final int DEFAULT_SPEED = 10;
-    public static final int DEFAULT_COUNT_OF_FACE = 2;
+    public static final int DEFAULT_COUNT_OF_FACE = 3;
+    public static final int DEFAULT_INDEX_NO_POWER_ATTACK_FACE = 2;
+
     public static final int DEFAULT_HEALTH = 80;
+
 
     List<Drawable> defaultImages;
 
@@ -46,13 +49,17 @@ public abstract class Character extends SubjectOfTheWorld {
 
     @Override
     protected void updateAnimate() {
+        if(!isMoving && baseIndexOfFrame == 0)
+            baseIndexOfFrame = numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE;
+        else if (baseIndexOfFrame == numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE)
+            baseIndexOfFrame = 0;
         indexOfFrame = (indexOfFrame+1)%numOfFrame+baseIndexOfFrame;
         mImage = defaultImages.get(indexOfFrame);
 
     }
 
     public void usePower() {
-        if (baseIndexOfFrame == 0)
+        if (baseIndexOfFrame != numOfFrame)
             baseIndexOfFrame = numOfFrame;
         else if (baseIndexOfFrame == numOfFrame)
             baseIndexOfFrame = 0;
