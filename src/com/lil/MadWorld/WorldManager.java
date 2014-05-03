@@ -15,14 +15,14 @@ public class WorldManager extends Thread {
     private final SurfaceHolder surfaceHolder;
 
     private boolean running = false;
-    static final long FPS = 10;
+    static final long FPS = 25;
 
     private MadWorld madWorld;
     private Vampire vampire;
     private Werewolf werewolf;
-    private Hunter hunter;
+    private FireArmedCharacter hunter;
     private ArrayList<Character> enemies;
-    private int indexOfEnemy = 0;
+    private int indexOfEnemy = 1;
 
     private Bitmap powerPicture;
     private int height;
@@ -30,7 +30,7 @@ public class WorldManager extends Thread {
 
     final Random myRandom = new Random();
 
-    private long isHungry = FPS/2;
+    private long isHungry = 5;//FPS/2;
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
     {
@@ -40,8 +40,7 @@ public class WorldManager extends Thread {
 
         enemies = new ArrayList<Character>();
         werewolf = new Werewolf(loadFrames(context, "werewolf"), -Vampire.DEFAULT_SPEED, -1);
-        hunter = new Hunter(loadFrames(context, "hunter"), context.getResources().getDrawable(R.drawable.bullet01),
-                                                                                        -Vampire.DEFAULT_SPEED, -1);
+        hunter = new FireArmedCharacter(loadFrames(context, "hunter"), loadFrames(context, "bullet"), -Vampire.DEFAULT_SPEED, -1);
 
         enemies.add(werewolf);
         enemies.add(hunter);
@@ -123,6 +122,10 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.hunt03));
             characterImages.add(context.getResources().getDrawable(R.drawable.hunt02));
 
+        } else if ("bullet".equals(type)) {
+            characterImages.add(context.getResources().getDrawable(R.drawable.bullet01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.bullet03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.bullet02));
 
         }
 
@@ -164,8 +167,8 @@ public class WorldManager extends Thread {
             try{
                 if (sleepTime > 0)
                     sleep(sleepTime);
-                else
-                    sleep(10);
+//                else
+//                    sleep(10);
             } catch (Exception e) {}
 
         }
@@ -223,7 +226,7 @@ public class WorldManager extends Thread {
         }
 
         final Character enemy = enemies.get(indexOfEnemy);
-        if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance())
+        if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX())
             enemy.usePower(true);
 
         if (vampire.isUsingPower())
@@ -296,8 +299,9 @@ public class WorldManager extends Thread {
                 (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
             enemy.setLeft(vampire.getLastThird());
             return 1;
-        } else if ((vampire.getRight() >= enemy.getBulletLeftX())&&
+        } else if ((vampire.getRight() >= enemy.getBulletLeft())&&
                 (vampire.getLeft() <= enemy.getBulletCenterX()) && !vampire.isUsingPower()) {
+            ((FireArmedCharacter)enemy).setBulletHit();
             return 2;
         }
         return 0;

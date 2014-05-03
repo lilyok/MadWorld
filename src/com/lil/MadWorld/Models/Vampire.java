@@ -18,9 +18,8 @@ public class Vampire extends Character {
             return VAMPIRE_POWER;
     }
 
-
     @Override
-    public int getBulletLeftX() {
+    public int getBulletLeft() {
         return 0;
     }
 

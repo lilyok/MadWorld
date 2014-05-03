@@ -20,7 +20,7 @@ public class Werewolf extends Character {
     }
 
     @Override
-    public int getBulletLeftX() {
+    public int getBulletLeft() {
         return 0;
     }
 

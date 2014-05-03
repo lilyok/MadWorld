@@ -12,7 +12,7 @@ public abstract class Character extends SubjectOfTheWorld {
     public static final int WEREWOLF_POWER = 3;
     public static final int BULLET_POWER = 4;
 
-    public static final int DEFAULT_SPEED = 10;
+    public static final int DEFAULT_SPEED = 3;
     public static final int DEFAULT_COUNT_OF_FACE = 3;
     public static final int DEFAULT_INDEX_NO_POWER_ATTACK_FACE = 2;
 
@@ -108,7 +108,7 @@ public abstract class Character extends SubjectOfTheWorld {
 
     public abstract int getPower();
 
-    public abstract int getBulletLeftX();
+    public abstract int getBulletLeft();
 
     public abstract int getBulletCenterX();
 }
