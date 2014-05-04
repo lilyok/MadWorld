@@ -94,6 +94,10 @@ public abstract class SubjectOfTheWorld {
         return (mPoint.x + mWidth / 2);
     }
 
+    public int getCenterY() {
+        return (mPoint.y +mHeight)/2;
+    }
+
     public int getLeft() {
         return mPoint.x;
     }
@@ -103,5 +107,19 @@ public abstract class SubjectOfTheWorld {
     }
 
 
+    public int getBottom() {
+        return mPoint.y + mHeight;
+    }
 
+    public int getTop() {
+        return mPoint.y;
+    }
+    public int getLastThirdX() {
+        return (2 * getRight() + getLeft()) / 3;
+    }
+
+
+    public int getFirstThirdY() {
+        return (2 * getTop() + getBottom()) / 3;
+    }
 }

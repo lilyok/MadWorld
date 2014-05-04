@@ -31,7 +31,9 @@ public abstract class Character extends SubjectOfTheWorld {
 
     protected int chance = 3;
 
-    public Character(List<Drawable> defaultImages, int speedOfWorld, int speedFactor) {
+    protected int magicPower = HUMAN_POWER;
+
+    public Character(List<Drawable> defaultImages, int speedOfWorld, int speedFactor, int magicPower) {
         super(defaultImages.get(0));
         numOfFrame = defaultImages.size() / DEFAULT_COUNT_OF_FACE;
         this.defaultImages = new ArrayList<Drawable>(defaultImages);
@@ -39,6 +41,8 @@ public abstract class Character extends SubjectOfTheWorld {
         this.speedOfWorld = speedOfWorld;
         this.speedFactor = speedFactor;
         mSpeed = speedOfWorld + speedFactor * DEFAULT_SPEED;
+
+        this.magicPower = magicPower;
     }
 
     @Override
@@ -91,6 +95,11 @@ public abstract class Character extends SubjectOfTheWorld {
         return health;
     }
 
+    public int makeWeaken(int enemyPower) {
+        health -= enemyPower;
+        return health;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -106,9 +115,15 @@ public abstract class Character extends SubjectOfTheWorld {
         return chance;
     }
 
-    public abstract int getPower();
+    public int getPower() {
+        if (isUsingPower())
+            return magicPower;
+        else
+            return HUMAN_POWER;
+    }
+    public boolean isBulletHit(Character character) {
+        return false;
+    }
 
-    public abstract int getBulletLeft();
 
-    public abstract int getBulletCenterX();
 }
