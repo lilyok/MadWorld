@@ -26,7 +26,7 @@ public class WorldManager extends Thread {
 
 
     private ArrayList<Character> enemies;
-    private int indexOfEnemy = 0;
+    private int indexOfEnemy = 3;
 
     private Bitmap powerPicture;
     private int height;
@@ -50,7 +50,7 @@ public class WorldManager extends Thread {
                                         -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
         fay = new FireArmedCharacter(loadFrames(context, "fay"), loadFrames(context, "fireball"),
                                     -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
-        wizard = new FireArmedCharacter(loadFrames(context, "fay"), loadFrames(context, "fireball"),
+        wizard = new FireArmedCharacter(loadFrames(context, "wizard"), loadFrames(context, "firerain"),
                                         -Vampire.DEFAULT_SPEED, -1, true, Character.BULLET_POWER);
 
         enemies.add(werewolf);
@@ -166,6 +166,33 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.fireball01));
             characterImages.add(context.getResources().getDrawable(R.drawable.fireball03));
             characterImages.add(context.getResources().getDrawable(R.drawable.fireball02));
+
+        } else if ("wizard".equals(type)) {
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard04));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard02));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard05));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard06));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard08));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard06));
+
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard05));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard06));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard08));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard07));
+            characterImages.add(context.getResources().getDrawable(R.drawable.wizard06));
+
+        } else if ("firerain".equals(type)) {
+            characterImages.add(context.getResources().getDrawable(R.drawable.firerain01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.firerain02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.firerain03));
 
         }
 

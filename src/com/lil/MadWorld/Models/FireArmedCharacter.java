@@ -27,7 +27,7 @@ public class FireArmedCharacter extends Character {
         protected void updatePoint() {
             if (isFalling) {
                 if ((mPoint.x <= pointOfDestruction) || (mPoint.x >= FireArmedCharacter.this.maxRight))
-                    mPoint.x = FireArmedCharacter.this.maxRight / 2;
+                    setCenterX(FireArmedCharacter.this.maxRight / 2);
 
 
                 if (mPoint.y <= FireArmedCharacter.this.getBottom()){
