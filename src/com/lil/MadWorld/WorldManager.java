@@ -60,7 +60,7 @@ public class WorldManager extends Thread {
         enemies.add(wizard);
 
 
-        madWorld = new MadWorld(context.getResources().getDrawable(R.drawable.bckg), -Vampire.DEFAULT_SPEED);
+        madWorld = new MadWorld(loadFrames(context, "world"), -Vampire.DEFAULT_SPEED);
 
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
@@ -68,7 +68,10 @@ public class WorldManager extends Thread {
 
     private List<Drawable> loadFrames(Context context, String type) {
         List<Drawable> characterImages = new ArrayList<Drawable>();
-        if ("vampire".equals(type)) {
+        if ("world".equals(type)){
+            characterImages.add(context.getResources().getDrawable(R.drawable.background01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.background02));
+        } else if ("vampire".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp01));
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp02));
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp03));
