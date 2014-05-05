@@ -3,6 +3,7 @@ package com.lil.MadWorld;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
@@ -218,12 +219,15 @@ public class WorldManager extends Thread {
 
             try {
                 c = surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder){
-                    boolean isVampCover  = updateObjects();
-                    refreshCanvas(c, isVampCover);
+                if (c != null)  {
+                    synchronized (surfaceHolder) {
+                        boolean isVampCover = updateObjects();
+                        refreshCanvas(c, isVampCover);
+                    }
                 }
             }
             catch (Exception e) {
+                Log.e("pzdc", e.toString());
             }
             finally {
                 if(c != null){
@@ -234,7 +238,9 @@ public class WorldManager extends Thread {
             try{
                 if (sleepTime > 0)
                     sleep(sleepTime);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                Log.e("sleep", e.toString());
+            }
 
         }
     }
@@ -341,7 +347,7 @@ public class WorldManager extends Thread {
 
     private void refreshEnemy(Character enemy){
         enemy.refresh();
-        indexOfEnemy = myRandom.nextInt(5);
+        indexOfEnemy = myRandom.nextInt(4);
     }
 
     public void initPositions(int height, int width) {

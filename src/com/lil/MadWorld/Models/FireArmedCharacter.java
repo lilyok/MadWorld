@@ -34,6 +34,8 @@ public class FireArmedCharacter extends Character {
                     mPoint.y += Math.abs(mSpeed);
                 } else if (FireArmedCharacter.this.isUsingPower()){
                     setBottom(0);
+                } else {
+                    setTop(FireArmedCharacter.this.maxBottom);
                 }
 
             } else {

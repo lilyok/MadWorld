@@ -38,7 +38,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     {
 
         gameLoopThread.setRunning(true);
-        gameLoopThread.start();
+        if (!gameLoopThread.isAlive())
+            gameLoopThread.start();
     }
 
     @Override
