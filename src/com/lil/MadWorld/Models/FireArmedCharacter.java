@@ -30,9 +30,9 @@ public class FireArmedCharacter extends Character {
                     setCenterX(FireArmedCharacter.this.maxRight / 2);
 
 
-                if (mPoint.y <= FireArmedCharacter.this.getBottom()){
+                if (getBottom() <= FireArmedCharacter.this.getBottom()){
                     mPoint.y += Math.abs(mSpeed);
-                } else {
+                } else if (FireArmedCharacter.this.isUsingPower()){
                     setBottom(0);
                 }
 
@@ -68,7 +68,7 @@ public class FireArmedCharacter extends Character {
                 isHit = false;
             }
             if (isHit) {
-                if (mPoint.y >= FireArmedCharacter.this.maxRight / 2 + mHeight / 2) {
+                if (getBottom() <= FireArmedCharacter.this.maxBottom / 2 + mHeight) {
                     mImage = defaultImages.get(1);
                 } else {
                     mImage = defaultImages.get(2);
@@ -116,7 +116,7 @@ public class FireArmedCharacter extends Character {
     public boolean isBulletHit(Character character){
         if (bullet.isFalling){
             if ((character.getFirstThirdY() <= bullet.getBottom()) &&
-                    (character.getCenterY() >= bullet.getCenterY())&&(!character.isUsingPower())) {
+                    (character.getBottom() >= bullet.getBottom())&&(!character.isUsingPower())) {
                 setBulletHit();
                 return true;            }
 
