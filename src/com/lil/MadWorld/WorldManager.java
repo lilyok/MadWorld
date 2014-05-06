@@ -30,6 +30,8 @@ public class WorldManager extends Thread {
     private int indexOfEnemy = 3;
 
     private Bitmap powerPicture;
+    private Bitmap takePicture;
+
     private int height;
     private int width;
 
@@ -65,6 +67,7 @@ public class WorldManager extends Thread {
 
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
+        takePicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
     }
 
     private List<Drawable> loadFrames(Context context, String type) {
@@ -201,7 +204,12 @@ public class WorldManager extends Thread {
 
         } else if ("gifts".equals(type)){
             characterImages.add(context.getResources().getDrawable(R.drawable.meetblood01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.meetblood03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.meetblood02));
+
             characterImages.add(context.getResources().getDrawable(R.drawable.fayblood01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.fayblood03));
+            characterImages.add(context.getResources().getDrawable(R.drawable.fayblood02));
         }
 
         return characterImages;
@@ -264,13 +272,14 @@ public class WorldManager extends Thread {
         }
 
 
-        powerDraw(c);
+        buttonsDraw(c);
         healthDraw(c);
     }
 
 
-    private void powerDraw(Canvas c){
+    private void buttonsDraw(Canvas c){
         c.drawBitmap(powerPicture, 0, this.height - powerPicture.getHeight(), null);
+        c.drawBitmap(takePicture,this.width - takePicture.getWidth(), this.height - takePicture.getHeight(), null);
     }
 
     private  void healthDraw(Canvas c){
@@ -393,8 +402,18 @@ public class WorldManager extends Thread {
         vampire.usePower();
     }
 
+    private void onTakeClick() {
+        if (vampire.isUsingPower())
+            madWorld.takeGift(vampire.getLeft(), vampire.getRight());
+    }
+
     public void onTouch(float x, float y) {
         if ((x <= powerPicture.getWidth())&&(x >= 0)&&(y >= height - powerPicture.getHeight())&&(y < height))
             onPowerClick();
+        else if ((x <= this.width)&&(x >= this.width - takePicture.getWidth())&&(y >= this.height - powerPicture.getHeight())&&(y < height)) {
+            onTakeClick();
+        }
     }
+
+
 }

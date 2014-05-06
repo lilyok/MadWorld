@@ -17,10 +17,10 @@ public class MadWorld extends SubjectOfTheWorld {
         this.images = new ArrayList<Drawable>(images);
         mSpeed = speed;
 
-        List numOfGifts = new ArrayList();
-        numOfGifts.add(2);
-        numOfGifts.add(3);
-        gifts = new CollectOfGift(giftsImages, numOfGifts, speed);
+//        List numOfGifts = new ArrayList();
+//        numOfGifts.add(1);
+       // numOfGifts.add(3);
+        gifts = new CollectOfGift(giftsImages, speed);
     }
 
     @Override
@@ -69,5 +69,19 @@ public class MadWorld extends SubjectOfTheWorld {
         gifts.setMaxRight(value);
     }
 
+    @Override
+    public void paused() {
+        isMoving = false;
+        gifts.paused();
+    }
 
+    @Override
+    public void continued() {
+        isMoving = true;
+        gifts.continued();
+    }
+
+    public void takeGift(int left, int right) {
+        gifts.takeGift(left, right);
+    }
 }

@@ -22,14 +22,37 @@ public class CollectOfGift{
         }
     }
 
+    public void paused() {
+        for(Gift gift : gifts){
+            gift.paused();
+        }
+    }
+
+    public void continued() {
+        for(Gift gift : gifts){
+            gift.continued();
+        }
+    }
+
+    public void takeGift(int left, int right) {
+        for(Gift gift : gifts){
+            gift.takeGift(left, right);
+        }
+    }
+
     private class Gift extends SubjectOfTheWorld{
         public static final int MEET_BLOOD = 0;
         public static final int FAY_BLOOD = 1;
         final Random myRandom = new Random();
 
+        private boolean isTaken = false;
         private int type = 0;
-        public Gift(Drawable image, int speed, int type) {
-            super(image);
+        private int leftCharacter = 0;
+        private int rightCharacter = 0;
+        private List<Drawable> images;
+        public Gift(ArrayList<Drawable> images, int speed, int type) {
+            super(images.get(0));
+            this.images = new ArrayList<Drawable>(images);
             mSpeed = speed;
             mPoint.y = -mWidth; 
             mPoint.x = 0;
@@ -39,13 +62,23 @@ public class CollectOfGift{
         @Override
         protected void updatePoint() {
             mPoint.x += mSpeed;
-            if (mPoint.x + mWidth + maxRight <= 0) {
+            if (getRight() + mWidth < 0) {
+                mImage =images.get(0);
+                isTaken = false;
                 randomX();
             }
+            updateAnimate();
         }
 
         @Override
         protected void updateAnimate() {
+            if (isTaken){
+                mImage = images.get(1);
+                if (leftCharacter > getCenterX()) {
+                    mImage = images.get(2);
+                    isTaken = false;
+                }
+            }
 
 
         }
@@ -53,17 +86,25 @@ public class CollectOfGift{
         public void randomX() {
             mPoint.x = (myRandom.nextInt(maxRight*2-mWidth));//*mWidth%maxRight;
         }
-    } 
+
+        public void takeGift(int left, int right) {
+            if (!isTaken){
+                if ((right > getLeft())&&(left < getCenterX())) {
+                    isTaken = true;
+                    leftCharacter = left;
+                    rightCharacter = right;
+                }
+            }
+        }
+    }
     
 
     // images = [meetBloodImg, FayBloodImg, ...]
-    public CollectOfGift(List<Drawable> images, List<Integer> numOfGift, int worldSpeed) {
+    public CollectOfGift(List<Drawable> images,int worldSpeed) {
         gifts = new ArrayList<Gift>();
-        for (int i = 0; i < numOfGift.size(); i++){
-            for (int j = 0; j < numOfGift.get(i); j++){
-                gifts.add(new Gift(images.get(i), worldSpeed, j));
 
-            }
+        for (int i = 0; i < images.size(); i+=3){
+            gifts.add(new Gift(new ArrayList<Drawable>(images.subList(i, i+3)), worldSpeed, i%3));
         }
     }
 
@@ -77,7 +118,7 @@ public class CollectOfGift{
     public void setMaxBottom(int bottom) {
         for (Gift gift : gifts) {
             gift.setMaxBottom(bottom);
-            gift.mPoint.y = bottom/3;
+            gift.mPoint.y = bottom/5;
         }               
     }
 
