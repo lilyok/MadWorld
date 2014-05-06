@@ -38,6 +38,7 @@ public class WorldManager extends Thread {
     private static final int DEFAULT_HUNGRY_SPEED = 20;
     private long isHungry = DEFAULT_HUNGRY_SPEED;
 
+
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
     {
         this.surfaceHolder = surfaceHolder;
@@ -60,7 +61,7 @@ public class WorldManager extends Thread {
         enemies.add(wizard);
 
 
-        madWorld = new MadWorld(loadFrames(context, "world"), -Vampire.DEFAULT_SPEED);
+        madWorld = new MadWorld(loadFrames(context, "world"), loadFrames(context, "gifts"), -Vampire.DEFAULT_SPEED);
 
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
@@ -198,6 +199,9 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.firerain02));
             characterImages.add(context.getResources().getDrawable(R.drawable.firerain03));
 
+        } else if ("gifts".equals(type)){
+            characterImages.add(context.getResources().getDrawable(R.drawable.meetblood01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.fayblood01));
         }
 
         return characterImages;
