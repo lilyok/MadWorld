@@ -34,9 +34,9 @@ public class CollectOfGift{
         }
     }
 
-    public void takeGift(int left, int right) {
+    public void takeGift(Vampire vampire) {
         for(Gift gift : gifts){
-            gift.takeGift(left, right);
+            gift.takeGift(vampire);
         }
     }
 
@@ -87,12 +87,17 @@ public class CollectOfGift{
             mPoint.x = (myRandom.nextInt(maxRight*2-mWidth));//*mWidth%maxRight;
         }
 
-        public void takeGift(int left, int right) {
+        public void takeGift(Vampire vampire) {
             if (!isTaken){
-                if ((right > getLeft())&&(left < getCenterX())) {
+                leftCharacter = vampire.getLeft();
+                rightCharacter = vampire.getRight();
+                if ((rightCharacter > getLeft())&&(leftCharacter < getCenterX())) {
                     isTaken = true;
-                    leftCharacter = left;
-                    rightCharacter = right;
+                    if (type == 0){
+                        vampire.takeHalfLife();
+                    } else if (type == 1){
+                        vampire.takeHalfSunProtection();
+                    }
                 }
             }
         }
@@ -104,7 +109,7 @@ public class CollectOfGift{
         gifts = new ArrayList<Gift>();
 
         for (int i = 0; i < images.size(); i+=3){
-            gifts.add(new Gift(new ArrayList<Drawable>(images.subList(i, i+3)), worldSpeed, i%3));
+            gifts.add(new Gift(new ArrayList<Drawable>(images.subList(i, i+3)), worldSpeed, (int)(i/3)));
         }
     }
 

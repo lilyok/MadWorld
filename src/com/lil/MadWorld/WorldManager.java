@@ -54,6 +54,8 @@ public class WorldManager extends Thread {
                                         -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
         fay = new FireArmedCharacter(loadFrames(context, "fay"), loadFrames(context, "fireball"),
                                     -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
+        fay.setHavingSun(true);
+
         wizard = new FireArmedCharacter(loadFrames(context, "wizard"), loadFrames(context, "firerain"),
                                         -Vampire.DEFAULT_SPEED, -1, true, Character.BULLET_POWER);
 
@@ -285,14 +287,23 @@ public class WorldManager extends Thread {
     private  void healthDraw(Canvas c){
         float blockWith = 30;
 
-        int vHealthCount = vampire.getHealth()/10;
         Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
+
+        //my health
+        int vHealthCount = vampire.getHealth()/10;
+        paint.setColor(Color.BLUE);
         for (int i =0; i < vHealthCount; i++){
-            c.drawRect(i*blockWith, 0, (i+1)*blockWith-1, 30, paint);
+            c.drawRect(i*blockWith, 0, (i+1)*blockWith-1, blockWith, paint);
         }
 
+        //sun protection
+        int vSunCount = vampire.getSunProtection()/10;
+        paint.setColor(Color.YELLOW);
+        for (int i =0; i < vSunCount; i++){
+            c.drawRect(i*blockWith, blockWith, (i+1)*blockWith-1, 2*blockWith, paint);
+        }
 
+        //enemy health
         int wHealthCount = enemies.get(indexOfEnemy).getHealth()/10;
         paint.setColor(Color.RED);
         for (int i =0; i < wHealthCount; i++){
@@ -311,6 +322,10 @@ public class WorldManager extends Thread {
             vampire.makeWeaken();
             isHungry = DEFAULT_HUNGRY_SPEED;
         }
+        if (madWorld.isNoon(vampire.DEFAULT_HEALTH/2)){
+            vampire.makeBurning(-madWorld.getSpeed());
+        }
+
 
         final Character enemy = enemies.get(indexOfEnemy);
 
@@ -345,6 +360,9 @@ public class WorldManager extends Thread {
                 refreshEnemy(enemy);
 
                 vampire.takeLife();
+                if (enemy.isHavingSun())
+                    vampire.takeSunProtection();
+
                 vampire.continued();
 
                 madWorld.continued();
@@ -404,7 +422,7 @@ public class WorldManager extends Thread {
 
     private void onTakeClick() {
         if (vampire.isUsingPower())
-            madWorld.takeGift(vampire.getLeft(), vampire.getRight());
+            madWorld.takeGift(vampire);
     }
 
     public void onTouch(float x, float y) {

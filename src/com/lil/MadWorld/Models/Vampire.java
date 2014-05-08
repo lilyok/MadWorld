@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import java.util.List;
 
 public class Vampire extends Character {
-
+    private int sunProtection = maxHealth;
     public Vampire(List<Drawable> defaultImages, int speedOfWorld, int speedFactor) {
         super(defaultImages, speedOfWorld, speedFactor, INVISIBILITY);
     }
@@ -19,8 +19,26 @@ public class Vampire extends Character {
     }
 
 
-
     public void takeLife() {
-        health = DEFAULT_HEALTH;
+        health = maxHealth;
+    }
+    public void takeHalfLife() {
+        health = Math.min((health+maxHealth/2), maxHealth);
+    }
+
+    public void takeSunProtection() {
+        sunProtection = maxHealth;
+    }
+
+    public void takeHalfSunProtection() {
+        sunProtection = Math.min((sunProtection+maxHealth/2), maxHealth);
+    }
+
+    public int getSunProtection() {
+        return sunProtection;
+    }
+
+    public void makeBurning(int speed) {
+        sunProtection-=speed;
     }
 }

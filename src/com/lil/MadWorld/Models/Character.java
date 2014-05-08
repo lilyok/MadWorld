@@ -21,17 +21,22 @@ public abstract class Character extends SubjectOfTheWorld {
     protected static int speedOfWorld = 0;
     protected static int speedFactor = 0;
 
-    List<Drawable> defaultImages;
+    protected List<Drawable> defaultImages;
 
     protected int numOfFrame = 0;
     protected int indexOfFrame = 0;
     protected int baseIndexOfFrame = 0;
 
-    protected int health = 80;
+    protected int maxHealth = DEFAULT_HEALTH;
+    protected int health = maxHealth;
 
     protected int chance = 3;
 
     protected int magicPower = HUMAN_POWER;
+
+
+    protected boolean isHavingSun = false;
+
 
     public Character(List<Drawable> defaultImages, int speedOfWorld, int speedFactor, int magicPower) {
         super(defaultImages.get(0));
@@ -126,4 +131,11 @@ public abstract class Character extends SubjectOfTheWorld {
     }
 
 
+    public boolean isHavingSun() {
+        return isHavingSun;
+    }
+
+    public void setHavingSun(boolean isHavingSun) {
+        this.isHavingSun = isHavingSun;
+    }
 }

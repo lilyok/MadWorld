@@ -23,6 +23,10 @@ public class MadWorld extends SubjectOfTheWorld {
         gifts = new CollectOfGift(giftsImages, speed);
     }
 
+    public int getSpeed() {
+        return mSpeed;
+    }
+
     @Override
     protected void updatePoint() {
         mPoint.x += mSpeed;
@@ -75,13 +79,22 @@ public class MadWorld extends SubjectOfTheWorld {
         gifts.paused();
     }
 
-    @Override
     public void continued() {
         isMoving = true;
         gifts.continued();
     }
 
-    public void takeGift(int left, int right) {
-        gifts.takeGift(left, right);
+    public void takeGift(Vampire vampire) {
+        gifts.takeGift(vampire);
+    }
+
+    public boolean isNoon(int time) {
+        if ((indexOfFirstImage == 0)&&(mPoint.x >= -time/2)){
+                return true;
+        }
+        else if ((indexOfFirstImage == 1)&&(getRight() <= time/2)) {
+            return true;
+        }
+        return false;
     }
 }
