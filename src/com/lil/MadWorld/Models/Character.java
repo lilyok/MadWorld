@@ -97,11 +97,13 @@ public abstract class Character extends SubjectOfTheWorld {
 
     public int makeWeaken() {
         health--;
+        if (health <= 0) health = 0;
         return health;
     }
 
     public int makeWeaken(int enemyPower) {
         health -= enemyPower;
+        if (health <= 0) health = 0;
         return health;
     }
 
