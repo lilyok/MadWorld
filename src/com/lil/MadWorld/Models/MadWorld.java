@@ -50,6 +50,7 @@ public class MadWorld extends SubjectOfTheWorld {
 
     @Override
     public void draw(Canvas c) {
+ //       super.draw(c);
         images.get(indexOfFirstImage).draw(c);
         Drawable nextImg = images.get((indexOfFirstImage+1)%images.size());
 
@@ -58,9 +59,6 @@ public class MadWorld extends SubjectOfTheWorld {
 
 
         gifts.draw(c);
-//        mImage.draw(c);
-//        mImage.setBounds(mPoint.x + mWidth, 0, mPoint.x + 2 * mWidth, mHeight);
-//        mImage.draw(c);
     }
 
     public void setMHeight(int value) {

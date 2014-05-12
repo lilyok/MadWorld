@@ -15,6 +15,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
         holder = getHolder();
         holder.addCallback(this);
         gameLoopThread = new WorldManager(holder, context);
+        gameLoopThread.setPriority(8);
     }
 
     @Override

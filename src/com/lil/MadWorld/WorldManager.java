@@ -3,6 +3,7 @@ package com.lil.MadWorld;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import com.lil.MadWorld.Models.*;
@@ -253,6 +254,8 @@ public class WorldManager extends Thread {
             }
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
             try{
+                Log.w("sleepTime = ", String.valueOf(sleepTime));
+
                 if (sleepTime > 0)
                     sleep(sleepTime);
             } catch (Exception e) {
@@ -276,6 +279,14 @@ public class WorldManager extends Thread {
 
         buttonsDraw(c);
         healthDraw(c);
+        boolean isCanvasAccelerated = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // This code must not be executed on a device with API
+            // level less than 11 (Android 2.x, 1.x)
+            isCanvasAccelerated = c.isHardwareAccelerated();
+        }
+        Log.w("isCanvasAccelerated=",String.valueOf(isCanvasAccelerated));
+
     }
 
 
