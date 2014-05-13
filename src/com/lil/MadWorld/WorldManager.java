@@ -70,7 +70,7 @@ public class WorldManager extends Thread {
 
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
-        takePicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
+        takePicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.take);
     }
 
     private List<Drawable> loadFrames(Context context, String type) {

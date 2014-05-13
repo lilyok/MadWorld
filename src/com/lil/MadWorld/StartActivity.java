@@ -4,12 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class StartActivity extends Activity implements View.OnClickListener {
+    private static final int STOPSPLASH = 0;
+    private static final long SPLASHTIME = 2000; //Время показа Splash картинки 10 секунд
+    private ImageView splash;
+
+    private Handler splashHandler = new Handler() { //создаем новый хэндлер
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case STOPSPLASH:
+                    //убираем Splash картинку - меняем видимость
+                    splash.setVisibility(View.GONE);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -30,6 +49,11 @@ public class StartActivity extends Activity implements View.OnClickListener {
 
         Button exitButton = (Button)findViewById(R.id.button2);
         exitButton.setOnClickListener(this);
+
+        splash = (ImageView) findViewById(R.id.splashscreen); //получаем индентификатор ImageView с Splash картинкой
+        Message msg = new Message();
+        msg.what = STOPSPLASH;
+        splashHandler.sendMessageDelayed(msg, SPLASHTIME);
     }
 
     /** Обработка нажатия кнопок */

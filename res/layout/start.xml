@@ -3,7 +3,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:screenOrientation="landscape"
-                android:background="#fff" >
+                android:background="@drawable/background02" >
 
     <TextView
         android:id="@+id/textView1"
@@ -11,10 +11,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:text="Some Game Name"
+        android:layout_marginTop="66dp"
+        android:text="Mad World"
         android:textSize="50dp"
-        android:textColor="#000"/>
+        android:textColor="#fff"
+        android:autoText="false"
+        android:textStyle="bold"
+        android:background="@drawable/backtext"/>
 
     <Button
         android:id="@+id/button1"
@@ -25,18 +28,28 @@
         android:layout_marginTop="180dp"
         android:text="Start"
         android:textSize="30dp"
-        android:textColor="#000"
-        android:background="#fff"/>
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:background="@drawable/button"/>
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="230dp"
         android:text="Exit"
         android:textSize="30dp"
-        android:textColor="#000"
-        android:background="#fff"/>
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:layout_alignStart="@+id/button1"
+        android:layout_alignEnd="@+id/button1"
+        android:background="@drawable/button"/>
+
+    <ImageView
+        android:id="@+id/splashscreen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/vamp01"
+        android:layout_gravity="center"/>
 </RelativeLayout>
