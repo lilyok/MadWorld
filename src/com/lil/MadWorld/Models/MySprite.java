@@ -12,6 +12,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySprite
 {
@@ -24,6 +26,7 @@ public class MySprite
     private int mTextureCoordinateHandle;
     private final int mTextureCoordinateDataSize = 2;
     private int mTextureDataHandle;
+    private List<Integer> textureHadles;
 
     private final String vertexShaderCode =
 //Test
@@ -33,7 +36,7 @@ public class MySprite
                     "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 vPosition;" +
                     "void main() {" +
-                    "  gl_Position = vPosition * uMVPMatrix;" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
                     //Test
                     "v_TexCoordinate = a_TexCoordinate;" +
                     //End Test
@@ -70,6 +73,8 @@ public class MySprite
 
     // Set color with red, green, blue and alpha (opacity) values
     float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+    private int textureIndex;
+    private int textureHandleSize;
 
     public MySprite(final Context activityContext)
     {
@@ -121,8 +126,27 @@ public class MySprite
         GLES20.glLinkProgram(shaderProgram);
 
         //Load the texture
-        mTextureDataHandle = loadTexture(mActivityContext, R.drawable.background01);
+        loadTextureList();
+        initTextureDataHandle();
     }
+
+    private void loadTextureList() {
+        textureHadles = new ArrayList<Integer>();
+        textureHadles.add(loadTexture(mActivityContext, R.drawable.background01));
+        textureHadles.add(loadTexture(mActivityContext, R.drawable.background02));
+    }
+
+    private void initTextureDataHandle() {
+        textureHandleSize = textureHadles.size();
+        textureIndex = 0;
+        mTextureDataHandle = textureHadles.get(textureIndex);
+    }
+
+    public void changeTextureHandle(){
+        textureIndex = (textureIndex++)%textureHandleSize;
+        mTextureDataHandle = textureHadles.get(0);
+    }
+
 
     public void Draw(float[] mvpMatrix)
     {
