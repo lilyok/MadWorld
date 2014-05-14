@@ -1,12 +1,19 @@
 package com.lil.MadWorld;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
-public class Main extends Activity {
+public class Main extends Activity implements View.OnClickListener {
+    private Dialog menu;
+    private WorldView worldView;
     /**
      * Called when the activity is first created.
      */
@@ -23,7 +30,78 @@ public class Main extends Activity {
         // и без заголовка
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(new WorldView(this));
+        worldView = new WorldView(this);
+
+        startMenu();
+
+
+        setContentView(worldView);
+
+    }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+////        finish();
+//    }
+    protected void onSaveInstanceState(Bundle outState) {
+//        outState.putSerializable("enemy", myview.getState());
+//        outState.putString("scoreString",score.getText().toString());
+        //Log.d("cmd", "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        myview.setState((State) savedInstanceState.getSerializable("enemy"));
+//        score.setText(savedInstanceState.getString("scoreString"));
+        //Log.d("cmd", "onRestoreInstanceState");
+    }
+
+    private void startMenu() {
+        worldView.setStarted(false);
+
+        menu = new Dialog(this,android.R.style.Theme_Translucent);
+        menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        menu.setContentView(R.layout.start);
+        menu.setCancelable(true);
+
+        Button startButton = (Button)menu.findViewById(R.id.button1);
+        startButton.setOnClickListener(this);
+
+        Button exitButton = (Button)menu.findViewById(R.id.button2);
+        exitButton.setOnClickListener(this);
+
+        menu.show();
+
+    }
+
+
+    /** Обработка нажатия кнопок */
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //переход на сюрфейс
+            case R.id.button1: {
+                worldView.setStarted(true);
+
+                menu.dismiss();
+            }break;
+
+            //выход
+            case R.id.button2: {
+                worldView.exitGame();
+                finish();
+            }break;
+
+            default:
+                break;
+        }
+    }
+
+    public void onBackPressed() {
+        startMenu();
+
     }
 }
 

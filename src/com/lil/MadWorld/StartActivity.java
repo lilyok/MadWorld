@@ -42,7 +42,6 @@ public class StartActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.start);
-        //setContentView(new GameView(this,null));
 
         Button startButton = (Button)findViewById(R.id.button1);
         startButton.setOnClickListener(this);
@@ -50,10 +49,10 @@ public class StartActivity extends Activity implements View.OnClickListener {
         Button exitButton = (Button)findViewById(R.id.button2);
         exitButton.setOnClickListener(this);
 
-        splash = (ImageView) findViewById(R.id.splashscreen); //получаем индентификатор ImageView с Splash картинкой
-        Message msg = new Message();
-        msg.what = STOPSPLASH;
-        splashHandler.sendMessageDelayed(msg, SPLASHTIME);
+//        splash = (ImageView) findViewById(R.id.splashscreen); //получаем индентификатор ImageView с Splash картинкой
+//        Message msg = new Message();
+//        msg.what = STOPSPLASH;
+//        splashHandler.sendMessageDelayed(msg, SPLASHTIME);
     }
 
     /** Обработка нажатия кнопок */

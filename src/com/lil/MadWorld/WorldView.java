@@ -1,6 +1,7 @@
 package com.lil.MadWorld;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,9 +19,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
         gameLoopThread.setPriority(8);
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder)
-    {
+
+    public void exitGame(){
         boolean retry = true;
         gameLoopThread.setRunning(false);
         while (retry){
@@ -29,19 +29,28 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
                 retry = false;
             } catch (InterruptedException e)
             {
-
+                Log.e("exit = ", e.toString());
             }
         }
     }
 
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
+//
+    }
+
+
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-
-        gameLoopThread.setRunning(true);
-        if (!gameLoopThread.isAlive())
+        if (gameLoopThread.getState() == Thread.State.NEW) {
             gameLoopThread.start();
+            gameLoopThread.setRunning(true);
+        }
     }
+
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
@@ -53,4 +62,12 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     public boolean onTouchEvent(MotionEvent event) {
         gameLoopThread.onTouch(event.getX(), event.getY());
         return super.onTouchEvent(event);
-    }}
+    }
+
+    public void setStarted(boolean f)   {
+        gameLoopThread.setStarted(f);
+
+    }
+
+
+}

@@ -35,11 +35,14 @@ public class WorldManager extends Thread {
 
     private int height;
     private int width;
+    private boolean starting=true;
 
     final Random myRandom = new Random();
 
     private static final int DEFAULT_HUNGRY_SPEED = 20;
     private long isHungry = DEFAULT_HUNGRY_SPEED;
+
+
 
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
@@ -71,6 +74,9 @@ public class WorldManager extends Thread {
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
         takePicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.take);
+//        starting = false;
+//        Log.w("isStarted=", String.valueOf(starting));
+
     }
 
     private List<Drawable> loadFrames(Context context, String type) {
@@ -223,6 +229,10 @@ public class WorldManager extends Thread {
         running = run;
     }
 
+    public void setStarted(boolean f) {
+        starting = f;
+//        Log.w("isStarted=", String.valueOf(starting));
+    }
 
     public void run()
     {
@@ -232,6 +242,8 @@ public class WorldManager extends Thread {
 
 
         while (running){
+//            Log.w(" running isStarted=", String.valueOf(starting));
+
             Canvas c = null;
             startTime = System.currentTimeMillis();
 
@@ -327,65 +339,69 @@ public class WorldManager extends Thread {
 
     private boolean updateObjects() {
         boolean isVampCover = true;
+//        Log.w(" update isStarted=", String.valueOf(this.isStarted));
 
-        isHungry--;
-        if (isHungry <= 0) {
-            vampire.makeWeaken();
-            isHungry = DEFAULT_HUNGRY_SPEED;
-        }
-        if (madWorld.isNoon(vampire.DEFAULT_HEALTH/2)){
-            vampire.makeBurning(-madWorld.getSpeed());
-        }
+        if (starting) {
 
-
-        final Character enemy = enemies.get(indexOfEnemy);
-
-        if (enemy.getCenterX() <= 0)
-            refreshEnemy(enemy);
-
-        if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX())
-            enemy.usePower(true);
-
-        if (vampire.isUsingPower())
-            enemy.usePower(false);
-
-        int isCollision;
-        if ((isCollision = isCollision()) > 0) {
-           if (isCollision == 1) {
-                vampire.paused();
-                madWorld.paused();
-                enemy.paused();
+            isHungry--;
+            if (isHungry <= 0) {
+                vampire.makeWeaken();
+                isHungry = DEFAULT_HUNGRY_SPEED;
+            }
+            if (madWorld.isNoon(vampire.DEFAULT_HEALTH / 2)) {
+                vampire.makeBurning(-madWorld.getSpeed());
             }
 
-            int enemyPower = enemy.getPower();
-            int vampirePower = vampire.getPower();
-            if (vampirePower < enemyPower) {
-                vampire.makeWeaken(enemyPower);
-                isVampCover = false;
-            }
-            if (isCollision == 1)
-                enemy.makeWeaken(vampirePower);
 
+            final Character enemy = enemies.get(indexOfEnemy);
 
-            if (enemy.getHealth() <= 0 && vampire.getHealth() >= 0) {
+            if (enemy.getCenterX() <= 0)
                 refreshEnemy(enemy);
 
-                vampire.takeLife();
-                if (enemy.isHavingSun())
-                    vampire.takeSunProtection();
+            if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX())
+                enemy.usePower(true);
 
-                vampire.continued();
+            if (vampire.isUsingPower())
+                enemy.usePower(false);
 
-                madWorld.continued();
-            } else if (vampire.getHealth() <= 0) {
-                vampire.setRight(0);
+            int isCollision;
+            if ((isCollision = isCollision()) > 0) {
+                if (isCollision == 1) {
+                    vampire.paused();
+                    madWorld.paused();
+                    enemy.paused();
+                }
+
+                int enemyPower = enemy.getPower();
+                int vampirePower = vampire.getPower();
+                if (vampirePower < enemyPower) {
+                    vampire.makeWeaken(enemyPower);
+                    isVampCover = false;
+                }
+                if (isCollision == 1)
+                    enemy.makeWeaken(vampirePower);
+
+
+                if (enemy.getHealth() <= 0 && vampire.getHealth() >= 0) {
+                    refreshEnemy(enemy);
+
+                    vampire.takeLife();
+                    if (enemy.isHavingSun())
+                        vampire.takeSunProtection();
+
+                    vampire.continued();
+
+                    madWorld.continued();
+                } else if (vampire.getHealth() <= 0) {
+                    vampire.setRight(0);
+                }
             }
+
+
+            madWorld.update();
+            enemy.update();
+            vampire.update();
         }
-
-
-        madWorld.update();
-        enemy.update();
-        vampire.update();
         return isVampCover;
     }
 
@@ -445,4 +461,7 @@ public class WorldManager extends Thread {
     }
 
 
+    public boolean getRunning() {
+        return running;
+    }
 }
