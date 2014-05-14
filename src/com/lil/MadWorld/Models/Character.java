@@ -1,6 +1,7 @@
 package com.lil.MadWorld.Models;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,8 @@ public abstract class Character extends SubjectOfTheWorld {
 
         if (mPoint.x < -mWidth) {
             setRight(maxRight);
+            Log.w("mPoint.x < -mWidth = ", String.valueOf(mPoint.x));
+
         }
 
         updateAnimate();
@@ -113,6 +116,8 @@ public abstract class Character extends SubjectOfTheWorld {
 
 
     public void refresh() {
+        Log.w("refresh", String.valueOf(mPoint.x)) ;
+
         setLeft(maxRight);
         health = DEFAULT_HEALTH;
         continued();
@@ -139,5 +144,9 @@ public abstract class Character extends SubjectOfTheWorld {
 
     public void setHavingSun(boolean isHavingSun) {
         this.isHavingSun = isHavingSun;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

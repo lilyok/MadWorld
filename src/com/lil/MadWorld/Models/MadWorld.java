@@ -37,6 +37,10 @@ public class MadWorld extends SubjectOfTheWorld {
         }
     }
 
+    public void setMImageByFirst(){
+        mImage = images.get(indexOfFirstImage);
+    }
+
     @Override
     protected void updateAnimate() {
 
@@ -94,5 +98,13 @@ public class MadWorld extends SubjectOfTheWorld {
             return true;
         }
         return false;
+    }
+
+    public int getIndexOfFirstImage() {
+        return indexOfFirstImage;
+    }
+
+    public void setIndexOfFirstImage(int indexOfFirstImage) {
+        this.indexOfFirstImage = indexOfFirstImage;
     }
 }

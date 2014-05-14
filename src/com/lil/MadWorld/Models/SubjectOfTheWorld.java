@@ -3,6 +3,7 @@ package com.lil.MadWorld.Models;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public abstract class SubjectOfTheWorld {
 
@@ -50,6 +51,8 @@ public abstract class SubjectOfTheWorld {
      */
     public void setLeft(int value) {
         mPoint.x = value;
+        Log.w("subjectLeft = ", String.valueOf(value));
+
     }
 
     public void setRight(int value) {

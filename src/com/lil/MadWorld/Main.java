@@ -31,6 +31,7 @@ public class Main extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         worldView = new WorldView(this);
+        createMenu();
 
         startMenu();
 
@@ -39,13 +40,23 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-////        finish();
-//    }
+    @Override
+    protected void onStop() {
+        worldView.setStarted(false);
+
+        super.onStop();
+//        startMenu();
+//        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onStart();
+        startMenu();
+    }
+
     protected void onSaveInstanceState(Bundle outState) {
-//        outState.putSerializable("enemy", myview.getState());
+        outState.putSerializable("allWorld", worldView.returnState());
 //        outState.putString("scoreString",score.getText().toString());
         //Log.d("cmd", "onSaveInstanceState");
         super.onSaveInstanceState(outState);
@@ -54,27 +65,29 @@ public class Main extends Activity implements View.OnClickListener {
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-//        myview.setState((State) savedInstanceState.getSerializable("enemy"));
-//        score.setText(savedInstanceState.getString("scoreString"));
-        //Log.d("cmd", "onRestoreInstanceState");
+        worldView.establishState((WorldManager.State) savedInstanceState.getSerializable("allWorld"));
     }
 
     private void startMenu() {
         worldView.setStarted(false);
+        if(menu!=null)
+            menu.show();
 
-        menu = new Dialog(this,android.R.style.Theme_Translucent);
-        menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        menu.setContentView(R.layout.start);
-        menu.setCancelable(true);
+    }
 
-        Button startButton = (Button)menu.findViewById(R.id.button1);
-        startButton.setOnClickListener(this);
+    private void createMenu() {
+        if (menu == null) {
+            menu = new Dialog(this, android.R.style.Theme_Translucent);
+            menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            menu.setContentView(R.layout.start);
+            menu.setCancelable(true);
 
-        Button exitButton = (Button)menu.findViewById(R.id.button2);
-        exitButton.setOnClickListener(this);
+            Button startButton = (Button) menu.findViewById(R.id.button1);
+            startButton.setOnClickListener(this);
 
-        menu.show();
-
+            Button exitButton = (Button) menu.findViewById(R.id.button2);
+            exitButton.setOnClickListener(this);
+        }
     }
 
 
@@ -91,6 +104,8 @@ public class Main extends Activity implements View.OnClickListener {
             //выход
             case R.id.button2: {
                 worldView.exitGame();
+                menu.dismiss();
+
                 finish();
             }break;
 
@@ -103,6 +118,8 @@ public class Main extends Activity implements View.OnClickListener {
         startMenu();
 
     }
+
+
 }
 
 

@@ -9,9 +9,11 @@ import android.view.SurfaceHolder;
 import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class WorldManager extends Thread {
     private final SurfaceHolder surfaceHolder;
@@ -44,6 +46,33 @@ public class WorldManager extends Thread {
 
 
 
+public static class State implements Serializable {
+    public int indexOfEnemy;
+    public long isHungry;
+    public int enemyLeft;
+    public int madWorldLeft;
+    public int indexOfFirstImage;
+    public boolean isUsingPower;
+
+    public int health;
+    public int enemyHealth;
+    public int sunProtection;
+
+
+    public State(int indexOfEnemy, long isHungry, int enemyLeft, int madWorldLeft, int indexOfFirstImage,
+                 boolean isUsingPower, int health, int enemyHealth, int sunProtection) {
+        this.indexOfEnemy = indexOfEnemy;
+        this.isHungry = isHungry;
+        this.enemyLeft = enemyLeft;
+        this.madWorldLeft = madWorldLeft;
+        this.indexOfFirstImage = indexOfFirstImage;
+        this.isUsingPower = isUsingPower;
+
+        this.health = health;
+        this.enemyHealth = enemyHealth;
+        this.sunProtection = sunProtection;
+    }
+}
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context)
     {
@@ -266,12 +295,12 @@ public class WorldManager extends Thread {
             }
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
             try{
-                Log.w("sleepTime = ", String.valueOf(sleepTime));
+//                Log.w("sleepTime = ", String.valueOf(sleepTime));
 
                 if (sleepTime > 0)
                     sleep(sleepTime);
             } catch (Exception e) {
-                Log.e("sleep", e.toString());
+//                Log.e("sleep", e.toString());
             }
 
         }
@@ -297,7 +326,7 @@ public class WorldManager extends Thread {
             // level less than 11 (Android 2.x, 1.x)
             isCanvasAccelerated = c.isHardwareAccelerated();
         }
-        Log.w("isCanvasAccelerated=",String.valueOf(isCanvasAccelerated));
+//        Log.w("isCanvasAccelerated=",String.valueOf(isCanvasAccelerated));
 
     }
 
@@ -464,4 +493,35 @@ public class WorldManager extends Thread {
     public boolean getRunning() {
         return running;
     }
+
+
+    public void establishState(State allWorld) {
+        Log.w("width = ", String.valueOf(width));
+        Log.w("enemyLeft = ", String.valueOf(allWorld.enemyLeft));
+
+
+        indexOfEnemy = allWorld.indexOfEnemy;
+        isHungry = allWorld.isHungry;
+        Character enemy = enemies.get(indexOfEnemy);
+        madWorld.setIndexOfFirstImage(allWorld.indexOfFirstImage);
+        madWorld.setMImageByFirst();
+        madWorld.setLeft(allWorld.madWorldLeft);
+        vampire.usePower(allWorld.isUsingPower);
+        vampire.setHealth(allWorld.health);
+        enemy.setHealth(allWorld.enemyHealth);
+        vampire.setSunProtection(allWorld.sunProtection);
+
+        enemy.setLeft(allWorld.enemyLeft);
+
+    }
+
+    public State returnState(){
+        Character enemy = enemies.get(indexOfEnemy);
+        return new State(indexOfEnemy, isHungry, enemy.getLeft(), madWorld.getLeft(),
+                madWorld.getIndexOfFirstImage(), vampire.isUsingPower(), vampire.getHealth(), enemy.getHealth(),
+                vampire.getSunProtection());
+    }
 }
+
+
+

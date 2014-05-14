@@ -1,10 +1,15 @@
 package com.lil.MadWorld;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
@@ -55,7 +60,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
-        gameLoopThread.initPositions(height, width);
+        if (width  > 0)
+            gameLoopThread.initPositions(height, width);
     }
 
     @Override
@@ -70,4 +76,12 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
 
+    public WorldManager.State returnState() {
+        return gameLoopThread.returnState();
+    }
+
+    public void establishState(WorldManager.State allWorld) {
+        gameLoopThread.establishState(allWorld);
+    }
 }
+
