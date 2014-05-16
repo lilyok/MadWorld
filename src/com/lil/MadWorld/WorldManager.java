@@ -35,62 +35,108 @@ public class WorldManager extends Thread {
     private Bitmap powerPicture;
     private Bitmap takePicture;
 
-    private int height;
-    private int width;
-    private boolean starting=true;
+    private int height = 1000000000;
+    private int width = 1000000000;
+    private boolean starting = true;
 
     final Random myRandom = new Random();
 
-    private static final int DEFAULT_HUNGRY_SPEED = 20;
+    public static final int DEFAULT_HUNGRY_SPEED = 20;
     private long isHungry = DEFAULT_HUNGRY_SPEED;
 
-
-
-public static class State implements Serializable {
-    public int indexOfEnemy;
-    public long isHungry;
-    public int enemyLeft;
-    public int madWorldLeft;
-    public int indexOfFirstImage;
-    public boolean isUsingPower;
-
-    public int health;
-    public int enemyHealth;
-    public int sunProtection;
-
-
-    public State(int indexOfEnemy, long isHungry, int enemyLeft, int madWorldLeft, int indexOfFirstImage,
-                 boolean isUsingPower, int health, int enemyHealth, int sunProtection) {
-        this.indexOfEnemy = indexOfEnemy;
-        this.isHungry = isHungry;
-        this.enemyLeft = enemyLeft;
-        this.madWorldLeft = madWorldLeft;
-        this.indexOfFirstImage = indexOfFirstImage;
-        this.isUsingPower = isUsingPower;
-
-        this.health = health;
-        this.enemyHealth = enemyHealth;
-        this.sunProtection = sunProtection;
+    public boolean isUsingPower() {
+        return vampire.isUsingPower();
     }
-}
 
-    public WorldManager(SurfaceHolder surfaceHolder, Context context)
-    {
+    public void setUsingPower(boolean usingPower) {
+        vampire.usePower(usingPower);
+    }
+
+    public int getIndexOfEnemy() {
+        return indexOfEnemy;
+    }
+
+    public void setIndexOfEnemy(int ind) {
+        this.indexOfEnemy = ind;
+    }
+
+    public long getIsHungry() {
+        return isHungry;
+    }
+
+    public void setIsHungry(long isHungry) {
+        this.isHungry = isHungry;
+    }
+
+    public int getEnemyLeft() {
+        return enemies.get(indexOfEnemy).getLeft();
+    }
+
+    public void setEnemyLeft(int enemyLeft) {
+        enemies.get(indexOfEnemy).setLeft(enemyLeft);
+    }
+
+    public int getMadWorldLeft() {
+        return madWorld.getLeft();
+    }
+
+    public void setMadWorldLeft(int madWorldLeft) {
+        madWorld.setLeft(madWorldLeft);
+    }
+
+    public int getIndexOfFirstImage() {
+        return madWorld.getIndexOfFirstImage();
+    }
+
+    public void setIndexOfFirstImage(int indexOfFirstImage) {
+        madWorld.setIndexOfFirstImage(indexOfFirstImage);
+    }
+
+    public int getHealth() {
+        return vampire.getHealth();
+    }
+
+    public void setHealth(int health) {
+        vampire.setHealth(health);
+    }
+
+    public int getEnemyHealth() {
+        return enemies.get(indexOfEnemy).getHealth();
+    }
+
+    public void setEnemyHealth(int enemyHealth) {
+        enemies.get(indexOfEnemy).setHealth(enemyHealth);
+    }
+
+    public int getSunProtection() {
+        return vampire.getSunProtection();
+    }
+
+    public void setSunProtection(int sunProtection) {
+        vampire.setSunProtection(sunProtection);
+    }
+
+    public void setMImageByFirst() {
+        madWorld.setMImageByFirst();
+    }
+
+
+    public WorldManager(SurfaceHolder surfaceHolder, Context context) {
         this.surfaceHolder = surfaceHolder;
 
         vampire = new Vampire(loadFrames(context, "vampire"), 0, 0);
 
         enemies = new ArrayList<Character>();
         werewolf = new CloseHandedCharacter(loadFrames(context, "werewolf"), -Vampire.DEFAULT_SPEED,
-                                            -1, Character.WEREWOLF_POWER);
+                -1, Character.WEREWOLF_POWER);
         hunter = new FireArmedCharacter(loadFrames(context, "hunter"), loadFrames(context, "bullet"),
-                                        -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
+                -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
         fay = new FireArmedCharacter(loadFrames(context, "fay"), loadFrames(context, "fireball"),
-                                    -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
+                -Vampire.DEFAULT_SPEED, -1, false, Character.BULLET_POWER);
         fay.setHavingSun(true);
 
         wizard = new FireArmedCharacter(loadFrames(context, "wizard"), loadFrames(context, "firerain"),
-                                        -Vampire.DEFAULT_SPEED, -1, true, Character.BULLET_POWER);
+                -Vampire.DEFAULT_SPEED, -1, true, Character.BULLET_POWER);
 
         enemies.add(werewolf);
         enemies.add(hunter);
@@ -110,7 +156,7 @@ public static class State implements Serializable {
 
     private List<Drawable> loadFrames(Context context, String type) {
         List<Drawable> characterImages = new ArrayList<Drawable>();
-        if ("world".equals(type)){
+        if ("world".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.background01));
             characterImages.add(context.getResources().getDrawable(R.drawable.background02));
         } else if ("vampire".equals(type)) {
@@ -134,7 +180,6 @@ public static class State implements Serializable {
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp12));
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp11));
             characterImages.add(context.getResources().getDrawable(R.drawable.vamp10));
-
 
 
         } else if ("werewolf".equals(type)) {
@@ -240,7 +285,7 @@ public static class State implements Serializable {
             characterImages.add(context.getResources().getDrawable(R.drawable.firerain02));
             characterImages.add(context.getResources().getDrawable(R.drawable.firerain03));
 
-        } else if ("gifts".equals(type)){
+        } else if ("gifts".equals(type)) {
             characterImages.add(context.getResources().getDrawable(R.drawable.meetblood01));
             characterImages.add(context.getResources().getDrawable(R.drawable.meetblood03));
             characterImages.add(context.getResources().getDrawable(R.drawable.meetblood02));
@@ -253,8 +298,7 @@ public static class State implements Serializable {
         return characterImages;
     }
 
-    public void setRunning(boolean run)
-    {
+    public void setRunning(boolean run) {
         running = run;
     }
 
@@ -263,14 +307,13 @@ public static class State implements Serializable {
 //        Log.w("isStarted=", String.valueOf(starting));
     }
 
-    public void run()
-    {
+    public void run() {
         long ticksPS = 1000 / FPS;
         long startTime;
         long sleepTime;
 
 
-        while (running){
+        while (running) {
 //            Log.w(" running isStarted=", String.valueOf(starting));
 
             Canvas c = null;
@@ -278,23 +321,25 @@ public static class State implements Serializable {
 
             try {
                 c = surfaceHolder.lockCanvas();
-                if (c != null)  {
+
+                if (c != null) {
                     synchronized (surfaceHolder) {
-                        boolean isVampCover = updateObjects();
-                        refreshCanvas(c, isVampCover);
+                        try {
+                            boolean isVampCover = updateObjects();
+                            refreshCanvas(c, isVampCover);
+                        } finally {
+                            surfaceHolder.unlockCanvasAndPost(c);
+                        }
                     }
                 }
-            }
-            catch (Exception e) {
+
+
+            } catch (Exception e) {
                 Log.e("pzdc", e.toString());
             }
-            finally {
-                if(c != null){
-                    surfaceHolder.unlockCanvasAndPost(c);
-                }
-            }
+
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
-            try{
+            try {
 //                Log.w("sleepTime = ", String.valueOf(sleepTime));
 
                 if (sleepTime > 0)
@@ -309,7 +354,7 @@ public static class State implements Serializable {
     private void refreshCanvas(Canvas c, boolean isVampCover) {
         madWorld.draw(c);
 
-        if(isVampCover){
+        if (isVampCover) {
             enemies.get(indexOfEnemy).draw(c);
             vampire.draw(c);
         } else {
@@ -331,35 +376,35 @@ public static class State implements Serializable {
     }
 
 
-    private void buttonsDraw(Canvas c){
+    private void buttonsDraw(Canvas c) {
         c.drawBitmap(powerPicture, 0, this.height - powerPicture.getHeight(), null);
-        c.drawBitmap(takePicture,this.width - takePicture.getWidth(), this.height - takePicture.getHeight(), null);
+        c.drawBitmap(takePicture, this.width - takePicture.getWidth(), this.height - takePicture.getHeight(), null);
     }
 
-    private  void healthDraw(Canvas c){
+    private void healthDraw(Canvas c) {
         float blockWith = 30;
 
         Paint paint = new Paint();
 
         //my health
-        int vHealthCount = vampire.getHealth()/10;
+        int vHealthCount = vampire.getHealth() / 10;
         paint.setColor(Color.BLUE);
-        for (int i =0; i < vHealthCount; i++){
-            c.drawRect(i*blockWith, 0, (i+1)*blockWith-1, blockWith, paint);
+        for (int i = 0; i < vHealthCount; i++) {
+            c.drawRect(i * blockWith, 0, (i + 1) * blockWith - 1, blockWith, paint);
         }
 
         //sun protection
-        int vSunCount = vampire.getSunProtection()/10;
+        int vSunCount = vampire.getSunProtection() / 10;
         paint.setColor(Color.YELLOW);
-        for (int i =0; i < vSunCount; i++){
-            c.drawRect(i*blockWith, blockWith, (i+1)*blockWith-1, 2*blockWith, paint);
+        for (int i = 0; i < vSunCount; i++) {
+            c.drawRect(i * blockWith, blockWith, (i + 1) * blockWith - 1, 2 * blockWith, paint);
         }
 
         //enemy health
-        int wHealthCount = enemies.get(indexOfEnemy).getHealth()/10;
+        int wHealthCount = enemies.get(indexOfEnemy).getHealth() / 10;
         paint.setColor(Color.RED);
-        for (int i =0; i < wHealthCount; i++){
-            c.drawRect(width - i*blockWith, 0, width - (i+1)*blockWith+1, 30, paint);
+        for (int i = 0; i < wHealthCount; i++) {
+            c.drawRect(width - i * blockWith, 0, width - (i + 1) * blockWith + 1, 30, paint);
         }
 
 
@@ -435,7 +480,7 @@ public static class State implements Serializable {
     }
 
 
-    private void refreshEnemy(Character enemy){
+    private void refreshEnemy(Character enemy) {
         enemy.refresh();
         indexOfEnemy = myRandom.nextInt(4);
     }
@@ -445,12 +490,12 @@ public static class State implements Serializable {
         this.width = width;
 
         vampire.setCenterX(width / 2);
-        vampire.setCenterY(height/2);
+        vampire.setCenterY(height / 2);
         vampire.setMaxRight(width);
         vampire.setMaxBottom(height);
 
-        for (Character enemy:enemies){
-            enemy.setRight(width);
+        for (Character enemy : enemies) {
+            //       enemy.setRight(width);
             enemy.setCenterY(height / 2);
             enemy.setMaxRight(width);
             enemy.setMaxBottom(height);
@@ -460,7 +505,7 @@ public static class State implements Serializable {
         madWorld.setMWidth(width);
     }
 
-    private int isCollision(){
+    private int isCollision() {
         final Character enemy = enemies.get(indexOfEnemy);
         if ((vampire.getRight() >= enemy.getLeft()) &&
                 (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
@@ -482,9 +527,9 @@ public static class State implements Serializable {
     }
 
     public void onTouch(float x, float y) {
-        if ((x <= powerPicture.getWidth())&&(x >= 0)&&(y >= height - powerPicture.getHeight())&&(y < height))
+        if ((x <= powerPicture.getWidth()) && (x >= 0) && (y >= height - powerPicture.getHeight()) && (y < height))
             onPowerClick();
-        else if ((x <= this.width)&&(x >= this.width - takePicture.getWidth())&&(y >= this.height - powerPicture.getHeight())&&(y < height)) {
+        else if ((x <= this.width) && (x >= this.width - takePicture.getWidth()) && (y >= this.height - powerPicture.getHeight()) && (y < height)) {
             onTakeClick();
         }
     }
@@ -495,32 +540,6 @@ public static class State implements Serializable {
     }
 
 
-    public void establishState(State allWorld) {
-        Log.w("width = ", String.valueOf(width));
-        Log.w("enemyLeft = ", String.valueOf(allWorld.enemyLeft));
-
-
-        indexOfEnemy = allWorld.indexOfEnemy;
-        isHungry = allWorld.isHungry;
-        Character enemy = enemies.get(indexOfEnemy);
-        madWorld.setIndexOfFirstImage(allWorld.indexOfFirstImage);
-        madWorld.setMImageByFirst();
-        madWorld.setLeft(allWorld.madWorldLeft);
-        vampire.usePower(allWorld.isUsingPower);
-        vampire.setHealth(allWorld.health);
-        enemy.setHealth(allWorld.enemyHealth);
-        vampire.setSunProtection(allWorld.sunProtection);
-
-        enemy.setLeft(allWorld.enemyLeft);
-
-    }
-
-    public State returnState(){
-        Character enemy = enemies.get(indexOfEnemy);
-        return new State(indexOfEnemy, isHungry, enemy.getLeft(), madWorld.getLeft(),
-                madWorld.getIndexOfFirstImage(), vampire.isUsingPower(), vampire.getHealth(), enemy.getHealth(),
-                vampire.getSunProtection());
-    }
 }
 
 

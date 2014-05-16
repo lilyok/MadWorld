@@ -51,7 +51,7 @@ public abstract class SubjectOfTheWorld {
      */
     public void setLeft(int value) {
         mPoint.x = value;
-        Log.w("subjectLeft = ", String.valueOf(value));
+  //      Log.w("subjectLeft = ", String.valueOf(value));
 
     }
 

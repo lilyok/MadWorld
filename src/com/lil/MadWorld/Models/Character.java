@@ -116,7 +116,7 @@ public abstract class Character extends SubjectOfTheWorld {
 
 
     public void refresh() {
-        Log.w("refresh", String.valueOf(mPoint.x)) ;
+    //    Log.w("refresh", String.valueOf(mPoint.x)) ;
 
         setLeft(maxRight);
         health = DEFAULT_HEALTH;

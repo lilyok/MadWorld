@@ -40,6 +40,8 @@ public class Vampire extends Character {
 
     public void makeBurning(int speed) {
         sunProtection-=speed;
+        if (sunProtection <= 0)
+            sunProtection = 0;
     }
 
     public void setSunProtection(int sunProtection) {

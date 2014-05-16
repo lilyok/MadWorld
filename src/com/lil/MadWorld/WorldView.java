@@ -43,13 +43,21 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
-//
+       // exitGame();
+
     }
 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
+//        Thread.State state = gameLoopThread.getState();
+//        if (gameLoopThread.getState() == Thread.State.TERMINATED) {
+//            gameLoopThread = new WorldManager(getHolder(), this.getContext());
+//            gameLoopThread.setRunning(true);
+//            gameLoopThread.start();
+//        }
+//        else
         if (gameLoopThread.getState() == Thread.State.NEW) {
             gameLoopThread.start();
             gameLoopThread.setRunning(true);
@@ -76,12 +84,80 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
 
-    public WorldManager.State returnState() {
-        return gameLoopThread.returnState();
+    public Boolean isUsingPower(){
+        return gameLoopThread.isUsingPower();
     }
 
-    public void establishState(WorldManager.State allWorld) {
-        gameLoopThread.establishState(allWorld);
+    public void setUsingPower(Boolean usingPower) {
+        gameLoopThread.setUsingPower(usingPower);
+    }
+
+    public int getIndexOfEnemy(){
+        return gameLoopThread.getIndexOfEnemy();
+    }
+
+    public void setIndexOfEnemy(int indexOdEnemy){
+            gameLoopThread.setIndexOfEnemy(indexOdEnemy);
+    }
+
+    public long getIsHungry(){
+        return gameLoopThread.getIsHungry();
+    }
+
+    public void setIsHungry(long isHungry){
+            gameLoopThread.setIsHungry(isHungry);
+    }
+
+    public int getEnemyLeft(){
+        return gameLoopThread.getEnemyLeft();
+    }
+
+    public void setEnemyLeft(int enemyLeft){
+            gameLoopThread.setEnemyLeft(enemyLeft);
+    }
+
+    public int getMadWorldLeft(){
+        return gameLoopThread.getMadWorldLeft();
+    }
+
+    public void setMadWorldLeft(int madWorldLeft) {
+            gameLoopThread.setMadWorldLeft(madWorldLeft);
+    }
+
+    public int getIndexOfFirstImage(){
+        return gameLoopThread.getIndexOfFirstImage();
+    }
+
+    public void setIndexOfFirstImage(int indexOfFirstImage){
+            gameLoopThread.setIndexOfFirstImage(indexOfFirstImage);
+    }
+
+    public int getHealth(){
+        return gameLoopThread.getHealth();
+    }
+
+    public void setHealth(int health){
+            gameLoopThread.setHealth(health);
+    }
+
+    public int getEnemyHealth(){
+        return gameLoopThread.getEnemyHealth();
+    }
+
+    public void setEnemyHealth(int enemyHealth){
+            gameLoopThread.setEnemyHealth(enemyHealth);
+    }
+
+    public int getSunProtection(){
+        return gameLoopThread.getSunProtection();
+    }
+
+    public void setSunProtection(int sunProtection){
+            gameLoopThread.setSunProtection(sunProtection);
+    }
+
+    public void setMImageByFirst() {
+        gameLoopThread.setMImageByFirst();
     }
 }
 
