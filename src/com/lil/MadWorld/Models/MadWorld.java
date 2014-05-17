@@ -107,4 +107,11 @@ public class MadWorld extends SubjectOfTheWorld {
     public void setIndexOfFirstImage(int indexOfFirstImage) {
         this.indexOfFirstImage = indexOfFirstImage;
     }
+
+    public void setGiftsStatus(){
+        if (isMoving)
+            gifts.continued();
+        else
+            gifts.paused();
+    }
 }

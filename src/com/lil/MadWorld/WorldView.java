@@ -159,5 +159,43 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     public void setMImageByFirst() {
         gameLoopThread.setMImageByFirst();
     }
+
+    public boolean getIsMoving(){
+
+        return gameLoopThread.getIsMoving();
+    }
+
+    public void setIsMoving(boolean f){
+        gameLoopThread.setIsMoving(f);
+    }
+
+    public boolean getWorldIsMoving(){
+
+        return gameLoopThread.getWorldIsMoving();
+    }
+
+    public void setWorldIsMoving(boolean f){
+        gameLoopThread.setWorldIsMoving(f);
+    }
+
+    public boolean getEnemyIsMoving(){
+        return gameLoopThread.getEnemyIsMoving();
+    }
+
+    public void setEnemyIsMoving(boolean f){
+        gameLoopThread.setEnemyIsMoving(f);
+    }
+
+    public void initVampirePosition() {
+        gameLoopThread.initVampirePosition();
+    }
+
+    public void cleanBaseIndexOfFrame() {
+        gameLoopThread.cleanBaseIndexOfFrame();
+    }
+
+    public void setGiftsStatus(){
+        gameLoopThread.setGiftsStatus();
+    }
 }
 

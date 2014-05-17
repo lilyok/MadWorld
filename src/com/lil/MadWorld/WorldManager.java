@@ -120,6 +120,37 @@ public class WorldManager extends Thread {
         madWorld.setMImageByFirst();
     }
 
+    public boolean getIsMoving(){
+        return vampire.isMoving();
+    }
+
+    public void setIsMoving(boolean f){
+        vampire.setMoving(f);
+    }
+
+    public boolean getWorldIsMoving(){
+        return madWorld.isMoving();
+    }
+
+    public void setWorldIsMoving(boolean f){
+        madWorld.setMoving(f);
+    }
+
+    public boolean getEnemyIsMoving(){
+        return enemies.get(indexOfEnemy).isMoving();
+    }
+
+    public void setEnemyIsMoving(boolean f){
+        enemies.get(indexOfEnemy).setMoving(f);
+    }
+
+    public void cleanBaseIndexOfFrame() {
+        vampire.cleanBaseIndexOfFrame();
+    }
+
+    public void setGiftsStatus() {
+        madWorld.setGiftsStatus();
+    }
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context) {
         this.surfaceHolder = surfaceHolder;
@@ -489,10 +520,7 @@ public class WorldManager extends Thread {
         this.height = height;
         this.width = width;
 
-        vampire.setCenterX(width / 2);
-        vampire.setCenterY(height / 2);
-        vampire.setMaxRight(width);
-        vampire.setMaxBottom(height);
+        initVampirePosition();
 
         for (Character enemy : enemies) {
             //       enemy.setRight(width);
@@ -503,6 +531,13 @@ public class WorldManager extends Thread {
 
         madWorld.setMHeight(height);
         madWorld.setMWidth(width);
+    }
+
+    public void initVampirePosition() {
+        vampire.setCenterX(width / 2);
+        vampire.setCenterY(height / 2);
+        vampire.setMaxRight(width);
+        vampire.setMaxBottom(height);
     }
 
     private int isCollision() {
@@ -538,9 +573,8 @@ public class WorldManager extends Thread {
     public boolean getRunning() {
         return running;
     }
-
-
 }
+
 
 
 

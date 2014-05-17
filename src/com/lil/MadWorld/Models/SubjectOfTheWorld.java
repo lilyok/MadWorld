@@ -21,6 +21,14 @@ public abstract class SubjectOfTheWorld {
 
     protected int maxBottom = 0;
 
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean isMoving) {
+        this.isMoving = isMoving;
+    }
+
     protected boolean isMoving = true;
 
     public SubjectOfTheWorld(Drawable image) {

@@ -149,4 +149,8 @@ public abstract class Character extends SubjectOfTheWorld {
     public void setHealth(int health) {
         this.health = health;
     }
+
+    protected void cleanBaseIndexOfFrame(){
+        baseIndexOfFrame = 0;
+    }
 }

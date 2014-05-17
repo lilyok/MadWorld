@@ -47,4 +47,8 @@ public class Vampire extends Character {
     public void setSunProtection(int sunProtection) {
         this.sunProtection = sunProtection;
     }
+
+    public void cleanBaseIndexOfFrame(){
+        super.cleanBaseIndexOfFrame();
+    }
 }

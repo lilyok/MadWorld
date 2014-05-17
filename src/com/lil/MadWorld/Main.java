@@ -20,6 +20,7 @@ public class Main extends Activity implements View.OnClickListener {
     private WorldView worldView;
     private SharedPreferences sPref;
     private boolean isExit = false;
+    private boolean isRestart = false;
     /**
      * Called when the activity is first created.
      */
@@ -60,6 +61,10 @@ public class Main extends Activity implements View.OnClickListener {
         ed.putInt("health", worldView.getHealth());
         ed.putInt("enemyHealth",worldView.getEnemyHealth());
         ed.putInt("sunProtection", worldView.getSunProtection());
+        ed.putBoolean("isMoving", worldView.getIsMoving());
+        ed.putBoolean("enemyIsMoving", worldView.getEnemyIsMoving());
+        ed.putBoolean("worldIsMoving", worldView.getWorldIsMoving());
+        ed.putBoolean("isRestart", true);
         ed.commit();
     }
 
@@ -74,7 +79,15 @@ public class Main extends Activity implements View.OnClickListener {
         worldView.setHealth(sPref.getInt("health", Character.DEFAULT_HEALTH));
         worldView.setEnemyHealth(sPref.getInt("enemyHealth", Character.DEFAULT_HEALTH));
         worldView.setSunProtection(sPref.getInt("sunProtection", Character.DEFAULT_HEALTH));
+
+        worldView.setIsMoving(sPref.getBoolean("isMoving", true));
+        worldView.setEnemyIsMoving(sPref.getBoolean("enemyIsMoving", true));
+        worldView.setWorldIsMoving(sPref.getBoolean("worldIsMoving", true));
+        worldView.setGiftsStatus();
+
         worldView.setMImageByFirst();
+
+        isRestart = sPref.getBoolean("isRestart", false);
     }
 
     @Override
@@ -109,7 +122,7 @@ public class Main extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        restorePref();
+//        restorePref();
         Log.d("status activity", "ActivityA: onResume()");
     }
 
@@ -118,21 +131,28 @@ public class Main extends Activity implements View.OnClickListener {
 
         super.onDestroy();
         if (isExit) {
-            sPref = getPreferences(MODE_PRIVATE);
-            SharedPreferences.Editor ed = sPref.edit();
-            ed.clear();
-            ed.commit();
+            clearPref();
         }
 
         Log.d("status activity", "ActivityA: onDestroy()");
     }
+
+    private void clearPref() {
+        sPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.clear();
+        ed.commit();
+    }
+
     @Override
     protected void onStart() {
 
         super.onStart();
         Log.d("status activity", "ActivityA: onStart()");
+        restorePref();
 
         createMenu();
+
         startMenu();
     }
 //
@@ -163,11 +183,28 @@ public class Main extends Activity implements View.OnClickListener {
             menu.setContentView(R.layout.start);
             menu.setCancelable(true);
 
-            Button startButton = (Button) menu.findViewById(R.id.button1);
+            Button startButton = (Button) menu.findViewById(R.id.startBtn);
             startButton.setOnClickListener(this);
 
-            Button exitButton = (Button) menu.findViewById(R.id.button2);
+            Button exitButton = (Button) menu.findViewById(R.id.exitBtn);
             exitButton.setOnClickListener(this);
+
+            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
+            restartButton.setOnClickListener(this);
+            if (!isRestart) {
+                restartButton.setVisibility(View.INVISIBLE);
+                startButton.setText("Start");
+            }
+            else {
+                restartButton.setVisibility(View.VISIBLE);
+                startButton.setText("Continue");
+            }
+        } else {
+            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
+            restartButton.setVisibility(View.VISIBLE);
+
+            Button startButton = (Button) menu.findViewById(R.id.startBtn);
+            startButton.setText("Continue");
         }
     }
 
@@ -176,20 +213,25 @@ public class Main extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             //переход на сюрфейс
-            case R.id.button1: {
+            case R.id.startBtn: {
                 worldView.setStarted(true);
 
                 menu.dismiss();
             }break;
+            case R.id.restartBtn: {
+                clearPref();
+                restorePref();
+//                worldView.setIsMoving(true);
+//                worldView.setEnemyIsMoving(true);
+                worldView.initVampirePosition();
+                worldView.cleanBaseIndexOfFrame();
+                worldView.setStarted(true);
 
+                menu.dismiss();
+            }break;
             //выход
-            case R.id.button2: {
+            case R.id.exitBtn: {
                 worldView.exitGame();
-
-//                sPref = getPreferences(MODE_PRIVATE);
-//                SharedPreferences.Editor ed = sPref.edit();
-//                ed.clear();
-//                ed.commit();
 
                 menu.dismiss();
                 isExit = true;
@@ -202,6 +244,8 @@ public class Main extends Activity implements View.OnClickListener {
     }
 
     public void onBackPressed() {
+        isRestart = true;
+        createMenu();
         startMenu();
 
     }
