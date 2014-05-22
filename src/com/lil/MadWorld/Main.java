@@ -15,12 +15,17 @@ import android.widget.Button;
 import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Activity implements View.OnClickListener {
     private Dialog menu;
     private WorldView worldView;
     private SharedPreferences sPref;
     private boolean isExit = false;
     private boolean isRestart = false;
+
+    private List<String> tasks = new ArrayList();
     /**
      * Called when the activity is first created.
      */

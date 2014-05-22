@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayout"
+        android:background="#000000"
+        android:gravity="center|top"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Новое задание"
+            android:id="@+id/textView"
+            android:textStyle="bold"
+            android:textColor="#ff0000"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="фывфцы ааыаыафа\nashdj"
+            android:id="@+id/taskText"
+            android:textColor="#ffd0d4"
+            android:gravity="center"
+            android:layout_below="@+id/textView"
+            android:layout_alignEnd="@+id/button"
+            android:layout_alignStart="@+id/textView"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView"
+            android:textColor="#fdfff7"
+            android:background="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_alignBottom="@+id/textView"/>
+    </RelativeLayout>
+
+</RelativeLayout>
