@@ -39,19 +39,23 @@ public class Vampire extends Character {
         super.update();
 
         if (isFired) {
-//            firedImages.get(indexOfFire).setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
             indexOfFire = baseOfFire + (indexOfFire+1) % numOfFire;
         }
 
         if (isBlooded) {
-//            bloodedImages.get(indexOfBlood).setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
             indexOfBlood = baseOfBlood + (indexOfBlood+1) % numOfBlood;
         }
 
     }
 
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+        if (baseOfBlood == 0 && baseOfFire == 0)
+            super.draw(canvas);
+
+        setBurningDeathPosition();
+        setBloodedDeathPosition();
+
+
         if (isFired)
             firedImages.get(indexOfFire).draw(canvas);
 
@@ -116,38 +120,39 @@ public class Vampire extends Character {
         return health;
     }
 
-    private void setHurt() {
+    public void setHurt() {
+        setBloodedDeathPosition();
         if (health <= 0){
             baseOfBlood = numOfBlood;
-//            if (getRight() > 0)
-//                bloodedImages.get(baseOfBlood).setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
-            isBlooded = true;
+        }
 
-            setLeft(maxRight);
-        } else if ((getLeft() < maxRight) && (health <= maxHealth/2)) {
+    }
+
+    private void setBloodedDeathPosition() {
+        if ((getLeft() < maxRight) && (health <= maxHealth/2)) {
             if (!isBlooded)
                 for (Drawable img : bloodedImages)
                     img.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
             isBlooded = true;
         }
     }
+
     public void makeBurning(int speed) {
         sunProtection-=speed;
-
+        setBurningDeathPosition();
         if (sunProtection <= 0) {
             sunProtection = 0;
             baseOfFire = numOfFire;
-//            if (getRight() > 0)
-//                firedImages.get(baseOfFire).setBounds(mPoint.x, mPoint.y + mHeight - firedHeight,
-//                    mPoint.x + mWidth, mPoint.y + mHeight);
-            isFired = true;
+        }
 
-            setLeft(maxRight);
-        } else if ((getLeft() < maxRight) && (sunProtection <= maxHealth/2)){
+    }
+
+    private void setBurningDeathPosition() {
+        if ((getLeft() < maxRight) && (sunProtection <= maxHealth/2)){
             if (!isFired)
                 for (Drawable img : firedImages)
                     img.setBounds(mPoint.x, mPoint.y + mHeight - firedHeight,
-                    mPoint.x + mWidth, mPoint.y + mHeight);
+                            mPoint.x + mWidth, mPoint.y + mHeight);
             isFired = true;
         }
     }
@@ -162,5 +167,30 @@ public class Vampire extends Character {
 
     public void cleanBaseIndexOfFrame(){
         super.cleanBaseIndexOfFrame();
+    }
+
+
+    public int getBaseOfFire() {
+        return baseOfFire;
+    }
+
+    public int getBaseOfBlood() {
+        return baseOfBlood;
+    }
+
+    public void setIsBlooded(boolean isBlooded) {
+        this.isBlooded = isBlooded;
+    }
+
+    public void setIsFired(boolean isFired) {
+        this.isFired = isFired;
+    }
+
+    public void setBaseOfFire(int baseOfFire) {
+        this.baseOfFire = baseOfFire;
+    }
+
+    public void setBaseOfBlood(int baseOfBlood) {
+        this.baseOfBlood = baseOfBlood;
     }
 }

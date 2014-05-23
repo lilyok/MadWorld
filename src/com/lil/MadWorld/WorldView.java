@@ -197,5 +197,30 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     public void setGiftsStatus(){
         gameLoopThread.setGiftsStatus();
     }
+
+    public int getBaseOfFire() {
+        return gameLoopThread.getBaseOfFire();
+    }
+
+    public int getBaseOfBlood() {
+        return gameLoopThread.getBaseOfBlood();
+    }
+
+    public void setIsBlooded(boolean isBlooded) {
+        gameLoopThread.setIsBlooded(isBlooded);
+    }
+
+    public void setIsFired(boolean isFired) {
+        gameLoopThread.setIsFired(isFired);
+    }
+
+    public void setBaseOfFire(int baseOfFire) {
+        gameLoopThread.setBaseOfFire(baseOfFire);
+    }
+
+    public void setBaseOfBlood(int baseOfBlood) {
+        gameLoopThread.setBaseOfBlood(baseOfBlood);
+    }
+
 }
 

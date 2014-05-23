@@ -43,6 +43,7 @@ public class WorldManager extends Thread {
 
     public static final int DEFAULT_HUNGRY_SPEED = 20;
     private long isHungry = DEFAULT_HUNGRY_SPEED;
+    private int vamireRight;
 
     public boolean isUsingPower() {
         return vampire.isUsingPower();
@@ -592,9 +593,31 @@ public class WorldManager extends Thread {
     }
 
 
-    public boolean getRunning() {
-        return running;
+
+    public int getBaseOfFire() {
+        return vampire.getBaseOfFire();
     }
+
+    public int getBaseOfBlood() {
+        return vampire.getBaseOfBlood();
+    }
+
+    public void setIsBlooded(boolean isBlooded) {
+        vampire.setIsBlooded(isBlooded);
+    }
+
+    public void setIsFired(boolean isFired) {
+        vampire.setIsFired(isFired);
+    }
+
+    public void setBaseOfFire(int baseOfFire) {
+        vampire.setBaseOfFire(baseOfFire);
+    }
+
+    public void setBaseOfBlood(int baseOfBlood) {
+        vampire.setBaseOfBlood(baseOfBlood);
+    }
+
 }
 
 

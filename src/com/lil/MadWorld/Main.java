@@ -70,6 +70,9 @@ public class Main extends Activity implements View.OnClickListener {
         ed.putBoolean("enemyIsMoving", worldView.getEnemyIsMoving());
         ed.putBoolean("worldIsMoving", worldView.getWorldIsMoving());
         ed.putBoolean("isRestart", true);
+        ed.putInt("indexOfFire", worldView.getBaseOfFire());
+        ed.putInt("indexOfBlood", worldView.getBaseOfBlood());
+
         ed.commit();
     }
 
@@ -91,6 +94,11 @@ public class Main extends Activity implements View.OnClickListener {
         worldView.setGiftsStatus();
 
         worldView.setMImageByFirst();
+
+        worldView.setIsBlooded(false);
+        worldView.setIsFired(false);
+        worldView.setBaseOfFire(sPref.getInt("indexOfFire", 0));
+        worldView.setBaseOfBlood(sPref.getInt("indexOfBlood", 0));
 
         isRestart = sPref.getBoolean("isRestart", false);
     }

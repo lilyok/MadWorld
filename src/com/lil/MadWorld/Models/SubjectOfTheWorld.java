@@ -17,7 +17,7 @@ public abstract class SubjectOfTheWorld {
 
     protected int mSpeed;
 
-    protected int maxRight = 0;
+    protected int maxRight = 1000000000;
 
     protected int maxBottom = 0;
 
