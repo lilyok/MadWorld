@@ -1,5 +1,6 @@
 package com.lil.MadWorld;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
@@ -51,13 +52,6 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-//        Thread.State state = gameLoopThread.getState();
-//        if (gameLoopThread.getState() == Thread.State.TERMINATED) {
-//            gameLoopThread = new WorldManager(getHolder(), this.getContext());
-//            gameLoopThread.setRunning(true);
-//            gameLoopThread.start();
-//        }
-//        else
         if (gameLoopThread.getState() == Thread.State.NEW) {
             gameLoopThread.start();
             gameLoopThread.setRunning(true);

@@ -1,22 +1,28 @@
 package com.lil.MadWorld;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
+import android.view.Window;
+import android.widget.TextView;
 import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
 public class WorldManager extends Thread {
+    private final Context context;
     private final SurfaceHolder surfaceHolder;
+//    private Dialog alert = null;
+//    private TextView textNews;
 
     private boolean running = false;
     static final long FPS = 25;
@@ -44,6 +50,10 @@ public class WorldManager extends Thread {
     public static final int DEFAULT_HUNGRY_SPEED = 20;
     private long isHungry = DEFAULT_HUNGRY_SPEED;
     private int vamireRight;
+    private List<String> BLOODED_DEATH_TEXT =
+            new ArrayList();//"Ослабевший вампир подобен камню.\n Кровоточащему и не годящемуся даже для постройки.\nНе стоило сидеть на диетах - этот жизнь, \nа не школа для юных балерин.";
+    private List<String> FIRED_DEATH_TEXT =
+            new ArrayList();//"Стейк из вампира не самое аппетитное зрелище.\n В следующий раз пейте кровь фей и\nне перестарайтесь с загаром.";
 
     public boolean isUsingPower() {
         return vampire.isUsingPower();
@@ -154,8 +164,9 @@ public class WorldManager extends Thread {
     }
 
     public WorldManager(SurfaceHolder surfaceHolder, Context context) {
+        this.context = context;
         this.surfaceHolder = surfaceHolder;
-
+        addedTexts();
         vampire = new Vampire(loadFrames(context, "vampire"), loadFrames(context, "firedVampire"), loadFrames(context, "bloodedVampire"), 0, 0);
 
         enemies = new ArrayList<Character>();
@@ -181,10 +192,21 @@ public class WorldManager extends Thread {
 
         powerPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.power);
         takePicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.take);
-//        starting = false;
-//        Log.w("isStarted=", String.valueOf(starting));
+    }
+
+    private void addedTexts() {
+        BLOODED_DEATH_TEXT.add("Вампир иссяк и окаменел");
+        BLOODED_DEATH_TEXT.add("Ослабевший вампир подобен камню. Кровоточащему и");
+        BLOODED_DEATH_TEXT.add("не годящемуся даже для постройки. Не стоило сидеть");
+        BLOODED_DEATH_TEXT.add("на диетах - этот жизнь, а не школа для юных балерин.");
+
+        FIRED_DEATH_TEXT.add("Защита от солнца закончилась и вампир сгорел.");
+        FIRED_DEATH_TEXT.add("Стейк из вампира не самое аппетитное зрелище.");
+        FIRED_DEATH_TEXT.add("В следующий раз пейте кровь фей и");
+        FIRED_DEATH_TEXT.add("не перестарайтесь с загаром.");
 
     }
+
 
     private List<Drawable> loadFrames(Context context, String type) {
         List<Drawable> characterImages = new ArrayList<Drawable>();
@@ -405,16 +427,46 @@ public class WorldManager extends Thread {
 
         buttonsDraw(c);
         healthDraw(c);
-//        boolean isCanvasAccelerated = false;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//            // This code must not be executed on a device with API
-//            // level less than 11 (Android 2.x, 1.x)
-//            isCanvasAccelerated = c.isHardwareAccelerated();
-//        }
-//        Log.w("isCanvasAccelerated=",String.valueOf(isCanvasAccelerated));
 
+        if (vampire.getHealth() <= 0) {
+            drawAlert(c, BLOODED_DEATH_TEXT);
+        }
+        else if (vampire.getSunProtection() <= 0){
+            drawAlert(c, FIRED_DEATH_TEXT);
+        }
     }
 
+    private void drawAlert(Canvas c, List<String> text) {
+
+        int alertHeight = height / 5;
+        final int linesCount = text.size();
+        int textSize = alertHeight / (linesCount);
+
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setAlpha(100);
+        c.drawRect(0, 0, width, alertHeight, paint);
+
+
+        paint.setTextSize(textSize);
+        paint.setAlpha(255);
+
+
+        for (int i = 0 ; i < linesCount; i++) {
+            if (i == 0){
+                paint.setColor(Color.RED);
+                paint.setFakeBoldText(true);
+
+            } else {
+                paint.setColor(Color.WHITE);
+                paint.setFakeBoldText(false);
+            }
+            String line = text.get(i);
+            float lineLength = paint.measureText(line);
+            c.drawText(line, (width-lineLength)/2, alertHeight / 5 + i*textSize, paint);
+        }
+    }
 
     private void buttonsDraw(Canvas c) {
         c.drawBitmap(powerPicture, 0, this.height - powerPicture.getHeight(), null);
@@ -457,9 +509,6 @@ public class WorldManager extends Thread {
 
         if (starting) {
 
-
-
-
             final Character enemy = enemies.get(indexOfEnemy);
 
             if ((vampire.getHealth() <= 0)||vampire.getSunProtection() <= 0) {
@@ -473,6 +522,7 @@ public class WorldManager extends Thread {
                     enemy.usePower(false);
                     enemy.continued();
                 }
+
             } else {
                 isHungry--;
                 if (isHungry <= 0) {
@@ -530,6 +580,7 @@ public class WorldManager extends Thread {
             enemy.update();
             vampire.update();
         }
+
         return isVampCover;
     }
 

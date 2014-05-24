@@ -2,15 +2,13 @@ package com.lil.MadWorld;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.Button;
 import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
@@ -20,6 +18,7 @@ import java.util.List;
 
 public class Main extends Activity implements View.OnClickListener {
     private Dialog menu;
+    private Dialog alert;
     private WorldView worldView;
     private SharedPreferences sPref;
     private boolean isExit = false;
@@ -41,6 +40,9 @@ public class Main extends Activity implements View.OnClickListener {
 
         // и без заголовка
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+        alert = null;
 
         worldView = new WorldView(this);
 //        createMenu();
@@ -168,19 +170,6 @@ public class Main extends Activity implements View.OnClickListener {
 
         startMenu();
     }
-//
-//    protected void onSaveInstanceState(Bundle outState) {
-//        outState.putSerializable("allWorld", worldView.returnState());
-//        super.onSaveInstanceState(outState);
-//        Log.d("status activity", "ActivityA: onSaveInstanceState");
-//    }
-//
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        worldView.establishState((WorldManager.State) savedInstanceState.getSerializable("allWorld"));
-//        Log.d("status activity", "ActivityA: onRestoreInstanceState");
-//
-//    }
 
     private void startMenu() {
         worldView.setStarted(false);
@@ -234,8 +223,7 @@ public class Main extends Activity implements View.OnClickListener {
             case R.id.restartBtn: {
                 clearPref();
                 restorePref();
-//                worldView.setIsMoving(true);
-//                worldView.setEnemyIsMoving(true);
+
                 worldView.initVampirePosition();
                 worldView.cleanBaseIndexOfFrame();
                 worldView.setStarted(true);
@@ -265,29 +253,3 @@ public class Main extends Activity implements View.OnClickListener {
 
 
 }
-
-
-//public class Main extends Activity {
-//    private MyGLSurfaceView glView;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        glView = new MyGLSurfaceView(this);
-//        setContentView(glView);
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        glView.onPause();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        glView.onResume();
-//    }
-//
-//
-//}

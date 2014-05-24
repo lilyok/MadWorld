@@ -17,9 +17,6 @@ public class MadWorld extends SubjectOfTheWorld {
         this.images = new ArrayList<Drawable>(images);
         mSpeed = speed;
 
-//        List numOfGifts = new ArrayList();
-//        numOfGifts.add(1);
-       // numOfGifts.add(3);
         gifts = new CollectOfGift(giftsImages, speed);
     }
 
