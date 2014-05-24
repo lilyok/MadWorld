@@ -45,9 +45,6 @@ public class Main extends Activity implements View.OnClickListener {
         alert = null;
 
         worldView = new WorldView(this);
-//        createMenu();
-//
-//        startMenu();
 
 
         setContentView(worldView);
