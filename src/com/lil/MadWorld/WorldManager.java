@@ -47,8 +47,9 @@ public class WorldManager extends Thread {
     private GameAlert firedAlert = null;
     private GameTaskAlert taskAlert = null;
 
-    private List<String> taskText = new ArrayList<String>();
-    int taskIndex = 0;
+    private TaskManager taskManager = new TaskManager();
+//    private List<String> taskText = new ArrayList<String>();
+//    int taskIndex = 0;
 
     public boolean isUsingPower() {
         return vampire.isUsingPower();
@@ -418,8 +419,7 @@ public class WorldManager extends Thread {
         else if (vampire.getSunProtection() <= 0){
             firedAlert.draw(c);//drawAlert(c, FIRED_DEATH_TEXT);
         }
-
-        if (taskAlert.isVisible()){
+        else if (taskAlert.isVisible()){
             taskAlert.draw(c);
         }
     }
@@ -575,7 +575,7 @@ public class WorldManager extends Thread {
                     Color.argb(255, 255, 99, 71), Color.argb(255, 255, 255, 120), width);
 
         if (taskAlert == null)
-            taskAlert = new GameTaskAlert("Задание", taskText.get(taskIndex),
+            taskAlert = new GameTaskAlert("Задание", taskManager.getTaskText(),
                     Color.argb(255, 32, 178, 170), Color.WHITE, width);
 
    //     taskAlert.setVisible();
