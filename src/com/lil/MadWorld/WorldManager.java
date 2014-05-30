@@ -481,6 +481,9 @@ public class WorldManager extends Thread {
                 }
 
             } else {
+                if (taskManager.calculate(madWorld.getIndexOfFirstImage()))
+                    fillTaskAlert();
+
                 isHungry--;
                 if (isHungry <= 0) {
                     vampire.makeWeaken();
@@ -616,9 +619,20 @@ public class WorldManager extends Thread {
             onTakeClick();
         } else {
             taskAlert.tryClose(y);
+            if (taskManager.tryNextTask()){
+                fillTaskAlert();
+            }
         }
     }
 
+    private void fillTaskAlert() {
+     //   if (taskAlert == null)
+            taskAlert = new GameTaskAlert("Задание", taskManager.getTaskText(),
+                    Color.argb(255, 32, 178, 170), Color.WHITE, width);
+//        else {
+//            taskAlert
+//        }
+    }
 
 
     public int getBaseOfFire() {
