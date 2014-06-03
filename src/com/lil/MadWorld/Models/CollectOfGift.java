@@ -34,10 +34,13 @@ public class CollectOfGift{
         }
     }
 
-    public void takeGift(Vampire vampire) {
+    public int takeGift(Vampire vampire) {
+        int res = -1;
         for(Gift gift : gifts){
-            gift.takeGift(vampire);
+            res = gift.takeGift(vampire);
+            if (res >= 0) return res;
         }
+        return res;
     }
 
     private class Gift extends SubjectOfTheWorld{
@@ -87,7 +90,7 @@ public class CollectOfGift{
             mPoint.x = (myRandom.nextInt(maxRight*2-mWidth));//*mWidth%maxRight;
         }
 
-        public void takeGift(Vampire vampire) {
+        public int takeGift(Vampire vampire) {
             if (!isTaken){
                 leftCharacter = vampire.getLeft();
                 rightCharacter = vampire.getRight();
@@ -95,11 +98,14 @@ public class CollectOfGift{
                     isTaken = true;
                     if (type == 0){
                         vampire.takeHalfLife();
+                        return 0;
                     } else if (type == 1){
                         vampire.takeHalfSunProtection();
+                        return 1;
                     }
                 }
             }
+            return -1;
         }
     }
     

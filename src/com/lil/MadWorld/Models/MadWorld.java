@@ -83,8 +83,8 @@ public class MadWorld extends SubjectOfTheWorld {
         gifts.continued();
     }
 
-    public void takeGift(Vampire vampire) {
-        gifts.takeGift(vampire);
+    public int takeGift(Vampire vampire) {
+        return gifts.takeGift(vampire);
     }
 
     public boolean isNoon(int time) {

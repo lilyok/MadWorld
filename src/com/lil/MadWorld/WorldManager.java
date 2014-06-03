@@ -46,8 +46,9 @@ public class WorldManager extends Thread {
     private GameAlert bloodedAlert = null;
     private GameAlert firedAlert = null;
     private GameTaskAlert taskAlert = null;
+    private GameStatusAlert statusAlert = null;
 
-    private TaskManager taskManager = new TaskManager();
+    private TaskManager taskManager;
 //    private List<String> taskText = new ArrayList<String>();
 //    int taskIndex = 0;
 
@@ -162,6 +163,7 @@ public class WorldManager extends Thread {
     public WorldManager(SurfaceHolder surfaceHolder, Context context) {
 //        this.context = context;
         this.surfaceHolder = surfaceHolder;
+        taskManager = new TaskManager();
 
         vampire = new Vampire(loadFrames(context, "vampire"), loadFrames(context, "firedVampire"), loadFrames(context, "bloodedVampire"), 0, 0);
 
@@ -400,7 +402,7 @@ public class WorldManager extends Thread {
 
     private void refreshCanvas(Canvas c, boolean isVampCover) {
         madWorld.draw(c);
-
+        statusAlert.draw(c);
         if (isVampCover) {
             enemies.get(indexOfEnemy).draw(c);
             vampire.draw(c);
@@ -419,8 +421,10 @@ public class WorldManager extends Thread {
         else if (vampire.getSunProtection() <= 0){
             firedAlert.draw(c);//drawAlert(c, FIRED_DEATH_TEXT);
         }
-        else if (taskAlert.isVisible()){
-            taskAlert.draw(c);
+        else{
+            if (taskAlert.isVisible()){
+                taskAlert.draw(c);
+            }
         }
     }
 
@@ -481,6 +485,7 @@ public class WorldManager extends Thread {
                 }
 
             } else {
+                fillStatusAlert();
                 if (taskManager.calculate(madWorld.getIndexOfFirstImage()))
                     fillTaskAlert();
 
@@ -578,9 +583,10 @@ public class WorldManager extends Thread {
                     Color.argb(255, 255, 99, 71), Color.argb(255, 255, 255, 120), width);
 
         if (taskAlert == null)
-            taskAlert = new GameTaskAlert("Задание", taskManager.getTaskText(),
-                    Color.argb(255, 32, 178, 170), Color.WHITE, width);
+            fillTaskAlert();
 
+        if (statusAlert == null)
+            fillStatusAlert();
    //     taskAlert.setVisible();
     }
 
@@ -604,12 +610,19 @@ public class WorldManager extends Thread {
     }
 
     public void onPowerClick() {
-        vampire.usePower();
+        taskManager.setFlying(vampire.usePower());
     }
 
     private void onTakeClick() {
-        if (vampire.isUsingPower())
-            madWorld.takeGift(vampire);
+        if (vampire.isUsingPower()) {
+            int res = madWorld.takeGift(vampire);
+            if (res == 0){
+                taskManager.incCountOfTrueBlood();
+            } else if (res == 1){
+                taskManager.incCountOfFayBlood();
+            }
+
+        }
     }
 
     public void onTouch(float x, float y) {
@@ -626,15 +639,16 @@ public class WorldManager extends Thread {
     }
 
     private void fillTaskAlert() {
-     //   if (taskAlert == null)
             taskAlert = new GameTaskAlert("Задание", taskManager.getTaskText(),
                     Color.argb(255, 32, 178, 170), Color.WHITE, width);
-//        else {
-//            taskAlert
-//        }
+
     }
 
+    private void fillStatusAlert() {
+        statusAlert = new GameStatusAlert("Статус", taskManager.getFields(), taskManager.getValues(),
+                Color.argb(255, 32, 178, 170), Color.WHITE, width);
 
+    }
     public int getBaseOfFire() {
         return vampire.getBaseOfFire();
     }

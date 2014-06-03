@@ -76,11 +76,15 @@ public abstract class Character extends SubjectOfTheWorld {
 
     }
 
-    public void usePower() {
-        if (baseIndexOfFrame != numOfFrame)
+    public boolean usePower() {
+        if (baseIndexOfFrame != numOfFrame) {
             baseIndexOfFrame = numOfFrame;
+            return true;
+        }
         else if (baseIndexOfFrame == numOfFrame)
             baseIndexOfFrame = 0;
+
+        return false;
     }
 
     public void usePower(boolean isUsePower) {

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameAlert {
-    private String alertTitle = "";
-    private List<String> alertText = new ArrayList();
-    private Paint backgroundPaint;
-    private Paint titlePaint;
-    private Paint textPaint;
+    protected String alertTitle = "";
+    protected List<String> alertText = new ArrayList();
+    protected Paint backgroundPaint;
+    protected Paint titlePaint;
+    protected Paint textPaint;
     protected int width = 0;
     protected int height = 0;
 
@@ -57,6 +57,51 @@ public class GameAlert {
         alertText.add(line);
 
         height = TEXT_SIZE * (alertText.size()+2);
+    }
+
+
+    public GameAlert(String title,List<String> text, int titleColor, int textColor, int width){
+        alertText.addAll(text);
+        int maxLength = 0;
+        int maxIndex = 0;
+        for (int i = 0; i < alertText.size(); i++) {
+            String s = alertText.get(i);
+            if (s.length() > maxLength) {
+                maxLength = s.length();
+                maxIndex = i;
+            }
+        }
+
+        textPaint = new Paint();
+        textPaint.setTextSize(TEXT_SIZE);
+        textPaint.setAlpha(255);
+        textPaint.setColor(textColor);
+        textPaint.setFakeBoldText(false);
+
+        float textSize = TEXT_SIZE*width/textPaint.measureText(alertText.get(maxIndex));
+        textSize = Math.min(textSize,TEXT_SIZE);
+        textPaint.setTextSize(textSize);
+
+
+        this.width = width;
+        alertTitle = title;
+
+        backgroundPaint = new Paint();
+        backgroundPaint.setColor(Color.BLACK);
+        backgroundPaint.setAlpha(150);
+
+
+        titlePaint = new Paint();
+        titlePaint.setTextSize(textSize);
+        titlePaint.setAlpha(255);
+        titlePaint.setColor(titleColor);
+        titlePaint.setFakeBoldText(true);
+
+
+
+
+        height = (int) (textSize +2) * (alertText.size());
+
     }
 
 
