@@ -9,7 +9,7 @@ public class TaskManager {
 
     private boolean isTask = true;
 
-    private int taskIndex = 0;
+    private int taskIndex = 2;
 
     private int countOfDays = 0;
     private int countOfNights = 0;
@@ -41,7 +41,7 @@ public class TaskManager {
     public TaskManager(){
         taskText.add("Уровень 'Выживший'. Продержитесь 2 луны и 2 солнца. Помните, кровь = жизнь, " +
                 "а феячая кровь = защита от солнца (+ жизнь, если не из горлА, а из гОрла)");
-        taskText.add("Уровень 'Собиратель стеклотары'. Соберите 6 склянок с феячей кровью и 8 с настоящей.");
+        taskText.add("Уровень 'Собиратель стеклотары'. Соберите 3 склянки с феячей кровью и 2 с настоящей.");
         taskText.add("Уровень 'Пожиратель'. 2 луны и 2 солнца не используйте склянок с кровью, использовав сбросите счетчик времени");
         taskText.add("Уровень 'Летчик'. Будьте незаметны для существ в образе летучей мыши 2 луны и 2 солнца. " +
                 "Наградой будет навык"); // приз - скорость перемещения выше в образе летучей мыши
@@ -150,7 +150,11 @@ public class TaskManager {
         }
     }
 
-
+    public boolean isHaveNewInformation(){
+        if ((fields.size() == 0) || (values.size() == 0))
+            return  false;
+        return true;
+    }
     public ArrayList<String> getFields(){
         return fields;
     }
@@ -184,14 +188,14 @@ public class TaskManager {
                     }
                     break;
                 case 1:
-                    if ((countOfFayBlood >= 6) && (countOfTrueBlood >= 8)) {
+                    if ((countOfFayBlood >= 3) && (countOfTrueBlood >= 2)) {
                         congratulation();
                         return true;
                     }
 
                     break;
                 case 2:
-                    if ((countOfFayBlood > 0) && (countOfTrueBlood > 0)){
+                    if ((countOfFayBlood > 0) || (countOfTrueBlood > 0)){
                         clearAll();
                     } else if ((countOfDays >= 2) && (countOfNights >= 2)) {
                         congratulation();

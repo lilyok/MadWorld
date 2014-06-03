@@ -485,9 +485,11 @@ public class WorldManager extends Thread {
                 }
 
             } else {
-                fillStatusAlert();
+
                 if (taskManager.calculate(madWorld.getIndexOfFirstImage()))
                     fillTaskAlert();
+                else
+                    fillStatusAlert();
 
                 isHungry--;
                 if (isHungry <= 0) {
@@ -645,7 +647,8 @@ public class WorldManager extends Thread {
     }
 
     private void fillStatusAlert() {
-        statusAlert = new GameStatusAlert("Статус", taskManager.getFields(), taskManager.getValues(),
+        if (taskManager.isHaveNewInformation())
+            statusAlert = new GameStatusAlert("Статус", taskManager.getFields(), taskManager.getValues(),
                 Color.argb(255, 32, 178, 170), Color.WHITE, width);
 
     }

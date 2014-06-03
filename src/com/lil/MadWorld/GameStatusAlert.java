@@ -16,11 +16,11 @@ public class GameStatusAlert extends GameAlert {
     private int stopXFields;
 
     public GameStatusAlert(String title, ArrayList<String> text, ArrayList<String> values, int titleColor, int textColor, int w) {
-        super(title, text, titleColor, textColor, w*2/9);
+        super(title, text, titleColor, textColor, w*3/8);
 //        valuesLength = width/9;
-        startXTable = w/3;
-        stopXFields = 5*w/9;
-        stopXTable = 2*w/3;
+        startXTable = w/4;
+        stopXFields = 5*w/8;
+        stopXTable = 3*w/4;
 
         this.values = new ArrayList<String>();
         this.values.addAll(values);
@@ -34,15 +34,16 @@ public class GameStatusAlert extends GameAlert {
 
     public void draw (Canvas c){
         final int size = alertText.size();
+        final int textSize = height / size;
 
         c.drawRect(startXTable, 0, stopXTable, height * (size+1) / size, backgroundPaint);
         float lineLength = textPaint.measureText(alertTitle);
-        c.drawText(alertTitle, (startXTable+stopXTable)/2-lineLength/2, TEXT_SIZE,titlePaint);
+        c.drawText(alertTitle, (startXTable+stopXTable)/2-lineLength/2, textSize,titlePaint);
 
 
         for (int i = 0 ; i < size; i++) {
-            final int lineLastY = height / size * (i+1);
-            final int lineY = height / size * (i + 2);
+            final int lineLastY = textSize * (i+1);
+            final int lineY = textSize * (i + 2);
             c.drawRect(startXTable, lineLastY, stopXFields, lineY, tablePaint);
             c.drawRect(stopXFields, lineLastY, stopXTable, lineY, tablePaint);
 
