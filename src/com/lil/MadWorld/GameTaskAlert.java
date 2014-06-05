@@ -32,14 +32,14 @@ public class GameTaskAlert extends GameAlert {
     }
 
     public void draw (Canvas c){
-        if (isVisible) {
-            super.draw(c);
-
-            c.drawRect(0, height, width, (float) (height + 1.5*TEXT_SIZE), buttonPaint);
-
-            float lineLength = buttonTextPaint.measureText(CLOSE_TEXT);
-            c.drawText(CLOSE_TEXT, (width - lineLength) / 2, height +TEXT_SIZE, buttonTextPaint);
-        }
+//        if (isVisible) {
+//            super.draw(c);
+//
+//            c.drawRect(0, height, width, (float) (height + 1.5*TEXT_SIZE), buttonPaint);
+//
+//            float lineLength = buttonTextPaint.measureText(CLOSE_TEXT);
+//            c.drawText(CLOSE_TEXT, (width - lineLength) / 2, height +TEXT_SIZE, buttonTextPaint);
+//        }
     }
 
     public void tryClose(float y){

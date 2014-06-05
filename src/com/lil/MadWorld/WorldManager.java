@@ -1,6 +1,7 @@
 package com.lil.MadWorld;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -26,7 +27,7 @@ public class WorldManager extends Thread {
     private FireArmedCharacter hunter;
     private FireArmedCharacter fay;
     private FireArmedCharacter wizard;
-
+    private DivingKite angryEagle;
 
     private ArrayList<Character> enemies;
     private int indexOfEnemy = 3;
@@ -49,6 +50,7 @@ public class WorldManager extends Thread {
     private GameStatusAlert statusAlert = null;
 
     private TaskManager taskManager;
+//    private int taskIndex;
 //    private List<String> taskText = new ArrayList<String>();
 //    int taskIndex = 0;
 
@@ -165,6 +167,7 @@ public class WorldManager extends Thread {
         this.surfaceHolder = surfaceHolder;
         taskManager = new TaskManager();
 
+        angryEagle = new DivingKite(loadFrames(context, "kite"), Vampire.DEFAULT_SPEED*2, Character.BULLET_POWER);
         vampire = new Vampire(loadFrames(context, "vampire"), loadFrames(context, "firedVampire"), loadFrames(context, "bloodedVampire"), 0, 0);
 
         enemies = new ArrayList<Character>();
@@ -340,6 +343,9 @@ public class WorldManager extends Thread {
             characterImages.add(context.getResources().getDrawable(R.drawable.fayblood01));
             characterImages.add(context.getResources().getDrawable(R.drawable.fayblood03));
             characterImages.add(context.getResources().getDrawable(R.drawable.fayblood02));
+        } else {
+            characterImages.add(context.getResources().getDrawable(R.drawable.kite01));
+            characterImages.add(context.getResources().getDrawable(R.drawable.kite02));
         }
 
         return characterImages;
@@ -402,7 +408,8 @@ public class WorldManager extends Thread {
 
     private void refreshCanvas(Canvas c, boolean isVampCover) {
         madWorld.draw(c);
-        statusAlert.draw(c);
+        if ((!taskAlert.isVisible())&&(vampire.getHealth() > 0)&&(vampire.getSunProtection() > 0))
+            statusAlert.draw(c);
         if (isVampCover) {
             enemies.get(indexOfEnemy).draw(c);
             vampire.draw(c);
@@ -426,6 +433,8 @@ public class WorldManager extends Thread {
                 taskAlert.draw(c);
             }
         }
+
+        angryEagle.draw(c);
     }
 
 
@@ -475,6 +484,8 @@ public class WorldManager extends Thread {
             if ((vampire.getHealth() <= 0)||vampire.getSunProtection() <= 0) {
                 madWorld.paused();
                 vampire.usePower();
+                if (angryEagle.getBottom() < 0)
+                    angryEagle.paused();
                 if (enemy.getCenterX() <= 0) {
                     enemy.setRight(0);
                     enemy.paused();
@@ -485,6 +496,12 @@ public class WorldManager extends Thread {
                 }
 
             } else {
+                final int destination = getDestination();
+                final int vampireWidth = vampire.getWidth();
+                if((Math.abs(destination) > vampireWidth) && (vampire.isUsingPower()))//&&!enemy.isHaveBullet())
+                    angryEagle.setHidden(false);
+                else
+                    angryEagle.setHidden(true);
 
                 if (taskManager.calculate(madWorld.getIndexOfFirstImage()))
                     fillTaskAlert();
@@ -506,8 +523,13 @@ public class WorldManager extends Thread {
                 if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX())
                     enemy.usePower(true);
 
-                if (vampire.isUsingPower())
+                if (vampire.isUsingPower()) {
                     enemy.usePower(false);
+                    if(angryEagle.isAttack()){
+                        vampire.makeWeaken(angryEagle.getPower());
+                    }
+                }
+
 
                 int isCollision;
                 if ((isCollision = isCollision()) > 0) {
@@ -546,6 +568,7 @@ public class WorldManager extends Thread {
             madWorld.update();
             enemy.update();
             vampire.update();
+            angryEagle.update();
         }
 
         return isVampCover;
@@ -563,6 +586,8 @@ public class WorldManager extends Thread {
 
         initVampirePosition();
 
+        angryEagle.setMaxRight(width);
+        angryEagle.setMaxBottom(vampire.getTop() + angryEagle.getHeight() / 4);
         for (Character enemy : enemies) {
             //       enemy.setRight(width);
             enemy.setCenterY(height / 2);
@@ -599,13 +624,31 @@ public class WorldManager extends Thread {
         vampire.setMaxBottom(height);
     }
 
+    private int getDestination(){
+        final Character enemy = enemies.get(indexOfEnemy);
+        int destination  = (enemy.getLeft() - vampire.getRight());
+        final int bulletLeft = enemy.getBulletLeft();
+        int bulletDestination = bulletLeft - vampire.getRight();
+
+
+        if ((destination < 0) || (bulletDestination < 0) || (destination < bulletDestination))
+            return destination;
+        else
+            return bulletDestination;
+    }
     private int isCollision() {
         final Character enemy = enemies.get(indexOfEnemy);
+
+
         if ((vampire.getRight() >= enemy.getLeft()) &&
                 (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
             enemy.setLeft(vampire.getLastThirdX());
+//            angryEagle.setHidden(true);
+
             return 1;
         } else if (enemy.isBulletHit(vampire)) {
+//            angryEagle.setHidden(true);
+
             return 2;
         }
         return 0;
@@ -676,6 +719,15 @@ public class WorldManager extends Thread {
         vampire.setBaseOfBlood(baseOfBlood);
     }
 
+
+
+    public void savePreferences(SharedPreferences.Editor ed) {
+        taskManager.savePreferences(ed);
+    }
+
+    public void restorePreferences(SharedPreferences sPref) {
+        taskManager.restorePreferences(sPref);
+    }
 }
 
 

@@ -2,6 +2,7 @@ package com.lil.MadWorld;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -216,5 +217,14 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
         gameLoopThread.setBaseOfBlood(baseOfBlood);
     }
 
+
+
+    public void savePreferences(SharedPreferences.Editor ed) {
+        gameLoopThread.savePreferences(ed);
+    }
+
+    public void restorePreferences(SharedPreferences sPref) {
+        gameLoopThread.restorePreferences(sPref);
+    }
 }
 

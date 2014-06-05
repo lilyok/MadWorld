@@ -72,6 +72,9 @@ public class Main extends Activity implements View.OnClickListener {
         ed.putInt("indexOfFire", worldView.getBaseOfFire());
         ed.putInt("indexOfBlood", worldView.getBaseOfBlood());
 
+        worldView.savePreferences(ed);
+//        ed.putInt("taskIndex", worldView.getTaskIndex());
+
         ed.commit();
     }
 
@@ -98,6 +101,9 @@ public class Main extends Activity implements View.OnClickListener {
         worldView.setIsFired(false);
         worldView.setBaseOfFire(sPref.getInt("indexOfFire", 0));
         worldView.setBaseOfBlood(sPref.getInt("indexOfBlood", 0));
+
+        worldView.restorePreferences(sPref);
+//        worldView.setTaskIndex(sPref.getInt("taskIndex", 0));
 
         isRestart = sPref.getBoolean("isRestart", false);
     }
@@ -142,9 +148,9 @@ public class Main extends Activity implements View.OnClickListener {
     protected void onDestroy() {
 
         super.onDestroy();
-        if (isExit) {
-            clearPref();
-        }
+//        if (isExit) {
+//            clearPref();
+//        }
 
         Log.d("status activity", "ActivityA: onDestroy()");
     }

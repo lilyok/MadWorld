@@ -157,4 +157,15 @@ public abstract class Character extends SubjectOfTheWorld {
     protected void cleanBaseIndexOfFrame(){
         baseIndexOfFrame = 0;
     }
+
+    public boolean isHaveBullet(){
+        if (BULLET_POWER == magicPower)
+            return true;
+        else
+            return false;
+    }
+
+    public int getBulletLeft(){
+        return -1;
+    }
 }

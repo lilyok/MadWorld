@@ -1,5 +1,7 @@
 package com.lil.MadWorld;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,10 @@ public class TaskManager {
         this.isFlying = isFlying;
     }
 
+
+    //объединить собирателя стеклотары и букет(рисовать)+ гомеопат  - убивать можно всех кроме волшебников
+    //объединить летчик и орлов - нарисовать: облетайте врагов на земле, обходите врагов с воздуха
+    //Феечек и пожиратель(можно только склянки с феячей  - договор с феями уничтожать др существ
     public TaskManager(){
         taskText.add("Уровень 'Выживший'. Продержитесь 2 луны и 2 солнца. Помните, кровь = жизнь, " +
                 "а феячая кровь = защита от солнца (+ жизнь, если не из горлА, а из гОрла)");
@@ -233,6 +239,30 @@ public class TaskManager {
         countOfTrueBlood = 0;
         fields.clear();
         values.clear();
+    }
+
+
+
+    public void savePreferences(SharedPreferences.Editor ed) {
+        ed.putInt("taskIndex", taskIndex);
+        ed.putInt("countOfDays", countOfDays);
+        ed.putInt("countOfNights", countOfNights);
+        ed.putInt("countOfFayBlood", countOfFayBlood);
+        ed.putInt("countOfTrueBlood", countOfTrueBlood);
+        ed.putInt("lastIndexOfFirstImage", lastIndexOfFirstImage);
+        ed.putBoolean("isFlying", isFlying);
+        ed.putBoolean("isTask", isTask);
+    }
+
+    public void restorePreferences(SharedPreferences sPref) {
+        taskIndex = sPref.getInt("taskIndex", 0);
+        countOfDays = sPref.getInt("countOfDays", 0);
+        countOfNights = sPref.getInt("countOfNights", 0);
+        countOfFayBlood = sPref.getInt("countOfFayBlood", 0);
+        countOfTrueBlood = sPref.getInt("countOfTrueBlood", 0);
+        lastIndexOfFirstImage = sPref.getInt("lastIndexOfFirstImage", 0);
+        isFlying = sPref.getBoolean("isFlying", false);
+        isTask = sPref.getBoolean("isTask", true);
     }
 
 }

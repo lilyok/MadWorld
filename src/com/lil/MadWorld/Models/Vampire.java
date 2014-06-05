@@ -193,4 +193,8 @@ public class Vampire extends Character {
     public void setBaseOfBlood(int baseOfBlood) {
         this.baseOfBlood = baseOfBlood;
     }
+
+    public int getWidth() {
+        return mWidth;
+    }
 }

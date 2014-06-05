@@ -168,4 +168,8 @@ public class FireArmedCharacter extends Character {
     public void setBulletHit() {
         bullet.setHit();
     }
+
+    public int getBulletLeft(){
+        return bullet.getLeft();
+    }
 }
