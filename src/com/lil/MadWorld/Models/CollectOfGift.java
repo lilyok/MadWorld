@@ -48,11 +48,12 @@ public class CollectOfGift{
         public static final int FAY_BLOOD = 1;
         final Random myRandom = new Random();
 
-        private boolean isTaken = false;
+        protected boolean isTaken = false;
         private int type = 0;
-        private int leftCharacter = 0;
+        protected int leftCharacter = 0;
         private int rightCharacter = 0;
-        private List<Drawable> images;
+        protected List<Drawable> images;
+
         public Gift(ArrayList<Drawable> images, int speed, int type) {
             super(images.get(0));
             this.images = new ArrayList<Drawable>(images);
@@ -82,8 +83,6 @@ public class CollectOfGift{
                     isTaken = false;
                 }
             }
-
-
         }
 
         public void randomX() {
@@ -98,24 +97,74 @@ public class CollectOfGift{
                     isTaken = true;
                     if (type == 0){
                         vampire.takeHalfLife();
-                        return 0;
                     } else if (type == 1){
                         vampire.takeHalfSunProtection();
-                        return 1;
                     }
+                    return type;
                 }
             }
             return -1;
         }
+
+        public boolean isAnimated() {
+            return false;
+        }
     }
-    
+
+
+    private class AnimatedGift extends Gift{
+        private int indexOfFrame = 0;
+        private int numOfFrame = 0;
+
+        public AnimatedGift(ArrayList<Drawable> images, int speed, int type) {
+            super(images, speed, type);
+            numOfFrame = images.size();
+        }
+
+        @Override
+        protected void updatePoint() {
+            mPoint.x += mSpeed;
+            if (getRight() + mWidth < 0) {
+                mImage =images.get(0);
+                isTaken = false;
+                randomX();
+            }
+            updateAnimate();
+        }
+
+        @Override
+        protected void updateAnimate() {
+            indexOfFrame = (indexOfFrame + 1) % numOfFrame;
+            mImage = images.get(indexOfFrame);
+
+            if (isTaken){
+                setRight(0);
+                if (leftCharacter > getCenterX()) {
+                    isTaken = false;
+                }
+            }
+        }
+
+
+        public boolean isAnimated() {
+            return true;
+        }
+
+    }
+
+
 
     // images = [meetBloodImg, FayBloodImg, ...]
-    public CollectOfGift(List<Drawable> images,int worldSpeed) {
+    public CollectOfGift(ArrayList<Drawable> images,int worldSpeed, boolean isAnimated) {
         gifts = new ArrayList<Gift>();
-
-        for (int i = 0; i < images.size(); i+=3){
-            gifts.add(new Gift(new ArrayList<Drawable>(images.subList(i, i+3)), worldSpeed, (int)(i/3)));
+        if (isAnimated){
+            for (int i = 0; i <3; i++) {
+                gifts.add(new AnimatedGift(images, worldSpeed, 2));
+            }
+        }  else {
+            for (int i = 0; i < images.size(); i += 3) {
+                gifts.add(new Gift(new ArrayList<Drawable>(images.subList(i, i + 3)), worldSpeed, (int) (i / 3)));
+            }
         }
     }
 
@@ -129,7 +178,10 @@ public class CollectOfGift{
     public void setMaxBottom(int bottom) {
         for (Gift gift : gifts) {
             gift.setMaxBottom(bottom);
-            gift.mPoint.y = bottom/5;
+            if (gift.isAnimated())
+                gift.mPoint.y = bottom*3/5;
+            else
+                gift.mPoint.y = bottom/5;
         }               
     }
 

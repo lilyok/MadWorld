@@ -12,12 +12,16 @@ public class MadWorld extends SubjectOfTheWorld {
 
     private CollectOfGift gifts;
 
-    public MadWorld(List<Drawable> images, List<Drawable> giftsImages, int speed) {
+    private CollectOfGift flowers;
+
+    public MadWorld(ArrayList<Drawable> images, ArrayList<Drawable> giftsImages, ArrayList<Drawable> flowersImages,
+                    int speed) {
         super(images.get(1));
         this.images = new ArrayList<Drawable>(images);
         mSpeed = speed;
 
-        gifts = new CollectOfGift(giftsImages, speed);
+        gifts = new CollectOfGift(giftsImages, speed, false);
+        flowers = new CollectOfGift(flowersImages, speed, true);
     }
 
     public int getSpeed() {
@@ -47,6 +51,7 @@ public class MadWorld extends SubjectOfTheWorld {
     public void update(){
         super.update();
         gifts.update();
+        flowers.update();
     }
 
     @Override
@@ -60,27 +65,32 @@ public class MadWorld extends SubjectOfTheWorld {
 
 
         gifts.draw(c);
+        flowers.draw(c);
     }
 
     public void setMHeight(int value) {
         mHeight = value;
         gifts.setMaxBottom(value);
+        flowers.setMaxBottom(value);
     }
 
     public void setMWidth(int value) {
         mWidth = value;
         gifts.setMaxRight(value);
+        flowers.setMaxRight(value);
     }
 
     @Override
     public void paused() {
         isMoving = false;
         gifts.paused();
+        flowers.paused();
     }
 
     public void continued() {
         isMoving = true;
         gifts.continued();
+        flowers.continued();
     }
 
     public int takeGift(Vampire vampire) {
@@ -106,9 +116,12 @@ public class MadWorld extends SubjectOfTheWorld {
     }
 
     public void setGiftsStatus(){
-        if (isMoving)
+        if (isMoving) {
             gifts.continued();
-        else
+            flowers.continued();
+        } else {
             gifts.paused();
+            flowers.paused();
+        }
     }
 }
