@@ -118,7 +118,7 @@ public class CollectOfGift{
 
         public AnimatedGift(ArrayList<Drawable> images, int speed, int type) {
             super(images, speed, type);
-            numOfFrame = images.size();
+            numOfFrame = images.size() - 1;
         }
 
         @Override
@@ -138,8 +138,13 @@ public class CollectOfGift{
             mImage = images.get(indexOfFrame);
 
             if (isTaken){
-                setRight(0);
-                if (leftCharacter > getCenterX()) {
+                mImage = images.get(numOfFrame);
+                resize();
+                if (leftCharacter > getLeft()) {
+                    mImage = images.get(0);
+                    resize();
+
+                    randomX();
                     isTaken = false;
                 }
             }

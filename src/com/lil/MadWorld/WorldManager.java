@@ -350,6 +350,7 @@ public class WorldManager extends Thread {
         } else if ("flowers".equals(type)){
             characterImages.add(context.getResources().getDrawable(R.drawable.flower01));
             characterImages.add(context.getResources().getDrawable(R.drawable.flower02));
+            characterImages.add(context.getResources().getDrawable(R.drawable.flower03));
         }
 
         return characterImages;
@@ -422,9 +423,12 @@ public class WorldManager extends Thread {
             enemies.get(indexOfEnemy).draw(c);
         }
 
+        angryEagle.draw(c);
+        madWorld.drawCovers(c);
 
         buttonsDraw(c);
         healthDraw(c);
+
 
         if (vampire.getHealth() <= 0) {
             bloodedAlert.draw(c);//drawAlert(c, BLOODED_DEATH_TEXT);
@@ -438,7 +442,7 @@ public class WorldManager extends Thread {
             }
         }
 
-        angryEagle.draw(c);
+
     }
 
 
@@ -488,6 +492,7 @@ public class WorldManager extends Thread {
             if ((vampire.getHealth() <= 0)||vampire.getSunProtection() <= 0) {
                 madWorld.paused();
                 vampire.usePower();
+                angryEagle.setHidden(true);
                 if (angryEagle.getBottom() < 0)
                     angryEagle.paused();
                 if (enemy.getCenterX() <= 0) {

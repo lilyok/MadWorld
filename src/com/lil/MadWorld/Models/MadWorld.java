@@ -65,8 +65,14 @@ public class MadWorld extends SubjectOfTheWorld {
 
 
         gifts.draw(c);
+//        flowers.draw(c);
+    }
+
+
+    public void drawCovers(Canvas c){
         flowers.draw(c);
     }
+
 
     public void setMHeight(int value) {
         mHeight = value;

@@ -19,6 +19,9 @@ public class TaskManager {
     private int countOfFayBlood = 0;
     private int countOfTrueBlood = 0;
 
+    private int countOfFlowers = 0;
+
+
     private boolean isFlying = false;
 
 
@@ -237,6 +240,8 @@ public class TaskManager {
         countOfNights = 0;
         countOfFayBlood = 0;
         countOfTrueBlood = 0;
+        countOfFlowers = 0;
+
         fields.clear();
         values.clear();
     }
@@ -250,6 +255,8 @@ public class TaskManager {
         ed.putInt("countOfFayBlood", countOfFayBlood);
         ed.putInt("countOfTrueBlood", countOfTrueBlood);
         ed.putInt("lastIndexOfFirstImage", lastIndexOfFirstImage);
+        ed.putInt("countOfFlowers", countOfFlowers);
+
         ed.putBoolean("isFlying", isFlying);
         ed.putBoolean("isTask", isTask);
     }
@@ -261,10 +268,13 @@ public class TaskManager {
         countOfFayBlood = sPref.getInt("countOfFayBlood", 0);
         countOfTrueBlood = sPref.getInt("countOfTrueBlood", 0);
         lastIndexOfFirstImage = sPref.getInt("lastIndexOfFirstImage", 0);
+        countOfFlowers = sPref.getInt("countOfFlowers", 0);
+
         isFlying = sPref.getBoolean("isFlying", false);
         isTask = sPref.getBoolean("isTask", true);
     }
 
     public void addFlower() {
+        countOfFlowers++;
     }
 }

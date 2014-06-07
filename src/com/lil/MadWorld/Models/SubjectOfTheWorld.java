@@ -33,9 +33,22 @@ public abstract class SubjectOfTheWorld {
 
     public SubjectOfTheWorld(Drawable image) {
         mImage = image;
-        mWidth = image.getIntrinsicWidth();
-        mHeight = image.getIntrinsicHeight();
+        setIntrinsic();
+
         mPoint = new Point(-mWidth, 0);
+    }
+
+    protected void resize() {
+        int lastY = mPoint.y;
+
+        int lastHeight = mHeight;
+        setIntrinsic();
+        mPoint.y = lastY - (mHeight - lastHeight);
+    }
+
+    private void setIntrinsic() {
+        mWidth = mImage.getIntrinsicWidth();
+        mHeight = mImage.getIntrinsicHeight();
     }
 
     protected abstract void updatePoint();
