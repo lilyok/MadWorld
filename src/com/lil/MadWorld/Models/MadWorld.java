@@ -96,6 +96,7 @@ public class MadWorld extends SubjectOfTheWorld {
     public int takeGift(Vampire vampire) {
         return gifts.takeGift(vampire);
     }
+    public int takeFlower(Vampire vampire) {return flowers.takeGift(vampire);}
 
     public boolean isNoon(int time) {
         if ((indexOfFirstImage == 0)&&(mPoint.x >= -time/2)){

@@ -168,4 +168,8 @@ public abstract class Character extends SubjectOfTheWorld {
     public int getBulletLeft(){
         return -1;
     }
+
+    public int getBulletRight() {
+        return -1;
+    }
 }

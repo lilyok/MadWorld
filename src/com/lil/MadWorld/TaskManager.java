@@ -265,4 +265,6 @@ public class TaskManager {
         isTask = sPref.getBoolean("isTask", true);
     }
 
+    public void addFlower() {
+    }
 }

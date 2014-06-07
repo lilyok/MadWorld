@@ -172,4 +172,8 @@ public class FireArmedCharacter extends Character {
     public int getBulletLeft(){
         return bullet.getLeft();
     }
+
+    public int getBulletRight(){
+        return bullet.getRight();
+    }
 }

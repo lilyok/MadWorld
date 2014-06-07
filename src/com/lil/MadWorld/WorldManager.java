@@ -6,11 +6,10 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import com.lil.MadWorld.Models.*;
 import com.lil.MadWorld.Models.Character;
+import com.lil.MadWorld.Models.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -630,16 +629,16 @@ public class WorldManager extends Thread {
     }
 
     private int getDestination(){
-        final Character enemy = enemies.get(indexOfEnemy);
+        Character enemy = enemies.get(indexOfEnemy);
         int destination  = (enemy.getLeft() - vampire.getRight());
-        final int bulletLeft = enemy.getBulletLeft();
-        int bulletDestination = bulletLeft - vampire.getRight();
+        int bulletDestination = enemy.getBulletLeft() - vampire.getRight();
 
+        if ((destination > bulletDestination)&&(enemy.getBulletRight() > vampire.getLeft() ))
+            destination = bulletDestination;
 
-        if ((destination < 0) || (bulletDestination < 0) || (destination < bulletDestination))
-            return destination;
-        else
-            return bulletDestination;
+  //          return bulletDestination;
+
+        return destination;
     }
     private int isCollision() {
         final Character enemy = enemies.get(indexOfEnemy);
@@ -671,8 +670,13 @@ public class WorldManager extends Thread {
             } else if (res == 1){
                 taskManager.incCountOfFayBlood();
             }
-
+        } else {
+            int res = madWorld.takeFlower(vampire);
+            if (res == 2) {
+                taskManager.addFlower();
+            }
         }
+
     }
 
     public void onTouch(float x, float y) {
