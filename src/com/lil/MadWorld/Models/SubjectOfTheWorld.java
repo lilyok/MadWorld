@@ -60,10 +60,12 @@ public abstract class SubjectOfTheWorld {
             updatePoint();
         else
             updateAnimate();
-        mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
+//        mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
     }
 
     public void draw(Canvas canvas) {
+        mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
+
         mImage.draw(canvas);
     }
 

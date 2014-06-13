@@ -438,6 +438,8 @@ public class WorldManager extends Thread {
         }
         else{
             if (taskAlert.isVisible()){
+                starting = false;
+                //pausedWorld(enemies.get(indexOfEnemy));
                 taskAlert.draw(c);
             }
         }
@@ -490,19 +492,7 @@ public class WorldManager extends Thread {
             final Character enemy = enemies.get(indexOfEnemy);
 
             if ((vampire.getHealth() <= 0)||vampire.getSunProtection() <= 0) {
-                madWorld.paused();
-                vampire.usePower();
-                angryEagle.setHidden(true);
-                if (angryEagle.getBottom() < 0)
-                    angryEagle.paused();
-                if (enemy.getCenterX() <= 0) {
-                    enemy.setRight(0);
-                    enemy.paused();
-                }
-                else {
-                    enemy.usePower(false);
-                    enemy.continued();
-                }
+                pausedWorld(enemy);
 
             } else {
                 final int destination = getDestination();
@@ -585,11 +575,29 @@ public class WorldManager extends Thread {
         return isVampCover;
     }
 
+    private void pausedWorld(Character enemy) {
+        madWorld.paused();
+        vampire.usePower(false);
+        angryEagle.setHidden(true);
+        if (angryEagle.getBottom() < 0)
+            angryEagle.paused();
+        if (enemy.getCenterX() <= 0) {
+            enemy.setRight(0);
+            enemy.paused();
+        }
+        else {
+            enemy.usePower(false);
+            enemy.continued();
+        }
+    }
+
 
     private void refreshEnemy(Character enemy) {
         taskManager.sparingEnemy(indexOfEnemy);
         enemy.refresh();
-        indexOfEnemy = myRandom.nextInt(4);
+        indexOfEnemy = myRandom.nextInt(6);
+        if (indexOfEnemy >= enemies.size())
+            indexOfEnemy = 2;
     }
 
     public void initPositions(int height, int width) {
@@ -609,7 +617,7 @@ public class WorldManager extends Thread {
 
         madWorld.setMHeight(height);
         madWorld.setMWidth(width);
-
+        madWorld.setVampireYs(vampire.getTop(), vampire.getBottom());
 
         if (bloodedAlert == null)
             bloodedAlert = new GameAlert("Вампир иссяк и окаменел", "Не стоило сидеть на диетах - этот жизнь, а не школа " +
@@ -620,7 +628,7 @@ public class WorldManager extends Thread {
                     "аппетитное зрелище. В следующий раз пейте кровь фей и не перестарайтесь с загаром.",
                     Color.argb(255, 255, 99, 71), Color.argb(255, 255, 255, 120), width);
 
-        if (taskAlert == null)
+        if ((taskAlert == null) || (taskAlert.getWidth() != width))
             fillTaskAlert();
 
         if (statusAlert == null)
@@ -693,6 +701,9 @@ public class WorldManager extends Thread {
             taskAlert.tryClose(y);
             if (taskManager.tryNextTask()){
                 fillTaskAlert();
+            } else {
+                starting = true;
+    //            continuedWorld(enemies.get(indexOfEnemy));
             }
         }
     }

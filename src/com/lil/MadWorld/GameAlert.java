@@ -115,4 +115,8 @@ public class GameAlert {
             c.drawText(line, (width-lineLength)/2, (i+2)*TEXT_SIZE, textPaint);
         }
     }
+
+    public int getWidth() {
+        return width;
+    }
 }

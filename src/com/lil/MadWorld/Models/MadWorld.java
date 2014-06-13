@@ -17,6 +17,10 @@ public class MadWorld extends SubjectOfTheWorld {
     public MadWorld(ArrayList<Drawable> images, ArrayList<Drawable> giftsImages, ArrayList<Drawable> flowersImages,
                     int speed) {
         super(images.get(1));
+        mPoint.x = 0;
+//        mImage.setBounds(mPoint.x, mPoint.y, mPoint.x + mWidth, mPoint.y + mHeight);
+
+
         this.images = new ArrayList<Drawable>(images);
         mSpeed = speed;
 
@@ -57,7 +61,9 @@ public class MadWorld extends SubjectOfTheWorld {
     @Override
     public void draw(Canvas c) {
  //       super.draw(c);
-        images.get(indexOfFirstImage).draw(c);
+        mImage.setBounds(mPoint.x, 0, mPoint.x + mWidth, mHeight);
+        mImage.draw(c);
+
         Drawable nextImg = images.get((indexOfFirstImage+1)%images.size());
 
         nextImg.setBounds(mPoint.x + mWidth, 0, mPoint.x + 2 * mWidth, mHeight);
@@ -76,8 +82,8 @@ public class MadWorld extends SubjectOfTheWorld {
 
     public void setMHeight(int value) {
         mHeight = value;
-        gifts.setMaxBottom(value);
-        flowers.setMaxBottom(value);
+//        gifts.setMaxBottom(value);
+//        flowers.setMaxBottom(value);
     }
 
     public void setMWidth(int value) {
@@ -130,5 +136,10 @@ public class MadWorld extends SubjectOfTheWorld {
             gifts.paused();
             flowers.paused();
         }
+    }
+
+    public void setVampireYs(int top, int bottom) {
+        gifts.setCenterY(top);
+        flowers.setBottom(bottom);
     }
 }

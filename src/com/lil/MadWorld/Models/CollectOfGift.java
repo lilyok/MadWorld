@@ -10,6 +10,7 @@ import java.util.Random;
 public class CollectOfGift{
     private ArrayList<Gift> gifts;
     final Random myRandom = new Random();
+    private int bottom;
 
     public void draw(Canvas c) {
         for(Gift gift : gifts){
@@ -42,6 +43,21 @@ public class CollectOfGift{
             if (res >= 0) return res;
         }
         return res;
+    }
+
+//    public void setTop(int top) {
+//        for(Gift gift : gifts)
+//            gift.setTop(top);
+//    }
+
+    public void setBottom(int bottom) {
+        for(Gift gift : gifts)
+            gift.setBottom(bottom);
+    }
+
+    public void setCenterY(int centreY) {
+        for(Gift gift : gifts)
+            gift.setCenterY(centreY);
     }
 
     private class Gift extends SubjectOfTheWorld{
@@ -187,14 +203,14 @@ public class CollectOfGift{
         }
     }
 
-    public void setMaxBottom(int bottom) {
-        for (Gift gift : gifts) {
-            gift.setMaxBottom(bottom);
-            if (gift.isAnimated())
-                gift.mPoint.y = bottom*3/5;
-            else
-                gift.mPoint.y = bottom/5;
-        }               
-    }
+//    public void setMaxBottom(int bottom) {
+//        for (Gift gift : gifts) {
+//            gift.setMaxBottom(bottom);
+////            if (gift.isAnimated())
+////                gift.mPoint.y = bottom*4/5;
+////            else
+////                gift.mPoint.y = bottom/5;
+//        }
+//    }
 
 }
