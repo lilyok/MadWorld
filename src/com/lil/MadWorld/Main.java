@@ -140,7 +140,6 @@ public class Main extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-//        restorePref();
         Log.d("status activity", "ActivityA: onResume()");
     }
 
@@ -148,17 +147,21 @@ public class Main extends Activity implements View.OnClickListener {
     protected void onDestroy() {
 
         super.onDestroy();
-//        if (isExit) {
-//            clearPref();
-//        }
+
 
         Log.d("status activity", "ActivityA: onDestroy()");
     }
 
-    private void clearPref() {
+    private void clearPref(boolean onlyCurrentLevel) {
         sPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
+
+        int taskIndex = 0;
+        if (onlyCurrentLevel){
+            taskIndex = worldView.getTaskIndex();
+        }
         ed.clear();
+        ed.putInt("taskIndex", taskIndex);
         ed.commit();
     }
 
@@ -187,6 +190,9 @@ public class Main extends Activity implements View.OnClickListener {
             menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
             menu.setContentView(R.layout.start);
             menu.setCancelable(true);
+
+            Button newGameButton = (Button) menu.findViewById(R.id.newGameBtn);
+            newGameButton.setOnClickListener(this);
 
             Button startButton = (Button) menu.findViewById(R.id.startBtn);
             startButton.setOnClickListener(this);
@@ -224,7 +230,7 @@ public class Main extends Activity implements View.OnClickListener {
                 menu.dismiss();
             }break;
             case R.id.restartBtn: {
-                clearPref();
+                clearPref(true);
                 restorePref();
 
                 worldView.initVampirePosition();
@@ -240,6 +246,17 @@ public class Main extends Activity implements View.OnClickListener {
                 menu.dismiss();
                 isExit = true;
                 finish();
+            }break;
+            //очистить все
+            case R.id.newGameBtn: {
+                clearPref(false);
+                restorePref();
+
+                worldView.initVampirePosition();
+                worldView.cleanBaseIndexOfFrame();
+                worldView.setStarted(true);
+
+                menu.dismiss();
             }break;
 
             default:

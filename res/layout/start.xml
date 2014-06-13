@@ -9,53 +9,62 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
         android:text="Mad World"
         android:textSize="50dp"
         android:textColor="#fff"
         android:autoText="false"
         android:textStyle="bold"
-        android:background="@drawable/backtext"/>
+        android:background="@drawable/backtext"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/startBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
         android:text="Start"
         android:textSize="30dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button"
+        android:layout_below="@+id/restartBtn"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/restartBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Restart"
+        android:text="Restart level"
         android:textSize="30dp"
         android:textColor="#fff"
         android:textStyle="bold"
         android:background="@drawable/button"
         android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:id="@+id/newGameBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start new game"
+        android:textSize="30dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/exitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="230dp"
         android:text="Exit"
         android:textSize="30dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:layout_alignStart="@+id/startBtn"
-        android:layout_alignEnd="@+id/startBtn"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button"
+        android:layout_below="@+id/startBtn"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

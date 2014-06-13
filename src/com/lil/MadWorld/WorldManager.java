@@ -507,6 +507,8 @@ public class WorldManager extends Thread {
             } else {
                 final int destination = getDestination();
                 final int vampireWidth = vampire.getWidth();
+                if ((vampire.isMoving())&&(!enemy.isMoving()))
+                    enemy.continued();
                 if((Math.abs(destination) > vampireWidth) && (vampire.isUsingPower()))//&&!enemy.isHaveBullet())
                     angryEagle.setHidden(false);
                 else
@@ -585,6 +587,7 @@ public class WorldManager extends Thread {
 
 
     private void refreshEnemy(Character enemy) {
+        taskManager.sparingEnemy(indexOfEnemy);
         enemy.refresh();
         indexOfEnemy = myRandom.nextInt(4);
     }
@@ -609,8 +612,7 @@ public class WorldManager extends Thread {
 
 
         if (bloodedAlert == null)
-            bloodedAlert = new GameAlert("Вампир иссяк и окаменел", "Ослабевший вампир подобен камню. " +
-                "Кровоточащему и не годящемуся даже для постройки. Не стоило сидеть на диетах - этот жизнь, а не школа " +
+            bloodedAlert = new GameAlert("Вампир иссяк и окаменел", "Не стоило сидеть на диетах - этот жизнь, а не школа " +
                 "для юных балерин.", Color.argb(255, 238 ,130, 238), Color.argb(255,120, 255, 255), width);
 
         if (firedAlert == null)
@@ -652,19 +654,17 @@ public class WorldManager extends Thread {
         if ((vampire.getRight() >= enemy.getLeft()) &&
                 (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
             enemy.setLeft(vampire.getLastThirdX());
-//            angryEagle.setHidden(true);
-
+            taskManager.fighting(indexOfEnemy);
             return 1;
         } else if (enemy.isBulletHit(vampire)) {
-//            angryEagle.setHidden(true);
-
             return 2;
         }
         return 0;
     }
 
     public void onPowerClick() {
-        taskManager.setFlying(vampire.usePower());
+//        taskManager.setFlying(vampire.usePower());
+        vampire.usePower();
     }
 
     private void onTakeClick() {
@@ -741,6 +741,11 @@ public class WorldManager extends Thread {
 
     public void restorePreferences(SharedPreferences sPref) {
         taskManager.restorePreferences(sPref);
+        fillTaskAlert();
+    }
+
+    public int getTaskIndex() {
+        return taskManager.getTaskIndex();
     }
 }
 

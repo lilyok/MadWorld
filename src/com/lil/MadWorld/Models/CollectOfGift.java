@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class CollectOfGift{
     private ArrayList<Gift> gifts;
+    final Random myRandom = new Random();
 
     public void draw(Canvas c) {
         for(Gift gift : gifts){
@@ -46,7 +47,7 @@ public class CollectOfGift{
     private class Gift extends SubjectOfTheWorld{
         public static final int MEET_BLOOD = 0;
         public static final int FAY_BLOOD = 1;
-        final Random myRandom = new Random();
+//        final Random myRandom = new Random();
 
         protected boolean isTaken = false;
         private int type = 0;
@@ -86,7 +87,7 @@ public class CollectOfGift{
         }
 
         public void randomX() {
-            mPoint.x = (myRandom.nextInt(maxRight*2-mWidth));//*mWidth%maxRight;
+            mPoint.x = (myRandom.nextInt(maxRight/2)) + maxRight;//*mWidth%maxRight;
         }
 
         public int takeGift(Vampire vampire) {
@@ -143,8 +144,8 @@ public class CollectOfGift{
                 if (leftCharacter > getLeft()) {
                     mImage = images.get(0);
                     resize();
-
-                    randomX();
+                    mPoint.x = -2*mWidth;
+                  //  randomX();
                     isTaken = false;
                 }
             }
@@ -158,13 +159,19 @@ public class CollectOfGift{
     }
 
 
+    private ArrayList<Drawable> cloneDrawables(ArrayList<Drawable> images){
+        ArrayList<Drawable> newImages = new ArrayList<Drawable>();
+        for (Drawable img:images)
+            newImages.add(img.getConstantState().newDrawable());
+        return newImages;
+    }
 
     // images = [meetBloodImg, FayBloodImg, ...]
     public CollectOfGift(ArrayList<Drawable> images,int worldSpeed, boolean isAnimated) {
         gifts = new ArrayList<Gift>();
         if (isAnimated){
-            for (int i = 0; i <3; i++) {
-                gifts.add(new AnimatedGift(images, worldSpeed, 2));
+            for (int i = 0; i <2; i++) {
+                gifts.add(new AnimatedGift(cloneDrawables(images), worldSpeed, 2));
             }
         }  else {
             for (int i = 0; i < images.size(); i += 3) {

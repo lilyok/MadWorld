@@ -217,7 +217,9 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
         gameLoopThread.setBaseOfBlood(baseOfBlood);
     }
 
-
+    public int getTaskIndex() {
+        return gameLoopThread.getTaskIndex();
+    }
 
     public void savePreferences(SharedPreferences.Editor ed) {
         gameLoopThread.savePreferences(ed);
