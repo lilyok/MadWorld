@@ -16,6 +16,7 @@ import java.util.Random;
 
 
 public class WorldManager extends Thread {
+    private final Context context;
     private SoundPool sounds;
     private int sAngryEagle;
     private int sAngryWolf;
@@ -182,7 +183,7 @@ public class WorldManager extends Thread {
     public WorldManager(SurfaceHolder surfaceHolder, Context context) {
 //        this.context = context;
         this.surfaceHolder = surfaceHolder;
-
+        this.context = context;
         sounds = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
         sAngryEagle = sounds.load(context, R.raw.kite, 1);
         sAngryWolf = sounds.load(context, R.raw.rrr, 1);
@@ -677,12 +678,13 @@ public class WorldManager extends Thread {
         madWorld.setVampireYs(vampire.getTop(), vampire.getBottom());
 
         if (bloodedAlert == null)
-            bloodedAlert = new GameAlert("Вампир иссяк и окаменел", "Не стоило сидеть на диетах - этот жизнь, а не школа " +
-                "для юных балерин.", Color.argb(255, 238 ,130, 238), Color.argb(255,120, 255, 255), width);
+            bloodedAlert = new GameAlert(context.getString(R.string.diedVampireString),
+                    context.getString(R.string.dietString)
+                    , Color.argb(255, 238 ,130, 238), Color.argb(255,120, 255, 255), width);
 
         if (firedAlert == null)
-            firedAlert = new GameAlert("Защита от солнца закончилась и вампир сгорел.", "Стейк из вампира не самое " +
-                    "аппетитное зрелище. В следующий раз пейте кровь фей и не перестарайтесь с загаром.",
+            firedAlert = new GameAlert(context.getString(R.string.firedVampireString)
+                    , context.getString(R.string.meetString),
                     Color.argb(255, 255, 99, 71), Color.argb(255, 255, 255, 120), width);
 
         if ((taskAlert == null) || (taskAlert.getWidth() != width))

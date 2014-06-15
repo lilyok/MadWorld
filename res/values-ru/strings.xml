@@ -27,4 +27,10 @@
     <string name="sunString">солнц</string>
     <string name="moonString">лун</string>
     <string name="noNewTaskString">Пока новых заданий нет</string>
+    <string name="diedVampireString">Вампир иссяк и окаменел.</string>
+    <string name="dietString">Не стоило сидеть на диетах - это жизнь, а не школа для юных балерин</string>
+
+    <string name="firedVampireString">Защита от солнца закончилась и вампир сгорел.</string>
+    <string name="meetString">Стейк из вампира не самое аппетитное зрелище. В следующий раз пейте кровь фей и не перестарайтесь с загаром.</string>
+
 </resources>
