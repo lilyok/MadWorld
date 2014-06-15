@@ -2,4 +2,29 @@
 <resources>
     <string name="app_name">MadWorld</string>
     <string name="powerString">power</string>
+    <string name="exitString">Exit</string>
+    <string name="startNewString">Start new game</string>
+    <string name="restartString">Restart level</string>
+    <string name="startString">Start</string>
+    <string name="titleString">Mad World</string>
+    <string name="task0">Level0 \'Recruit\'. You turned into a vampire. You haunted by the evil hawk, you can not harm him, and he can kill you only when you are in flight. All other creatures are mortal. Survive 2 moons and 2 suns. Knew: Blood = Life, fairies blood = protection from the sun</string>
+    <string name="continueString">Continue</string>
+    <string name="task1">Level1 \'Ripper\'. 2 moons and 2 suns don\'t use bottles with blood, it clear timer of moons and suns if using bottles</string>
+    <string name="task2">Level2 \'Collector\'. Collect 3 dancing flowers, 2 bottles with fairies blood and 1 with true blood. Don\'t kill wizards.</string>
+    <string name="task3">Level3 \'Diplomat\'. Overfly ground enemies 2 moon and sun 2. Joining the fight will reset the counter</string>
+    <string name="task4">Level4 \'Fairies\' man\'. 2 moon and sun 2 kill all creatures except the fairies. Pity = counter resetting.</string>
+    <string name="congratulation0">Congratulations! From now on nobody will say that you were born yesterday =)</string>
+    <string name="congratulation1">Vegetarianism and pacifism - is not your strong point. You showed yourself as a real ripper</string>
+    <string name="congratulation2">You left a local homeless  without glassware - they have to go to the robbery. But wizards in gratitude to loyalty for them, made ​​in flasks decoction of flowers, slowing blood loss. Now you hardier.</string>
+    <string name="congratulation3">What maneuverability! From now on the wings you move 2 times faster</string>
+    <string name="congratulation4">Fairies are delighted that no one of their sisters died in the last couple days. And even more pleased that died a bunch of other creatures. They offer you a ring that slows the combustion process.</string>
+    <string name="taskString">Task</string>
+    <string name="dancingFlowerString">dancing flower</string>
+    <string name="bootleOfTrueBloodString">bottle with true blood</string>
+    <string name="bootleOfFayBloodString">bottle with fairies blood</string>
+    <string name="newTaskString">New tasks</string>
+    <string name="noString">no</string>
+    <string name="sunString">suns</string>
+    <string name="moonString">moons</string>
+    <string name="noNewTaskString">There are no new tasks yet</string>
 </resources>

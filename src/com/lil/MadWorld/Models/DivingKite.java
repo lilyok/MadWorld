@@ -13,7 +13,8 @@ public class DivingKite extends Character {
     public DivingKite(List<Drawable> defaultImages, int speedFactor, int magicPower) {
         super(defaultImages, 0, speedFactor, magicPower);
         numOfFrame = defaultImages.size();
-        setTop(0);
+        setBottom(0);
+        setLeft(0);
     }
 
     public void setHidden(boolean isHidden) {
@@ -38,15 +39,21 @@ public class DivingKite extends Character {
 
     @Override
     protected void updatePoint() {
+        if (getLeft() == 0)
+            setLeft(maxRight/2 - maxBottom);
+
         if (isHidden){
             mSpeed = - Math.abs(mSpeed);
         }
         if ((!isHidden)||(getBottom() > 0)) {
-            setCenterX(maxRight / 2);
+//            setCenterX(maxRight / 2);
 
+            if ((getCenterX() < maxRight/2) || (mSpeed < 0))
+                mPoint.x += mSpeed;
             mPoint.y += mSpeed;
 
             if (/*(getBottom() > maxBottom) ||*/ (getBottom() < 0)) {
+                setLeft(maxRight/2 - maxBottom);
                 setBottom(0);
                 mSpeed = -mSpeed;
             }else if (getBottom() > maxBottom){

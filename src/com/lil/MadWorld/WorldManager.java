@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import com.lil.MadWorld.Models.Character;
@@ -14,6 +16,18 @@ import java.util.Random;
 
 
 public class WorldManager extends Thread {
+    private SoundPool sounds;
+    private int sAngryEagle;
+    private int sAngryWolf;
+    private int sAngryBullet;
+    private int sAngryLaser;
+    private int sAngrySounder;
+    private int sBite;
+    private int sBottle;
+    private int sFlower;
+    private int sFail;
+//    private int sWing;
+
 //    private final Context context;
     private final SurfaceHolder surfaceHolder;
 
@@ -27,6 +41,8 @@ public class WorldManager extends Thread {
     private FireArmedCharacter fay;
     private FireArmedCharacter wizard;
     private DivingKite angryEagle;
+
+
 
     private ArrayList<Character> enemies;
     private int indexOfEnemy = 3;
@@ -49,6 +65,8 @@ public class WorldManager extends Thread {
     private GameStatusAlert statusAlert = null;
 
     private TaskManager taskManager;
+    private int batSpeedCoefficient = 1;
+
 //    private int taskIndex;
 //    private List<String> taskText = new ArrayList<String>();
 //    int taskIndex = 0;
@@ -164,7 +182,20 @@ public class WorldManager extends Thread {
     public WorldManager(SurfaceHolder surfaceHolder, Context context) {
 //        this.context = context;
         this.surfaceHolder = surfaceHolder;
-        taskManager = new TaskManager();
+
+        sounds = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+        sAngryEagle = sounds.load(context, R.raw.kite, 1);
+        sAngryWolf = sounds.load(context, R.raw.rrr, 1);
+        sAngryBullet = sounds.load(context, R.raw.gun, 1);
+        sAngryLaser = sounds.load(context, R.raw.laser, 1);
+        sAngrySounder = sounds.load(context, R.raw.grom, 1);
+        sBite = sounds.load(context, R.raw.bunny, 1);
+        sBottle = sounds.load(context, R.raw.clochette, 1);
+        sFlower = sounds.load(context, R.raw.ring, 1);
+        sFail =  sounds.load(context, R.raw.no, 1);
+//        sWing = sounds.load(context, R.raw.wing,1);
+
+        taskManager = new TaskManager(context);
 
         angryEagle = new DivingKite(loadFrames(context, "kite"), Vampire.DEFAULT_SPEED*2, Character.BULLET_POWER);
         vampire = new Vampire(loadFrames(context, "vampire"), loadFrames(context, "firedVampire"), loadFrames(context, "bloodedVampire"), 0, 0);
@@ -492,6 +523,7 @@ public class WorldManager extends Thread {
             final Character enemy = enemies.get(indexOfEnemy);
 
             if ((vampire.getHealth() <= 0)||vampire.getSunProtection() <= 0) {
+
                 pausedWorld(enemy);
 
             } else {
@@ -499,10 +531,14 @@ public class WorldManager extends Thread {
                 final int vampireWidth = vampire.getWidth();
                 if ((vampire.isMoving())&&(!enemy.isMoving()))
                     enemy.continued();
-                if((Math.abs(destination) > vampireWidth) && (vampire.isUsingPower()))//&&!enemy.isHaveBullet())
+                if((Math.abs(destination) > vampireWidth) && (vampire.isUsingPower())) {//&&!enemy.isHaveBullet())
                     angryEagle.setHidden(false);
-                else
+                    if (angryEagle.getTop() < 0)
+                        sounds.play(sAngryEagle, 0.2f, 0.2f, 0, 0, 1.5f);
+                }
+                else {
                     angryEagle.setHidden(true);
+                }
 
                 if (taskManager.calculate(madWorld.getIndexOfFirstImage()))
                     fillTaskAlert();
@@ -516,19 +552,35 @@ public class WorldManager extends Thread {
                 }
                 if (madWorld.isNoon(vampire.DEFAULT_HEALTH / 2)) {
                     vampire.makeBurning(-madWorld.getSpeed());
+                    if (vampire.getSunProtection() <= 0)
+                        sounds.play(sFail, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 }
 
-                if (enemy.getCenterX() <= 0)
+                if (enemy.getCenterX() <= 0)  {
+                    taskManager.sparingEnemy(indexOfEnemy);
                     refreshEnemy(enemy);
+                }
 
-                if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX())
+                if (!vampire.isUsingPower() && myRandom.nextInt(100) <= enemy.getChance() && vampire.getLeft() <= enemy.getCenterX()) {
+                    if (enemy.isShootNew())
+                        sPlay();
                     enemy.usePower(true);
+//                    int bulletRight = enemy.getBulletRight();
+//                    int tmpX = bulletRight - enemy.getLeft();
+
+                }
 
                 if (vampire.isUsingPower()) {
+//                    sounds.play(sWing, 0.1f, 0.1f, 0, 0, 0.5f);
+
                     enemy.usePower(false);
                     if(angryEagle.isAttack()){
                         vampire.makeWeaken(angryEagle.getPower());
                     }
+                } else {
+                    if (enemy.isUsingPower() && enemy.isShootNew())
+                        sPlay();
                 }
 
 
@@ -545,9 +597,14 @@ public class WorldManager extends Thread {
                     if (vampirePower < enemyPower) {
                         vampire.makeWeaken(enemyPower);
                         isVampCover = false;
+                        if (vampire.getHealth() <= 0)
+                            sounds.play(sFail, 1.0f, 1.0f, 0, 0, 1.0f);
                     }
-                    if (isCollision == 1)
+                    if (isCollision == 1) {
                         enemy.makeWeaken(vampirePower);
+                        if (vampire.isShootNew())
+                            sounds.play(sBite, 1.0f, 1.0f, 0, 0, 0.5f);
+                    }
 
 
                     if (enemy.getHealth() <= 0 && vampire.getHealth() >= 0) {
@@ -593,11 +650,11 @@ public class WorldManager extends Thread {
 
 
     private void refreshEnemy(Character enemy) {
-        taskManager.sparingEnemy(indexOfEnemy);
-        enemy.refresh();
+      //  enemy.refresh();
         indexOfEnemy = myRandom.nextInt(6);
         if (indexOfEnemy >= enemies.size())
             indexOfEnemy = 2;
+        enemies.get(indexOfEnemy).refresh();
     }
 
     public void initPositions(int height, int width) {
@@ -661,6 +718,8 @@ public class WorldManager extends Thread {
 
         if ((vampire.getRight() >= enemy.getLeft()) &&
                 (vampire.getLeft() <= enemy.getCenterX()) && !vampire.isUsingPower()) {
+
+
             enemy.setLeft(vampire.getLastThirdX());
             taskManager.fighting(indexOfEnemy);
             return 1;
@@ -670,14 +729,44 @@ public class WorldManager extends Thread {
         return 0;
     }
 
+    private void sPlay() {
+        switch (indexOfEnemy) {
+            case 0:
+                sounds.play(sAngryWolf, 1.0f, 1.0f, 0, 0, 1.0f);
+                break;
+            case 1:
+                sounds.play(sAngryBullet, 1.0f, 1.0f, 0, 0, 1.0f);
+                break;
+            case 2:
+                sounds.play(sAngryLaser, 1.0f, 1.0f, 0, 0, 1.0f);
+                break;
+            case 3:
+                sounds.play(sAngrySounder, 1.0f, 1.0f, 0, 0, 1.0f);
+                break;
+        }
+    }
+
     public void onPowerClick() {
 //        taskManager.setFlying(vampire.usePower());
-        vampire.usePower();
+        if (vampire.usePower()){
+            madWorld.setSpeedCoefficient(batSpeedCoefficient);
+            for(Character enemy :enemies)
+                enemy.setSpeedCoefficient(batSpeedCoefficient);
+
+        } else {
+            madWorld.unsetSpeedCoefficient(batSpeedCoefficient);
+            for(Character enemy :enemies)
+                enemy.setSpeedCoefficient(batSpeedCoefficient);
+        }
+
+
     }
 
     private void onTakeClick() {
         if (vampire.isUsingPower()) {
             int res = madWorld.takeGift(vampire);
+            if (res >= 0)
+                sounds.play(sBottle, 1.0f, 1.0f, 0, 0, 1.0f);
             if (res == 0){
                 taskManager.incCountOfTrueBlood();
             } else if (res == 1){
@@ -686,6 +775,7 @@ public class WorldManager extends Thread {
         } else {
             int res = madWorld.takeFlower(vampire);
             if (res == 2) {
+                sounds.play(sFlower, 1.0f, 1.0f, 0, 0, 1.0f);
                 taskManager.addFlower();
             }
         }
@@ -701,6 +791,10 @@ public class WorldManager extends Thread {
             taskAlert.tryClose(y);
             if (taskManager.tryNextTask()){
                 fillTaskAlert();
+//                taskManager.rewarding(vampire);
+                if (taskManager.rewarding(vampire) == 4)
+                    batSpeedCoefficient = 2;
+
             } else {
                 starting = true;
     //            continuedWorld(enemies.get(indexOfEnemy));
@@ -750,8 +844,12 @@ public class WorldManager extends Thread {
         taskManager.savePreferences(ed);
     }
 
-    public void restorePreferences(SharedPreferences sPref) {
+    public void restorePreferences(SharedPreferences sPref, boolean isRestart) {
         taskManager.restorePreferences(sPref);
+        if (isRestart) {
+            refreshEnemy(enemies.get(indexOfEnemy));
+          //  enemies.get(indexOfEnemy).continued();
+        }
         fillTaskAlert();
     }
 

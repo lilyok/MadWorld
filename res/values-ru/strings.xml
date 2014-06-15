@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Безумный мир</string>
+    <string name="powerString">сверхсила</string>
+    <string name="exitString">Выход</string>
+    <string name="startNewString">Начать игру заново</string>
+    <string name="restartString">Перезапустить уровень</string>
+    <string name="startString">Пуск</string>
+    <string name="titleString">Безумный мир</string>
+    <string name="task0">Уровень0 \'Новобранец\'. Вас обратили. Вас преследует злой ястреб, вы не можете причинить ему вред, а он может убить Вас только, когда вы в полете. Все прочие существа - смертны. Продержитесь 2 луны и 2 солнца. Кровь = жизнь, феячая кровь = защита от солнца</string>
+    <string name="continueString">Continue</string>
+    <string name="task1">Уровень1 \'Пожиратель\'. 2 луны и 2 солнца не используйте склянок с кровью, использовав сбросите счетчик времени</string>
+    <string name="task2">Уровень2 \'Собиратель\'. Соберите 3 танцующие ромашки, 2 склянки с феячей кровью и 1 с настоящей. Не убивайте волшебников.</string>
+    <string name="task3">Уровень3 \'Дипломат\'. Облетайте наземных врагов 2 луны и 2 солнца. Вступив в бой, вы сбросите счетчик</string>
+    <string name="task4">Уровень4 \'Фейский угодник\'. 2 луны и 2 солнца убивайте всех существ кроме фей. Жалость = сброс счетчика.</string>
+    <string name="congratulation0">Поздравляю! Отныне никто не скажет, что вы вчера родились =)</string>
+    <string name="congratulation1">Вегетарианство и пацифизм - не Ваш конек. Вы проявили себя, как настоящий потрошитель</string>
+    <string name="congratulation2">Вы оставили местных бездомных без стеклотары - придется им идти на разбой. Зато волшебники в благодарность за лояльность сделали в склянках из цветов отвар, замедляющий потерю крови. Теперь Вы выносливее</string>
+    <string name="congratulation3">Какая маневренность! Отныне на крыльях вы перемещаетесь в 2 раза быстрее</string>
+    <string name="congratulation4">Феи рады, что никто из их сестер не умер за последнюю пару суток. А еще больше, что умерла куча других существ. Они преподносят вам кольцо, замедляющее процесс сгорания.</string>
+    <string name="taskString">Задание</string>
+    <string name="dancingFlowerString">танцующих ромашек</string>
+    <string name="bootleOfTrueBloodString">склянок с настоящей кровью</string>
+    <string name="bootleOfFayBloodString">склянок с феячей кровью</string>
+    <string name="newTaskString">Новые задания</string>
+    <string name="noString">нет</string>
+    <string name="sunString">солнц</string>
+    <string name="moonString">лун</string>
+    <string name="noNewTaskString">Пока новых заданий нет</string>
+</resources>

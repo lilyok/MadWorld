@@ -142,4 +142,16 @@ public class MadWorld extends SubjectOfTheWorld {
         gifts.setCenterY(top);
         flowers.setBottom(bottom);
     }
+
+    public void unsetSpeedCoefficient(int batSpeedCoefficient) {
+        mSpeed /= batSpeedCoefficient;
+        gifts.unsetSpeedCoefficient(batSpeedCoefficient);
+        flowers.unsetSpeedCoefficient(batSpeedCoefficient);
+    }
+
+    public void setSpeedCoefficient(int batSpeedCoefficient) {
+        mSpeed *= batSpeedCoefficient;
+        gifts.setSpeedCoefficient(batSpeedCoefficient);
+        flowers.setSpeedCoefficient(batSpeedCoefficient);
+    }
 }

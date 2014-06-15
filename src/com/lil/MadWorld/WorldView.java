@@ -225,8 +225,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback{
         gameLoopThread.savePreferences(ed);
     }
 
-    public void restorePreferences(SharedPreferences sPref) {
-        gameLoopThread.restorePreferences(sPref);
+    public void restorePreferences(SharedPreferences sPref, boolean isRestart) {
+        gameLoopThread.restorePreferences(sPref, isRestart);
     }
 }
 

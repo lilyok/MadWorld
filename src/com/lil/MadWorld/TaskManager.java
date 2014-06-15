@@ -1,6 +1,8 @@
 package com.lil.MadWorld;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import com.lil.MadWorld.Models.Vampire;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class TaskManager {
 
     private final List<String> taskText = new ArrayList<String>();
     private final List<String> congratulationText = new ArrayList<String>();
+    private final Context context;
 
     private boolean isTask = true;
 
@@ -55,32 +58,24 @@ public class TaskManager {
     //объединить собирателя стеклотары и букет(рисовать)+ гомеопат  - убивать можно всех кроме волшебников
     //объединить летчик и орлов - нарисовать: облетайте врагов на земле, обходите врагов с воздуха
     //Феечек   - договор с феями уничтожать др существ
-    public TaskManager(){
-        taskText.add("Уровень0 'Новобранец'. Вас обратили. Вас преследует злой ястреб, вы не можете причинить ему вред, " +
-                "а он может убить Вас только, когда вы в полете. Все прочие существа - смертны." +
-                " Продержитесь 1 луны и 2 солнца. Кровь = жизнь, " +
-                " феячая кровь = защита от солнца (+ жизнь, если не из горлА, а из гОрла)");
-        taskText.add("Уровень1 'Пожиратель'. 2 луны и 2 солнца не используйте склянок с кровью, использовав сбросите счетчик времени");
-        taskText.add("Уровень2 'Собиратель'. Соберите 3 танцующие ромашки, 2 склянки с феячей кровью и 1 с настоящей. Не убивайте волшебников."); //увеличить максимальное здоровье
-
-        taskText.add("Уровень3 'Дипломат'. Облетайте наземных врагов 2 луны и 2 солнца. Вступив в бой, вы сбросите счетчик"); // приз - скорость перемещения выше в образе летучей мыши
-
-        taskText.add("Уровень4 'Фейский угодник'. 2 луны и 2 солнца убивайте всех существ кроме фей. Жалость = сброс счетчика.");     // приз - кольцо-защита от солнца на 1 сутки на каждом уровне - потом подзарядка до следующего уровня
+    public TaskManager(Context context){
+        this.context = context;
+        taskText.add(context.getString(R.string.task0));
+        taskText.add(context.getString(R.string.task1));
+        taskText.add(context.getString(R.string.task2));
+        taskText.add(context.getString(R.string.task3)); // приз - скорость перемещения выше в образе летучей мыши
+        taskText.add(context.getString(R.string.task4));
         //--------------------------------------------------------------------------------------------------------------
 
-        congratulationText.add("Поздравляю! Отныне никто не посмеет назвать Вас сосунком =)");
+        congratulationText.add(context.getString(R.string.congratulation0));
 
-        congratulationText.add("Вегетарианство и пацифизм - не Ваш конек. Вы проявили себя, как настоящий потрошитель");
+        congratulationText.add(context.getString(R.string.congratulation1));
 
-        congratulationText.add("Вы оставили местных бездомных без стеклотары - придется им идти на разбой. " +
-                "Зато волшебники в благодарность за лояльность сделали в склянках из цветов отвар, " +
-                "замедляющий потерю крови. Теперь Вы выносливее");
+        congratulationText.add(context.getString(R.string.congratulation2));
 
-        congratulationText.add("Какая маневренность! Отныне на крыльях вы перемещаетесь в 2 раза быстрее");
+        congratulationText.add(context.getString(R.string.congratulation3));
 
-
-        congratulationText.add("Феи рады, что никто из их сестер не умер за последнюю пару суток. " +
-                "А еще больше, что умерла куча других существ. Они преподносят вам кольцо, замедляющее процесс сгорания.");
+        congratulationText.add(context.getString(R.string.congratulation4));
 
 
         prepareStatusOfTask();
@@ -116,10 +111,10 @@ public class TaskManager {
                 break;
             case 2:
                 fields.clear();
-                fields.add("Уровень");
-                fields.add("танцующих ромашек");
-                fields.add("склянок с феячей кровью");
-                fields.add("склянок с настоящей кровью");
+                fields.add(context.getString(R.string.taskString));
+                fields.add(context.getString(R.string.dancingFlowerString));
+                fields.add(context.getString(R.string.bootleOfFayBloodString));
+                fields.add(context.getString(R.string.bootleOfTrueBloodString));
 
                 values.clear();
                 values.add(String.valueOf(taskIndex));
@@ -131,23 +126,22 @@ public class TaskManager {
                 fillSunMoonCounter();
                 break;
             case 4:
-
+                fillSunMoonCounter();
                 break;
-            case 5:
-
-                break;
-            case 6:
-
-                break;
+            default:
+                fields.clear();
+                fields.add(context.getString(R.string.newTaskString));
+                values.clear();
+                values.add(context.getString(R.string.noString));
         }
 //            return false;
     }
 
     private void fillSunMoonCounter() {
         fields.clear();
-        fields.add("Уровень");
-        fields.add("солнц");
-        fields.add("лун");
+        fields.add(context.getString(R.string.taskString));
+        fields.add(context.getString(R.string.sunString));
+        fields.add(context.getString(R.string.moonString));
 
         values.clear();
         values.add(String.valueOf(taskIndex));
@@ -158,11 +152,14 @@ public class TaskManager {
 
 
     public String getTaskText(){
-        if (isTask) {
-            return taskText.get(taskIndex);
-        }
-        else {
-            return congratulationText.get(taskIndex);
+        if (taskIndex < taskText.size()) {
+            if (isTask) {
+                return taskText.get(taskIndex);
+            } else {
+                return congratulationText.get(taskIndex);
+            }
+        } else {
+            return context.getString(R.string.noNewTaskString);
         }
     }
 
@@ -290,5 +287,25 @@ public class TaskManager {
 
     public int getTaskIndex() {
         return taskIndex;
+    }
+
+    public int rewarding(Vampire vampire) {
+        switch (taskIndex) {
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:   //замедление потери крови
+                vampire.setWeakenCoefficient(2);
+                return 3;
+            case 4:   //скорость в образе мыши выше
+             //   vampire.setBatSpeedCoefficient(2);
+                return 4;
+            case 5:   //замедление сгорания
+                vampire.setSunCoefficient(2);
+                return 5;
+        }
+
+        return -1;
     }
 }

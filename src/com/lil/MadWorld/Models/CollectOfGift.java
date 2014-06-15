@@ -60,6 +60,16 @@ public class CollectOfGift{
             gift.setCenterY(centreY);
     }
 
+    public void unsetSpeedCoefficient(int batSpeedCoefficient) {
+        for(Gift gift : gifts)
+            gift.unsetSpeedCoefficient(batSpeedCoefficient);
+    }
+
+    public void setSpeedCoefficient(int batSpeedCoefficient) {
+        for(Gift gift : gifts)
+            gift.setSpeedCoefficient(batSpeedCoefficient);
+    }
+
     private class Gift extends SubjectOfTheWorld{
         public static final int MEET_BLOOD = 0;
         public static final int FAY_BLOOD = 1;
@@ -108,7 +118,7 @@ public class CollectOfGift{
 
         public int takeGift(Vampire vampire) {
             if (!isTaken){
-                leftCharacter = vampire.getLeft();
+                 leftCharacter = vampire.getLeft();
                 rightCharacter = vampire.getRight();
                 if ((rightCharacter > getLeft())&&(leftCharacter < getCenterX())) {
                     isTaken = true;
@@ -125,6 +135,14 @@ public class CollectOfGift{
 
         public boolean isAnimated() {
             return false;
+        }
+
+        public void unsetSpeedCoefficient(int batSpeedCoefficient) {
+            mSpeed /= batSpeedCoefficient;
+        }
+
+        public void setSpeedCoefficient(int batSpeedCoefficient) {
+            mSpeed *= batSpeedCoefficient;
         }
     }
 

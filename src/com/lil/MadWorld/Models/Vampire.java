@@ -23,6 +23,9 @@ public class Vampire extends Character {
     private int sunProtection = maxHealth;
     private int firedHeight;
 
+    private int weakenCoefficient = 1;
+    private int sunCoefficient = 1;
+//    private int batSpeedCoefficient = 1;
 
     public Vampire(List<Drawable> defaultImages, List<Drawable> firedImages, List<Drawable> bloodedImages,
                    int speedOfWorld, int speedFactor) {
@@ -34,6 +37,23 @@ public class Vampire extends Character {
         firedHeight = firedImages.get(baseOfFire).getIntrinsicHeight();
     }
 
+//    public boolean usePower() {
+//        boolean res = super.usePower();
+//        if (res)
+//            mSpeed /= batSpeedCoefficient;
+//        else
+//            mSpeed *= batSpeedCoefficient;
+//
+//        return res;
+//    }
+//
+//    public void usePower(boolean isUsePower) {
+//        if (isUsePower) {
+//            mSpeed /= batSpeedCoefficient;
+//        } else {
+//            mSpeed *= batSpeedCoefficient;
+//        }
+//    }
 
     public void update() {
         super.update();
@@ -115,7 +135,7 @@ public class Vampire extends Character {
     }
 
     public int makeWeaken(int enemyPower) {
-        super.makeWeaken(enemyPower);
+        super.makeWeaken(enemyPower/weakenCoefficient);
         setHurt();
         return health;
     }
@@ -138,7 +158,7 @@ public class Vampire extends Character {
     }
 
     public void makeBurning(int speed) {
-        sunProtection-=speed;
+        sunProtection-=speed/sunCoefficient;
         setBurningDeathPosition();
         if (sunProtection <= 0) {
             sunProtection = 0;
@@ -196,5 +216,20 @@ public class Vampire extends Character {
 
     public int getWidth() {
         return mWidth;
+    }
+
+    public void setWeakenCoefficient(int weakenCoefficient) {
+        this.weakenCoefficient = weakenCoefficient;
+    }
+
+    public void setSunCoefficient(int sunCoefficient) {
+        this.sunCoefficient = sunCoefficient;
+    }
+
+    public boolean isShootNew() {
+        if ((indexOfFrame >= numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE)&&(indexOfFrame%2==0))
+            return true;
+        else
+            return false;
     }
 }

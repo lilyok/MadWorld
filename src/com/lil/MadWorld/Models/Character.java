@@ -51,12 +51,21 @@ public abstract class Character extends SubjectOfTheWorld {
         this.magicPower = magicPower;
     }
 
+    public void unsetSpeedCoefficient(int batSpeedCoefficient) {
+        mSpeed = speedOfWorld/ batSpeedCoefficient + speedFactor * DEFAULT_SPEED;
+    }
+
+    public void setSpeedCoefficient(int batSpeedCoefficient) {
+        mSpeed = speedOfWorld * batSpeedCoefficient + speedFactor * DEFAULT_SPEED;
+    }
+
     @Override
     protected void updatePoint() {
         mPoint.x += mSpeed;
 
         if (mPoint.x < -mWidth) {
             setRight(maxRight);
+            paused();
             Log.w("mPoint.x < -mWidth = ", String.valueOf(mPoint.x));
 
         }
@@ -171,5 +180,12 @@ public abstract class Character extends SubjectOfTheWorld {
 
     public int getBulletRight() {
         return -1;
+    }
+
+    public boolean isShootNew() {
+        if (baseIndexOfFrame + indexOfFrame == numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE)
+            return true;
+        else
+            return false;
     }
 }

@@ -55,6 +55,14 @@ public class FireArmedCharacter extends Character {
             updateAnimate();
         }
 
+        public boolean isShootNew(){
+            if ((!isFalling)&&((mPoint.x <= pointOfDestruction) || (mPoint.x >= FireArmedCharacter.this.maxRight)))
+                return true;
+            else if ((isFalling)&&(getBottom() > FireArmedCharacter.this.getBottom()))
+                return true;
+            else
+                return false;
+        }
         @Override
         protected void updateAnimate() {
             if (isFalling){
@@ -163,6 +171,10 @@ public class FireArmedCharacter extends Character {
             bullet.setTop(value);
     }
 
+
+    public boolean isShootNew(){
+        return bullet.isShootNew();
+    }
 
 
     public void setBulletHit() {

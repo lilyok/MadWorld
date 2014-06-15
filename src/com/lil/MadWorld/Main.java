@@ -2,11 +2,10 @@ package com.lil.MadWorld;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -25,6 +24,36 @@ public class Main extends Activity implements View.OnClickListener {
     private boolean isRestart = false;
 
     private List<String> tasks = new ArrayList();
+//    private boolean mIsBound = false;
+//    private MyService mServ;
+//
+//
+//    private ServiceConnection Scon =new ServiceConnection(){
+//
+//        public void onServiceConnected(ComponentName name, IBinder
+//                binder) {
+//            mServ = ((MyService.ServiceBinder) binder).getService();
+//        }
+//
+//        public void onServiceDisconnected(ComponentName name) {
+//            mServ = null;
+//        }
+//    };
+//
+//    void doBindService(){
+//        bindService(new Intent(this,MyService.class),
+//                Scon,Context.BIND_AUTO_CREATE);
+//        mIsBound = true;
+//    }
+//
+//    void doUnbindService()
+//    {
+//        if(mIsBound)
+//        {
+//            unbindService(Scon);
+//            mIsBound = false;
+//        }
+//    }
     /**
      * Called when the activity is first created.
      */
@@ -48,6 +77,7 @@ public class Main extends Activity implements View.OnClickListener {
 
 
         setContentView(worldView);
+
         Log.d("status activity", "ActivityA: onCreate");
 
     }
@@ -73,12 +103,11 @@ public class Main extends Activity implements View.OnClickListener {
         ed.putInt("indexOfBlood", worldView.getBaseOfBlood());
 
         worldView.savePreferences(ed);
-//        ed.putInt("taskIndex", worldView.getTaskIndex());
 
         ed.commit();
     }
 
-    void restorePref(){
+    void restorePref(boolean isRestart){
         sPref = getPreferences(MODE_PRIVATE);
         worldView.setUsingPower(sPref.getBoolean("isUsingPower", false));
         worldView.setIndexOfEnemy(sPref.getInt("indexOfEnemy", 0));
@@ -102,8 +131,7 @@ public class Main extends Activity implements View.OnClickListener {
         worldView.setBaseOfFire(sPref.getInt("indexOfFire", 0));
         worldView.setBaseOfBlood(sPref.getInt("indexOfBlood", 0));
 
-        worldView.restorePreferences(sPref);
-//        worldView.setTaskIndex(sPref.getInt("taskIndex", 0));
+        worldView.restorePreferences(sPref, isRestart);
 
         isRestart = sPref.getBoolean("isRestart", false);
     }
@@ -112,19 +140,21 @@ public class Main extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
         savePref();
+        Intent objIntent = new Intent(this, MyService.class);
+        stopService(objIntent);
         Log.d("status activity", "ActivityA: onPause()");
 
     }
     @Override
     protected void onStop() {
         worldView.setStarted(false);
-//        menu.dismiss();
 
         super.onStop();
         if (menu != null){
             menu.dismiss();
             menu = null;
         }
+
         finish();
 
         Log.d("status activity", "ActivityA: onStop()");
@@ -140,6 +170,10 @@ public class Main extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+
+//        Intent objIntent = new Intent(this, MyService.class);
+//        startService(objIntent);
+
         Log.d("status activity", "ActivityA: onResume()");
     }
 
@@ -170,7 +204,7 @@ public class Main extends Activity implements View.OnClickListener {
 
         super.onStart();
         Log.d("status activity", "ActivityA: onStart()");
-        restorePref();
+        restorePref(false);
 
         createMenu();
 
@@ -181,6 +215,8 @@ public class Main extends Activity implements View.OnClickListener {
         worldView.setStarted(false);
         if(menu!=null)
             menu.show();
+        Intent objIntent = new Intent(this, MyService.class);
+        stopService(objIntent);
 
     }
 
@@ -189,7 +225,8 @@ public class Main extends Activity implements View.OnClickListener {
             menu = new Dialog(this, android.R.style.Theme_Translucent);
             menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
             menu.setContentView(R.layout.start);
-            menu.setCancelable(true);
+            menu.setCancelable(false);
+
 
             Button newGameButton = (Button) menu.findViewById(R.id.newGameBtn);
             newGameButton.setOnClickListener(this);
@@ -204,18 +241,18 @@ public class Main extends Activity implements View.OnClickListener {
             restartButton.setOnClickListener(this);
             if (!isRestart) {
                 restartButton.setVisibility(View.INVISIBLE);
-                startButton.setText("Start");
+                startButton.setText(getString(R.string.startString));
             }
             else {
                 restartButton.setVisibility(View.VISIBLE);
-                startButton.setText("Continue");
+                startButton.setText(getString(R.string.continueString));
             }
         } else {
             Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
             restartButton.setVisibility(View.VISIBLE);
 
             Button startButton = (Button) menu.findViewById(R.id.startBtn);
-            startButton.setText("Continue");
+            startButton.setText(getString(R.string.continueString));
         }
     }
 
@@ -226,16 +263,21 @@ public class Main extends Activity implements View.OnClickListener {
             //переход на сюрфейс
             case R.id.startBtn: {
                 worldView.setStarted(true);
+                Intent objIntent = new Intent(this, MyService.class);
+                startService(objIntent);
 
                 menu.dismiss();
             }break;
             case R.id.restartBtn: {
                 clearPref(true);
-                restorePref();
+                restorePref(true);
 
                 worldView.initVampirePosition();
                 worldView.cleanBaseIndexOfFrame();
                 worldView.setStarted(true);
+
+                Intent objIntent = new Intent(this, MyService.class);
+                startService(objIntent);
 
                 menu.dismiss();
             }break;
@@ -250,11 +292,14 @@ public class Main extends Activity implements View.OnClickListener {
             //очистить все
             case R.id.newGameBtn: {
                 clearPref(false);
-                restorePref();
+                restorePref(true);
 
                 worldView.initVampirePosition();
                 worldView.cleanBaseIndexOfFrame();
                 worldView.setStarted(true);
+
+                Intent objIntent = new Intent(this, MyService.class);
+                startService(objIntent);
 
                 menu.dismiss();
             }break;
@@ -264,6 +309,7 @@ public class Main extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
     public void onBackPressed() {
         isRestart = true;
         createMenu();
