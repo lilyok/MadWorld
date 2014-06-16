@@ -1,5 +1,6 @@
 package com.lil.MadWorld;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +17,7 @@ public class GameTaskAlert extends GameAlert {
 
     private boolean isVisible = true;
 
-    public GameTaskAlert(String title, String text, int titleColor, int textColor, int width) {
+    public GameTaskAlert(String closeString, String title, String text, int titleColor, int textColor, int width) {
         super(title, text, titleColor, textColor, width);
 
         buttonPaint = new Paint();
@@ -28,7 +29,7 @@ public class GameTaskAlert extends GameAlert {
         buttonTextPaint.setAlpha(255);
         buttonTextPaint.setColor(Color.argb(255, 32, 178, 170));
         buttonTextPaint.setFakeBoldText(true);
-        CLOSE_TEXT = "Закрыть";
+        CLOSE_TEXT = closeString;
     }
 
     public void draw (Canvas c){

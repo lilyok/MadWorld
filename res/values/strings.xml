@@ -2,13 +2,13 @@
 <resources>
     <string name="app_name">MadWorld</string>
     <string name="powerString">power</string>
-    <string name="exitString">Exit</string>
-    <string name="startNewString">Start new game</string>
-    <string name="restartString">Restart level</string>
-    <string name="startString">Start</string>
-    <string name="titleString">Mad World</string>
+    <string name="exitString">\ Exit\ </string>
+    <string name="startNewString">\ Start new game\ </string>
+    <string name="restartString">\ Restart level\ </string>
+    <string name="startString">\ Start\ </string>
+    <string name="titleString">\  MadWorld\  </string>
     <string name="task0">Level0 \'Recruit\'. You turned into a vampire. You haunted by the evil hawk, you can not harm him, and he can kill you only when you are in flight. All other creatures are mortal. Survive 2 moons and 2 suns. Knew: Blood = Life, fairies blood = protection from the sun</string>
-    <string name="continueString">Continue</string>
+    <string name="continueString">\ Continue\ </string>
     <string name="task1">Level1 \'Ripper\'. 2 moons and 2 suns don\'t use bottles with blood, it clear timer of moons and suns if using bottles</string>
     <string name="task2">Level2 \'Collector\'. Collect 3 dancing flowers, 2 bottles with fairies blood and 1 with true blood. Don\'t kill wizards.</string>
     <string name="task3">Level3 \'Diplomat\'. Overfly ground enemies 2 moon and sun 2. Joining the fight will reset the counter</string>
@@ -31,4 +31,6 @@
     <string name="dietString">Not worth it to sit on a diet - this life, not a school for ballerina</string>
     <string name="firedVampireString"> Sun protection over and vampire has burned. </string>
     <string name="meetString"> Steak of vampire is not the most appetizing sight. Next time drink blood fairies and do not overdo it with a tan.</string>
+    <string name="status">Status</string>
+    <string name="closeString">Close</string>
 </resources>

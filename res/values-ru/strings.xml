@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Безумный мир</string>
+    <string name="app_name">БезумныйМир</string>
     <string name="powerString">сверхсила</string>
-    <string name="exitString">Выход</string>
-    <string name="startNewString">Начать игру заново</string>
-    <string name="restartString">Перезапустить уровень</string>
-    <string name="startString">Пуск</string>
-    <string name="titleString">Безумный мир</string>
+    <string name="exitString">\ Выход\ </string>
+    <string name="startNewString">\ Начать заново\ </string>
+    <string name="restartString">\ Перезапуск\ </string>
+    <string name="startString">\ Пуск\ </string>
+    <string name="titleString">\  БезумныйМир\  </string>
     <string name="task0">Уровень0 \'Новобранец\'. Вас обратили. Вас преследует злой ястреб, вы не можете причинить ему вред, а он может убить Вас только, когда вы в полете. Все прочие существа - смертны. Продержитесь 2 луны и 2 солнца. Кровь = жизнь, феячая кровь = защита от солнца</string>
-    <string name="continueString">Continue</string>
+    <string name="continueString">\ Продолжить\ </string>
     <string name="task1">Уровень1 \'Пожиратель\'. 2 луны и 2 солнца не используйте склянок с кровью, использовав сбросите счетчик времени</string>
     <string name="task2">Уровень2 \'Собиратель\'. Соберите 3 танцующие ромашки, 2 склянки с феячей кровью и 1 с настоящей. Не убивайте волшебников.</string>
     <string name="task3">Уровень3 \'Дипломат\'. Облетайте наземных врагов 2 луны и 2 солнца. Вступив в бой, вы сбросите счетчик</string>
@@ -32,5 +32,7 @@
 
     <string name="firedVampireString">Защита от солнца закончилась и вампир сгорел.</string>
     <string name="meetString">Стейк из вампира не самое аппетитное зрелище. В следующий раз пейте кровь фей и не перестарайтесь с загаром.</string>
+    <string name="status">Статус</string>
+    <string name="closeString">Закрыть</string>
 
 </resources>

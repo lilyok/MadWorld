@@ -805,14 +805,14 @@ public class WorldManager extends Thread {
     }
 
     private void fillTaskAlert() {
-            taskAlert = new GameTaskAlert("Задание", taskManager.getTaskText(),
+            taskAlert = new GameTaskAlert(context.getString(R.string.closeString), context.getString(R.string.taskString), taskManager.getTaskText(),
                     Color.argb(255, 32, 178, 170), Color.WHITE, width);
 
     }
 
     private void fillStatusAlert() {
         if (taskManager.isHaveNewInformation())
-            statusAlert = new GameStatusAlert("Статус", taskManager.getFields(), taskManager.getValues(),
+            statusAlert = new GameStatusAlert(context.getString(R.string.status), taskManager.getFields(), taskManager.getValues(),
                 Color.argb(255, 32, 178, 170), Color.WHITE, width);
 
     }

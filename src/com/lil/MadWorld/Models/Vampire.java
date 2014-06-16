@@ -227,7 +227,7 @@ public class Vampire extends Character {
     }
 
     public boolean isShootNew() {
-        if ((indexOfFrame >= numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE)&&(indexOfFrame%2==0))
+        if ((indexOfFrame >= numOfFrame*DEFAULT_INDEX_NO_POWER_ATTACK_FACE))
             return true;
         else
             return false;
