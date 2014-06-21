@@ -34,5 +34,17 @@
     <string name="meetString">Стейк из вампира не самое аппетитное зрелище. В следующий раз пейте кровь фей и не перестарайтесь с загаром.</string>
     <string name="status">Статус</string>
     <string name="closeString">Закрыть</string>
-
+    <string name="helpString">Справка</string>
+    <string name="aboutString">\ О игре\ </string>
+    <string name="trueBloodHelpText">Склянка с кровью. Выпейте, чтобы восстановить здоровье.</string>
+    <string name="fayBloodHelpText">Склянка с кровью фей. Кровь фей защищает от солнца.</string>
+    <string name="flowerHelpText">Вы можете срывать танцующие ромашки</string>
+    <string name="kiteHelpText">Злой ястреб хочет Вас убить. Но он может это сделать только когда вы - летучая мышь.</string>
+    <string name="powerHelpText">Нажмите, чтобы обратиться в летучую мышь или вернуть свой облик.</string>
+    <string name="takeHelpText">Нажмите, чтобы взять цветок или склянку. В полете, Вы достаете до склянок, но не достанете до цветов.</string>
+    <string name="toGameString">В меню</string>
+    <string name="musicString">музыка</string>
+    <string name="paganiniString">Niccolo Paganini - Concerto No.1 En Re majeur Op.6 - II. Adagio III. Rondo Allegro spiritoso</string>
+    <string name="elseString">прочее</string>
+    <string name="lilString">lil</string>
 </resources>

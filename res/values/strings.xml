@@ -33,4 +33,18 @@
     <string name="meetString"> Steak of vampire is not the most appetizing sight. Next time drink blood fairies and do not overdo it with a tan.</string>
     <string name="status">Status</string>
     <string name="closeString">Close</string>
+    <string name="helpString">\ Help\ </string>
+    <string name="aboutString">About</string>
+    <string name="trueBloodHelpText">Bottle of blood. Drinking repair your health.</string>
+    <string name="fayBloodHelpText">Bottle of fay blood. It can protect you from sun.</string>
+    <string name="flowerHelpText">You can take dancing flowers.</string>
+    <string name="kiteHelpText">Evil hawk want kill you. But it can do that only when you bat.</string>
+    <string name="powerHelpText">Push this button for transforming or retransforming to the bat.</string>
+    <string name="takeHelpText">Push this to take bottle or flower. You can take bottle only when you fly, but can take flowers only when you going of foot.</string>
+    <string name="toGameString">return</string>
+    <string name="musicString">music</string>
+    <string name="paganiniString">Niccolo Paganini - Concerto No.1 En Re majeur Op.6 - II. Adagio III. Rondo Allegro spiritoso</string>
+    <string name="elseString">everything\nelse</string>
+    <string name="lilString">lil</string>
+
 </resources>

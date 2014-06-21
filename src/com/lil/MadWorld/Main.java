@@ -17,10 +17,13 @@ import java.util.List;
 
 public class Main extends Activity implements View.OnClickListener {
     private Dialog menu;
-    private Dialog alert;
+    private Dialog help;
+    private Dialog about;
+
+//    private Dialog alert;
     private WorldView worldView;
     private SharedPreferences sPref;
-    private boolean isExit = false;
+//    private boolean isExit = false;
     private boolean isRestart = false;
 
     private List<String> tasks = new ArrayList();
@@ -71,7 +74,7 @@ public class Main extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
-        alert = null;
+//        alert = null;
 
         worldView = new WorldView(this);
 
@@ -155,6 +158,16 @@ public class Main extends Activity implements View.OnClickListener {
             menu = null;
         }
 
+        if(help != null){
+            help.dismiss();
+            help = null;
+        }
+
+        if(about != null){
+            about.dismiss();
+            about = null;
+        }
+
         finish();
 
         Log.d("status activity", "ActivityA: onStop()");
@@ -220,12 +233,53 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
+    private void startHelp() {
+        if(help!=null)
+            help.show();
+    }
+
+    private void createHelp(){
+        if (help == null){
+            help = new Dialog(this, android.R.style.Theme_Translucent);
+            help.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            help.setContentView(R.layout.help);
+            help.setCancelable(false);
+            Button toGameBtn = (Button) help.findViewById(R.id.toGameButton);
+            toGameBtn.setOnClickListener(this);
+        }
+    }
+
+    private void startAbout() {
+        if(about!=null)
+            about.show();
+    }
+
+    private void createAbout(){
+        if (about == null){
+            about = new Dialog(this, android.R.style.Theme_Translucent);
+            about.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            about.setContentView(R.layout.about);
+            about.setCancelable(false);
+            Button toMenuBtn = (Button) about.findViewById(R.id.toMenuButton);
+            toMenuBtn.setOnClickListener(this);
+        }
+    }
+
     private void createMenu() {
         if (menu == null) {
             menu = new Dialog(this, android.R.style.Theme_Translucent);
             menu.requestWindowFeature(Window.FEATURE_NO_TITLE);
             menu.setContentView(R.layout.start);
             menu.setCancelable(false);
+
+            createHelp();
+            createAbout();
+
+            Button helpButton = (Button) menu.findViewById(R.id.helpBtn);
+            helpButton.setOnClickListener(this);
+
+            Button aboutButton = (Button) menu.findViewById(R.id.aboutBtn);
+            aboutButton.setOnClickListener(this);
 
 
             Button newGameButton = (Button) menu.findViewById(R.id.newGameBtn);
@@ -242,18 +296,18 @@ public class Main extends Activity implements View.OnClickListener {
             if (!isRestart) {
                 restartButton.setVisibility(View.INVISIBLE);
                 startButton.setText(getString(R.string.startString));
-            }
-            else {
+            } else {
                 restartButton.setVisibility(View.VISIBLE);
                 startButton.setText(getString(R.string.continueString));
             }
-        } else {
-            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
-            restartButton.setVisibility(View.VISIBLE);
-
-            Button startButton = (Button) menu.findViewById(R.id.startBtn);
-            startButton.setText(getString(R.string.continueString));
         }
+//        } else {
+//            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
+//            restartButton.setVisibility(View.VISIBLE);
+//
+//            Button startButton = (Button) menu.findViewById(R.id.startBtn);
+//            startButton.setText(getString(R.string.continueString));
+//        }
     }
 
 
@@ -286,7 +340,7 @@ public class Main extends Activity implements View.OnClickListener {
                 worldView.exitGame();
 
                 menu.dismiss();
-                isExit = true;
+//                isExit = true;
                 finish();
             }break;
             //очистить все
@@ -303,7 +357,18 @@ public class Main extends Activity implements View.OnClickListener {
 
                 menu.dismiss();
             }break;
-
+            case R.id.helpBtn: {
+                startHelp();
+            }break;
+            case R.id.toGameButton: {
+                help.dismiss();
+            }break;
+            case R.id.aboutBtn: {
+                startAbout();
+            }break;
+            case R.id.toMenuButton: {
+                about.dismiss();
+            }break;
             default:
                 break;
         }

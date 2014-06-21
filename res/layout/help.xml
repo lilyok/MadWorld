@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background01">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout2"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="242dp"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/meetblood01"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trueBloodEdTxt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/trueBloodHelpText"
+            android:textSize="18dp"
+            android:textColor="#ffffffff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignEnd="@+id/linearLayout2"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/fayblood01"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fayBloodEdTxt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/fayBloodHelpText"
+            android:textColor="#ffffffff"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout3"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/flower01"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/flowerEdTxt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/flowerHelpText"
+            android:textColor="#ffffffff"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout4"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:layout_alignBottom="@+id/linearLayout3"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/kite01"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/kiteEdTxt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/kiteHelpText"
+            android:textColor="#ffffffff"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout6"
+        android:layout_below="@+id/linearLayout4"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView6"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/power"/>
+
+        <TextView
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/powerEdTxt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/powerHelpText"
+            android:textColor="#ffffffff"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/rounded"
+        android:id="@+id/linearLayout5"
+
+        android:gravity="center_vertical"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_toRightOf="@+id/linearLayout3"
+        android:weightSum="1"
+        android:padding="4dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/take"/>
+
+        <TextView
+            android:layout_width="157dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/takeEdTxt"
+            android:text="@string/takeHelpText"
+            android:textColor="#ffffffff"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/linearLayout5"
+        android:layout_toRightOf="@+id/linearLayout6"
+        android:layout_toLeftOf="@+id/linearLayout5"
+        android:gravity="center_horizontal"
+        android:background="#64fef5ff">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView7"
+            android:background="@drawable/vamp01"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toGameString"
+            android:id="@+id/toGameButton"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </LinearLayout>
+
+</RelativeLayout>
