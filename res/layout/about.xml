@@ -2,25 +2,23 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="45dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginBottom="40dp"
         android:background="@drawable/rounded"
         android:id="@+id/relativeLayout"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:gravity="bottom"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MadWorld"
+            android:text="@string/titleString"
             android:id="@+id/textView"
             android:layout_centerHorizontal="true"
             android:textSize="36dp"
@@ -94,18 +92,25 @@
             android:ellipsize="middle"
             android:layout_alignEnd="@+id/textView3"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/toGameString"
-            android:id="@+id/toMenuButton"
-            android:background="@drawable/button"
             android:layout_below="@+id/textView4"
-            android:layout_alignEnd="@+id/textView5"
-            android:layout_alignStart="@+id/textView4"
-            android:padding="0dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"/>
+            android:gravity="center_horizontal|top">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toGameString"
+                android:id="@+id/toMenuButton"
+                android:background="@drawable/button"
+                android:padding="0dp"
+                android:gravity="center"
+                android:height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffffff"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -300,14 +300,13 @@ public class Main extends Activity implements View.OnClickListener {
                 restartButton.setVisibility(View.VISIBLE);
                 startButton.setText(getString(R.string.continueString));
             }
+        } else {
+            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
+            restartButton.setVisibility(View.VISIBLE);
+
+            Button startButton = (Button) menu.findViewById(R.id.startBtn);
+            startButton.setText(getString(R.string.continueString));
         }
-//        } else {
-//            Button restartButton = (Button) menu.findViewById(R.id.restartBtn);
-//            restartButton.setVisibility(View.VISIBLE);
-//
-//            Button startButton = (Button) menu.findViewById(R.id.startBtn);
-//            startButton.setText(getString(R.string.continueString));
-//        }
     }
 
 
